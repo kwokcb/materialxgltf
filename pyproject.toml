@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "materialxgltf"
+version = "0.0.7"
+authors = [
+  { name="Bernard Kwok", email="kwokcb@gmail.com" },
+]
+description = "Bidirectional converter between MaterialX and glTF"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "materialx>=1.38.8", 
+    "pygltflib"
+]
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.setuptools.package-data]
+"materialxgltf.data" = ["*.*"]
+
+[project.urls]
+"Homepage" = "https://kwokcb.github.io/materialxgltf/"
+"Issues" = "https://github.com/kwokcb/materialxgltf/issues"
+"Source Code" = "https://github.com/kwokcb/materialxgltf"
+"Documentation" = "https://kwokcb.github.io/materialxgltf/"

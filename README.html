@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="materialxgltf">materialxgltf</h1>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#documentation">Documentation</a></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38 8 and the target glTF version is 2.0.1.</p>
+<p>Below is an example of converting the &quot;Damaged Helmet&quot; asset (found in the <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet">glTF Sample Model repository</a> to MaterialX and previewing.<br>
+<img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" width="80%"></p>
+<p>The functionality found here is equivalent to the C++ module available in<br>
+<a href="https://github.com/kwokcb/glTF_MaterialX">this repository</a>. Note that additional documentation can be found on that site.</p>
+<h2 id="installation">Installation</h2>
+<p>The minimum version of Python is assumed to be 3.9.</p>
+<p>The package can be installed using `pip``:</p>
+<pre class="hljs"><code><div>pip install materialxgltf
+</div></code></pre>
+<p>or the <a href="https://github.com/kwokcb/materialxgltf">source repository</a> can be cloned and the package built from the command line:</p>
+<pre class="hljs"><code><div>py -m build
+</div></code></pre>
+<p>This will build a distribution folder called <code>dist</code> which contains<br>
+a zip file which can be installed using:</p>
+<pre class="hljs"><code><div>pip --install &lt;name of zip&gt;
+</div></code></pre>
+<h3 id="requirements">Requirements</h3>
+<p>Requires the installation of the following packages:</p>
+<ul>
+<li><code>materialx</code> version 1.38.8 or higher: For editing MaterialX documents.</li>
+<li><code>pygltflib</code> : For conversion from <code>glTF</code> to <code>glb</code> including packaging dependent geometry and image resources.</li>
+</ul>
+<h2 id="documentation">Documentation</h2>
+<p>For more detailed information about the workflow this package supports, please refer to this <a href="https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html">documentation</a>.</p>
+<p>Refer to <a href="https://kwokcb.github.io/materialxgltf/docs/html">this documentation</a> for API usage.</p>
+<h2 id="usage">Usage</h2>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js">    
+</script>
+<p><model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer></p>
+<p>The following shows is a set of progressive examples to convert from a glTF file to MaterialX and then to a new glTF file for &quot;shader ball&quot; preview of<br>
+extracted materials.</p>
+<p>Note that the sample data is included as part of the package for convenience.</p>
+<p>The sample input file is the &quot;BoomBox with Axes&quot; file from the glTF sample repository found <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF">here</a>.</p>
+<img src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoomBoxWithAxes/screenshot/screenshot.jpg">
+<p>This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the &quot;MaterialX Graph Editor&quot; which comes with <a href="https://github.com/AcademySoftwareFoundation/MaterialX/releases">MaterialX releases</a>.</p>
+<p><img src="https://raw.githubusercontent.com/kwokcb/MaterialX_Learn/main/documents/images/gltf_to_mtlx_boombox_with_axes.png" alt="MaterialX Graph Editor Snapshot"
+width="80%"></p>
+<p>The converted materials are then used to create a new glTF file using sample &quot;shaderball&quot; data with each material found assigned to different instances of the &quot;shaderball&quot;</p>
+<p><img src="https://raw.githubusercontent.com/kwokcb/MaterialX_Learn/main/documents/images/mtlx_to_gltf_materialviewer.png" alt="VSCode Snapshot"
+width="50%"></p>
+<h2 id="interactive-example">Interactive Example</h2>
+<p>A <code>Jupyter</code> notebook which performs the same steps is available <a href="./docs/examples.html">here</a>. This or any other notebook can be used if the user wishes to test the package in an interactive environment.</p>
+<h3 id="import-the-package">Import the package</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> materialxgltf.core <span class="hljs-keyword">as</span> core
+</div></code></pre>
+<h3 id="check-available-sample-data">Check Available Sample Data</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> pkg_resources
+
+directory_name = <span class="hljs-string">"data"</span>  
+files = pkg_resources.resource_listdir(<span class="hljs-string">'materialxgltf'</span>, directory_name)
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> files:
+    print(<span class="hljs-string">'Data file: '</span>, file)
+</div></code></pre>
+<h3 id="convert-from-gltf-to-materialx">Convert from glTF to MaterialX</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> pkg_resources
+<span class="hljs-keyword">import</span> MaterialX <span class="hljs-keyword">as</span> mx
+
+gltfFileName = pkg_resources.resource_filename(<span class="hljs-string">'materialxgltf'</span>, <span class="hljs-string">'data/BoomBoxWithAxes.gltf'</span>)
+print(gltfFileName)
+
+<span class="hljs-comment"># Instantiate a the reader class. Read in sample  glTF file</span>
+<span class="hljs-comment"># and output a MaterialX document</span>
+gltf2MtlxReader = core.GLTF2MtlxReader()
+doc = gltf2MtlxReader.convert(gltfFileName)
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> doc:
+    print(<span class="hljs-string">'Existing due to error'</span>)
+<span class="hljs-keyword">else</span>:
+    status, err = doc.validate()
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> status:
+        print(<span class="hljs-string">'Generated MaterialX document has validation errors: '</span>, err)
+    <span class="hljs-keyword">else</span>:
+        print(<span class="hljs-string">'Generated MaterialX document is valid'</span>)
+
+<span class="hljs-comment"># Write the document to a string</span>
+print(<span class="hljs-string">'Resulting MaterialX document:\n'</span>)
+result = core.Util.writeMaterialXDocString(doc)
+print(result)
+</div></code></pre>
+<h3 id="using-gltf-to-materialx-options">Using glTF to MaterialX Options</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Set option to write material assignments</span>
+options = core.GLTF2MtlxOptions()
+options[<span class="hljs-string">'createAssignments'</span>] = <span class="hljs-literal">True</span>
+gltf2MtlxReader.setOptions(options)
+
+doc = gltf2MtlxReader.convert(gltfFileName)
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> doc:
+    print(<span class="hljs-string">'Existing due to error'</span>)
+<span class="hljs-keyword">else</span>:
+    status, err = doc.validate()
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> status:
+        print(<span class="hljs-string">'Generated MaterialX document has validation errors: '</span>, err)
+    <span class="hljs-keyword">else</span>:
+        print(<span class="hljs-string">'Generated MaterialX document is valid'</span>)
+
+<span class="hljs-comment"># Write the document to a string</span>
+print(<span class="hljs-string">'Resulting MaterialX document:\n'</span>)
+result = core.Util.writeMaterialXDocString(doc)
+print(result)
+</div></code></pre>
+<h3 id="conversion-from-materialx-to-gltf">Conversion from MaterialX to glTF</h3>
+<pre class="hljs"><code><div>materialXFileName = pkg_resources.resource_filename(<span class="hljs-string">'materialxgltf'</span>, <span class="hljs-string">'data/BoomBoxWithAxes.mtlx'</span>)
+print(<span class="hljs-string">'&gt; Load MaterialX document: %s'</span> % materialXFileName)
+
+mtlx2glTFWriter = core.MTLX2GLTFWriter()
+doc, libFiles = core.Util.createMaterialXDoc()
+mx.readFromXmlFile(doc, materialXFileName, mx.FileSearchPath())
+
+options = core.MTLX2GLTFOptions()
+options[<span class="hljs-string">'debugOutput'</span>] = <span class="hljs-literal">True</span>
+mtlx2glTFWriter.setOptions(options)
+gltfString = mtlx2glTFWriter.convert(doc)
+<span class="hljs-keyword">if</span> len(gltfString) &gt; <span class="hljs-number">0</span>:
+    print(<span class="hljs-string">'&gt; Resulting glTF:\n'</span>)
+    print(gltfString)
+<span class="hljs-keyword">else</span>:
+    print(<span class="hljs-string">'&gt; Failed to convert MaterialX document to glTF'</span>)
+</div></code></pre>
+<h3 id="embedding-geometry">Embedding Geometry</h3>
+<pre class="hljs"><code><div>gltfGeometryFile = pkg_resources.resource_filename(<span class="hljs-string">'materialxgltf'</span>, <span class="hljs-string">'data/shaderBall.gltf'</span>)
+print(<span class="hljs-string">'&gt; Load glTF geometry file: %s'</span> % gltfGeometryFile)
+
+options = core.MTLX2GLTFOptions()
+options[<span class="hljs-string">'geometryFile'</span>] = gltfGeometryFile
+options[<span class="hljs-string">'primsPerMaterial'</span>] = <span class="hljs-literal">False</span>
+mtlx2glTFWriter.setOptions(options)
+gltfString = mtlx2glTFWriter.convert(doc)
+<span class="hljs-keyword">if</span> len(gltfString) &gt; <span class="hljs-number">0</span>:
+    print(<span class="hljs-string">'&gt; Resulting glTF:\n'</span>)
+    print(gltfString)
+<span class="hljs-keyword">else</span>:
+    print(<span class="hljs-string">'&gt; Failed to convert MaterialX document to glTF'</span>)
+</div></code></pre>
+<h3 id="creating-primitives-per-material">Creating Primitives Per Material</h3>
+<pre class="hljs"><code><div>gltfGeometryFile = pkg_resources.resource_filename(<span class="hljs-string">'materialxgltf'</span>, <span class="hljs-string">'data/shaderBall.gltf'</span>)
+print(<span class="hljs-string">'&gt; Load glTF geometry file: %s'</span> % gltfGeometryFile)
+
+options = core.MTLX2GLTFOptions()
+options[<span class="hljs-string">'geometryFile'</span>] = gltfGeometryFile
+options[<span class="hljs-string">'primsPerMaterial'</span>] = <span class="hljs-literal">True</span>
+mtlx2glTFWriter.setOptions(options)
+gltfString = mtlx2glTFWriter.convert(doc)
+<span class="hljs-keyword">if</span> len(gltfString) &gt; <span class="hljs-number">0</span>:
+    print(<span class="hljs-string">'&gt; Resulting glTF:\n'</span>)
+    print(gltfString)
+<span class="hljs-keyword">else</span>:
+    print(<span class="hljs-string">'&gt; Failed to convert MaterialX document to glTF'</span>)
+</div></code></pre>
+<h3 id="packaging-a-binary-file">Packaging A Binary File</h3>
+<pre class="hljs"><code><div>gltfFileName = pkg_resources.resource_filename(<span class="hljs-string">'materialxgltf'</span>, <span class="hljs-string">'data/BoomBoxWithAxes_primMaterials.gltf'</span>)
+print(<span class="hljs-string">'&gt; Load glTF geometry file: %s'</span> % gltfGeometryFile)
+binaryFileName = str()
+binaryFileName = gltfFileName .replace(<span class="hljs-string">'.gltf'</span>, <span class="hljs-string">'.glb'</span>)
+print(<span class="hljs-string">'Packaging GLB...'</span>)
+<span class="hljs-keyword">try</span>:
+    saved, images, buffers = mtlx2glTFWriter.packageGLTF(gltfFileName , binaryFileName)
+    print(<span class="hljs-string">'Save GLB file:'</span> + binaryFileName + <span class="hljs-string">'. Status:'</span> + str(saved))
+    <span class="hljs-keyword">for</span> image <span class="hljs-keyword">in</span> images:
+        print(<span class="hljs-string">'- Embedded image: %s'</span> % image)
+    <span class="hljs-keyword">for</span> buffer <span class="hljs-keyword">in</span> buffers:
+        print(<span class="hljs-string">'  - Embedded buffer: %s'</span> % buffer)
+    print(<span class="hljs-string">'Packaging GLB...Done'</span>)
+<span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> err:
+    print(<span class="hljs-string">'Failed to package GLB file: %s'</span> % err)
+</div></code></pre>
+<h3 id="translate-shader-and-bake-textures">Translate Shader and Bake Textures</h3>
+<p>All materials are assumed to use glTF PBR surface shaders.<br>
+Conversion to this shading model can be performed via MaterialX<br>
+utilities, which includes texture baking.</p>
+<h2 id="author">Author</h2>
+<ul>
+<li>LinkedIn: <a href="https://www.linkedin.com/in/bernard-kwok/" target="_blank">Bernard Kwok</a></li>
+<li>GitHub: <a href="https://github.com/kwokcb">kwokcb</a></li>
+<li>Email: <a href="mailto:kwokcb@gmail.com">kwokcb@gmail.com</a></li>
+</ul>
+
+</body>
+</html>
