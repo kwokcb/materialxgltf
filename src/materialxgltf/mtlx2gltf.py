@@ -5,9 +5,7 @@ Utility and command line interface to convert from a MaterialX file to a glTF fi
 import os
 import argparse
 
-#import MaterialX as mx
-#from materialxgltf.core import *
-from core import *
+from materialxgltf.core import *
 
 def mtlx2gltf(materialXFileName, gltfOutputFileName, options=MTLX2GLTFOptions()):
     '''
@@ -16,22 +14,33 @@ def mtlx2gltf(materialXFileName, gltfOutputFileName, options=MTLX2GLTFOptions())
     @param gltfOutputFileName Path to glTF file to write
     @param options Options for conversion
     '''
+    searchPath = mx.getDefaultDataSearchPath()
+
     mtlx2glTFWriter = MTLX2GLTFWriter()
     doc, libFiles = Util.createMaterialXDoc()
     if libFiles:
         print('- Loaded %d library files.' % len(libFiles))
     else:
         print('- No library files loaded.')
-    mx.readFromXmlFile(doc, materialXFileName, mx.FileSearchPath())
+    mx.readFromXmlFile(doc, materialXFileName, searchPath)
 
     # Perform shader translation and baking if necessary
     if options['translateShaders']:
         translatedCount = mtlx2glTFWriter.translateShaders(doc)
         print('- Translated %d shaders.' % translatedCount)
         if options['bakeTextures']:
-            convertedFileName = convertedFileName + '_baked.mtlx'
-            mtlx2glTFWriter.bakeTextures(doc, False, 256, 256, False, 
-                                        False, False, mx.FileSearchPath(), convertedFileName)
+            materialXFileName = materialXFileName + '_baked.mtlx'
+            bakeResolution = 256
+            if options['bakeResolution']:
+                bakeResolution = options['bakeResolution']
+            mtlx2glTFWriter.bakeTextures(doc, False, bakeResolution, bakeResolution, False, 
+                                        False, False, searchPath, materialXFileName)
+            print('- Baked textures to: ', materialXFileName)
+            doc, libFiles = Util.createMaterialXDoc()
+            mx.readFromXmlFile(doc, materialXFileName, searchPath)
+            remappedUris = Util.makeFilePathsRelative(doc, materialXFileName)
+            for uri in remappedUris:
+                print('  - Remapped URI: %s to %s' % (uri[0], uri[1]))
 
     mtlx2glTFWriter.setOptions(options)
     gltfString = mtlx2glTFWriter.convert(doc)
@@ -66,6 +75,9 @@ def main():
     parser.add_argument('--gltfGeomFileName', dest='gltfGeomFileName', default='', help='Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used')
     parser.add_argument('--primsPerMaterial', dest='primsPerMaterial', type=mx.stringToBoolean, default=False, help='Create a new primitive per material and assign the material. Default is False')
     parser.add_argument('--packageBinary', dest='packageBinary', type=mx.stringToBoolean, default=False, help='Create a biary packaged GLB file. Default is False')
+    parser.add_argument('--translateShaders', dest='translateShaders', type=mx.stringToBoolean, default=False, help='Translate shaders to glTF. Default is False')
+    parser.add_argument('--bakeTextures', dest='bakeTextures', type=mx.stringToBoolean, default=False, help='Bake pattern graphs as textures. Default is False')
+    parser.add_argument('--bakeResolution', dest='bakeResolution', type=int, default=256, help='Bake image resolution. Default is 256')
 
     opts = parser.parse_args()
 
@@ -85,6 +97,9 @@ def main():
     options['primsPerMaterial'] = opts.primsPerMaterial
     options['packageBinary'] = opts.packageBinary
     options['geometryFile'] = opts.gltfGeomFileName
+    options['translateShaders'] = opts.translateShaders
+    options['bakeTextures'] = opts.bakeTextures
+    options['bakeResolution'] = opts.bakeResolution
     converted, err = mtlx2gltf(mtlxFileName, gltfFileName, options)
     print('Converted MaterialX file %s to gltf file: %s. Status: %s.' % (mtlxFileName, gltfFileName, converted))
     if not converted:

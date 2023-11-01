@@ -327,7 +327,7 @@ a zip file which can be installed using:</p>
 <h2 id="usage">Usage</h2>
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js">    
 </script>
-<p><model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer></p>
+<p><model-viewer style='background-color:rgba(0.8, 0.8, 0.8, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer></p>
 <p>The following shows is a set of progressive examples to convert from a glTF file to MaterialX and then to a new glTF file for &quot;shader ball&quot; preview of<br>
 extracted materials.</p>
 <p>Note that the sample data is included as part of the package for convenience.</p>
@@ -467,6 +467,10 @@ print(<span class="hljs-string">'Packaging GLB...'</span>)
 <p>All materials are assumed to use glTF PBR surface shaders.<br>
 Conversion to this shading model can be performed via MaterialX<br>
 utilities, which includes texture baking.</p>
+<p>Please refer to the sample Jupyter notebook for an example of shader<br>
+translation and baking using some convenience functions included with the package.<br>
+Note that they do not need to be used as the core MaterialX distribution provides<br>
+access to the APIs used in this package.</p>
 <h2 id="author">Author</h2>
 <ul>
 <li>LinkedIn: <a href="https://www.linkedin.com/in/bernard-kwok/" target="_blank">Bernard Kwok</a></li>

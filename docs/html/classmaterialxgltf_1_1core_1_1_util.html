@@ -108,6 +108,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a3d670ffba8f3cdfc9f74e9ae41ef066f"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmaterialxgltf_1_1core_1_1_util.html#a3d670ffba8f3cdfc9f74e9ae41ef066f">writeMaterialXDocString</a> (doc, predicate=<a class="el" href="classmaterialxgltf_1_1core_1_1_util.html#ab1a945afea7749f8f31d5335ee7a4d96">skipLibraryElement</a>)</td></tr>
 <tr class="memdesc:a3d670ffba8f3cdfc9f74e9ae41ef066f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility to write a MaterialX document to string.  <a href="classmaterialxgltf_1_1core_1_1_util.html#a3d670ffba8f3cdfc9f74e9ae41ef066f">More...</a><br /></td></tr>
 <tr class="separator:a3d670ffba8f3cdfc9f74e9ae41ef066f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6e3cc0e83a500905392e14b4e1ef312"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmaterialxgltf_1_1core_1_1_util.html#af6e3cc0e83a500905392e14b4e1ef312">makeFilePathsRelative</a> (doc, docPath)</td></tr>
+<tr class="memdesc:af6e3cc0e83a500905392e14b4e1ef312"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility to make file paths relative to a document path.  <a href="classmaterialxgltf_1_1core_1_1_util.html#af6e3cc0e83a500905392e14b4e1ef312">More...</a><br /></td></tr>
+<tr class="separator:af6e3cc0e83a500905392e14b4e1ef312"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Basic I/O Utilities. </p>
@@ -137,6 +140,52 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Utility to create a MaterialX document with the default libraries loaded. </p>
 <dl class="section return"><dt>Returns</dt><dd>The created MaterialX document and the list of loaded library filenames. </dd></dl>
+
+</div>
+</div>
+<a id="af6e3cc0e83a500905392e14b4e1ef312"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6e3cc0e83a500905392e14b4e1ef312">&#9670;&nbsp;</a></span>makeFilePathsRelative()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> list materialxgltf.core.Util.makeFilePathsRelative </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>doc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>docPath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Utility to make file paths relative to a document path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">doc</td><td>The MaterialX document to update. </td></tr>
+    <tr><td class="paramname">docPath</td><td>The path to make file paths relapy -tive to. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>List of tuples of unresolved and resolved file paths. </dd></dl>
 
 </div>
 </div>

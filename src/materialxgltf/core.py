@@ -81,6 +81,43 @@ class Util:
 
         result =  mx.writeToXmlString(doc, writeOptions)
         return result
+    
+    @staticmethod
+    def makeFilePathsRelative(doc, docPath) -> list:
+        '''
+        @brief Utility to make file paths relative to a document path
+        @param doc The MaterialX document to update.
+        @param docPath The path to make file paths relapy -tive to.
+        @return List of tuples of unresolved and resolved file paths.
+        '''
+        result = []
+
+        for elem in doc.traverseTree():
+                valueElem = None
+                if elem.isA(mx.ValueElement):
+                    valueElem = elem
+                if not valueElem or valueElem.getType() != mx.FILENAME_TYPE_STRING:
+                    continue
+
+                unresolvedValue = mx.FilePath(valueElem.getValueString())
+                if unresolvedValue.isEmpty():
+                    continue
+
+                elementResolver = valueElem.createStringResolver()
+                if unresolvedValue.isAbsolute():
+                    elementResolver.setFilePrefix('')
+                resolvedValue = valueElem.getResolvedValueString(elementResolver)
+
+                # Remove parent path from file name. Assumes image is relative to the document
+                docPath = mx.FilePath(docPath).getParentPath()
+                if not docPath.isEmpty():
+                    resolvedValue = resolvedValue.replace(docPath.asString(), '')
+                    valueElem.setValueString(resolvedValue)  
+
+                if unresolvedValue != resolvedValue:
+                    result.append([unresolvedValue.asString(), resolvedValue])
+
+        return result  
 
 #########################################################################################
 # gLTF to MaterialX Conversion classes
@@ -1030,6 +1067,7 @@ class MTLX2GLTFOptions(dict):
     Available options:
         - 'translateShaders' : Translate MaterialX shaders to glTF PBR shader. Default is False.   
         - 'bakeTextures' : Bake pattern graphs in MaterialX. Default is False.
+        - 'bakeResolution' : Baked texture resolution if 'bakeTextures' is enabled. Default is 256.
         - 'packageBinary' : Package binary data in glTF. Default is False.
         - 'geometryFile' : Path to geometry file to use for glTF. Default is ''.
         - 'primsPerMaterial' : Create a new primitive per material in the MaterialX file and assign the material. Default is False.
@@ -1043,6 +1081,7 @@ class MTLX2GLTFOptions(dict):
 
         self['translateShaders'] = False
         self['bakeTextures'] = False
+        self['bakeResolution'] = 256
         self['packageBinary'] = False
         self['geometryFile'] = ''  
         self['primsPerMaterial'] = True     
@@ -1436,10 +1475,15 @@ class MTLX2GLTFWriter:
         else:
             baker = mx_render_glsl.TextureBaker.create(width, height, baseType)
         
+        if not baker:
+            return False
+        
         if average:
             baker.setAverageImages(True)
         baker.writeDocumentPerMaterial(writeDocumentPerMaterial)
-        baker.bakeAllMaterials(doc, searchPath, outputFilename)        
+        baker.bakeAllMaterials(doc, searchPath, outputFilename)  
+        
+        return True      
    
     def buildPrimPaths(self, primPaths, cnode, path, nodeCount, meshCount, meshes, nodes):
         '''
@@ -2550,6 +2594,7 @@ class MTLX2GLTFWriter:
         # Check for glTF geometry file inclusion
         gltfGeometryFile = self._options['geometryFile']
         if len(gltfGeometryFile):
+            print('- glTF geometry file:' + gltfGeometryFile)
             if os.path.exists(gltfGeometryFile):
                 gltfFile = open(gltfGeometryFile, 'r')
                 gltfJson = json.load(gltfFile)

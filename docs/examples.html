@@ -15101,7 +15101,116 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
     }
     init_mathjax();
     </script>
-    <!-- End of mathjax configuration --></head>
+    <!-- End of mathjax configuration --><script type="module">
+  document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.2.3/mermaid.esm.min.mjs")).default;
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement('img');
+      const maxWidth = svg.match(/max-width: (\d+)/);
+      if (maxWidth && maxWidth[1]) {
+        const width = parseInt(maxWidth[1]);
+        if (width && !Number.isNaN(width) && Number.isFinite(width)) {
+          img.width = width;
+        }
+      }
+      img.setAttribute('src', `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      return img;
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = '';
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement('details');
+      const summary = document.createElement('summary');
+      const pre = document.createElement('pre');
+      const code = document.createElement('code');
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement('pre');
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return result;
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let result = null;
+      try {
+        const { svg } = await mermaid.render(id, raw, el);
+        result = makeMermaidImage(svg);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        result = await makeMermaidError(raw);
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(result);
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+</script>
+<style>
+  .jp-RenderedMarkdown .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 10px;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning details > pre {
+    margin-top: 1em;
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning summary {
+    color: var(--jp-warn-color2);
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning summary > pre {
+    display: inline-block;
+  }
+  .jp-RenderedMermaid > .mermaid {
+    display: none;
+  }
+</style>
+<!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 
 <div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
@@ -15110,12 +15219,13 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Use-Core-Library">Use Core Library<a class="anchor-link" href="#Use-Core-Library">&#182;</a></h3><p>This notebook provides a set of sample code which demonstrates the 
+<h3 id="Using-The-Core-Library">Using The Core Library<a class="anchor-link" href="#Using-The-Core-Library">&#182;</a></h3><p>This notebook provides a set of sample code which demonstrates the
 workflow to convert between glTF and MaterialX.</p>
 <p>The sample input file is the &quot;BoomBox with Axes&quot; file from the glTF sample repository found <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF">here</a> is used to demonstrate glTF to MaterialX conversion.</p>
 <p>The resulting MaterialX file after conversion is used to demonstrate conversion to glTF.</p>
 <script type='module' src='https://unpkg.com/@google/model-viewer/dist/model-viewer.js'></script>
-<p><model-viewer style='background-color:rgba(0, 0, 0, 0.5); width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./data/BoomBoxWithAxes_primMaterials.png'></model-viewer></p>
+
+<p><model-viewer style='background-color:rgba(0.2, 0.2, 0.2, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./data/BoomBoxWithAxes_primMaterials.png'></model-viewer></p>
 
 </div>
 </div>
@@ -15143,7 +15253,7 @@ workflow to convert between glTF and MaterialX.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>This import not required and is only added used here to improve output display</p>
+<p>This is import not required and is only added used here to improve output display</p>
 
 </div>
 </div>
@@ -15177,7 +15287,8 @@ workflow to convert between glTF and MaterialX.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Package Data</p>
+<p>Packaged Sample Data</p>
+<p>For convenience a few sample files are included as part of the Python package and are used in this notebook.</p>
 
 </div>
 </div>
@@ -15217,8 +15328,6 @@ workflow to convert between glTF and MaterialX.</p>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Data file:  BoomBoxWithAxes.gltf
 Data file:  BoomBoxWithAxes.mtlx
-Data file:  BoomBoxWithAxes.mtlx.glb
-Data file:  BoomBoxWithAxes.mtlx.gltf
 Data file:  BoomBoxWithAxes_baseColor.png
 Data file:  BoomBoxWithAxes_baseColor1.png
 Data file:  BoomBoxWithAxes_emissive.png
@@ -15227,10 +15336,13 @@ Data file:  BoomBoxWithAxes_primMaterials.glb
 Data file:  BoomBoxWithAxes_primMaterials.gltf
 Data file:  BoomBoxWithAxes_roughnessMetallic.png
 Data file:  gltf_test_nondefault_pbr.mtlx
-Data file:  gltf_test_nondefault_pbr.mtlx.glb
 Data file:  gltf_test_nondefault_pbr.mtlx.gltf
 Data file:  shaderball.gltf
 Data file:  shaderball_data.bin
+Data file:  standard_surface_marble_solid.mtlx
+Data file:  standard_surface_marble_solid.mtlx_baked.mtlx
+Data file:  standard_surface_marble_solid.mtlx_baked.mtlx_baked.mtlx
+Data file:  standard_surface_marble_solid.mtlx_baked.mtlx_baked.mtlx_baked.mtlx
 </pre>
 </div>
 </div>
@@ -15246,7 +15358,8 @@ Data file:  shaderball_data.bin
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Convert-from-glTF-to-MaterialX">Convert from glTF to MaterialX<a class="anchor-link" href="#Convert-from-glTF-to-MaterialX">&#182;</a></h3>
+<h3 id="Convert-from-glTF-to-MaterialX">Convert from glTF to MaterialX<a class="anchor-link" href="#Convert-from-glTF-to-MaterialX">&#182;</a></h3><p>The sample glTF input file is the &quot;BoomBox with Axes&quot; file from the glTF sample repository found <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF">here</a>.</p>
+
 </div>
 </div>
 </div>
@@ -15315,6 +15428,7 @@ Data file:  shaderball_data.bin
 
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
 <details ><summary>Resulting MaterialX document</summary>
+
 <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="cm">&lt;!-- Generated shader: M_BoomBox --&gt;</span>
@@ -15362,6 +15476,7 @@ Data file:  shaderball_data.bin
 </pre></div>
 </details>
 
+
 </div>
 
 </div>
@@ -15377,7 +15492,8 @@ Data file:  shaderball_data.bin
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Using-glTF-to-MaterialX-Options">Using glTF to MaterialX Options<a class="anchor-link" href="#Using-glTF-to-MaterialX-Options">&#182;</a></h3>
+<h3 id="Using-glTF-to-MaterialX-Options">Using glTF to MaterialX Options<a class="anchor-link" href="#Using-glTF-to-MaterialX-Options">&#182;</a></h3><p>The option to create material assignments is enabled and the MaterialX file is regenerated.</p>
+
 </div>
 </div>
 </div>
@@ -15443,6 +15559,7 @@ Generated MaterialX document is valid
 
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
 <details ><summary>Resulting MaterialX document</summary>
+
 <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="cm">&lt;!-- Generated shader: M_BoomBox --&gt;</span>
@@ -15495,6 +15612,7 @@ Generated MaterialX document is valid
 </pre></div>
 </details>
 
+
 </div>
 
 </div>
@@ -15510,7 +15628,8 @@ Generated MaterialX document is valid
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Conversion-from-MaterialX-to-glTF">Conversion from MaterialX to glTF<a class="anchor-link" href="#Conversion-from-MaterialX-to-glTF">&#182;</a></h3>
+<h3 id="Conversion-from-MaterialX-to-glTF">Conversion from MaterialX to glTF<a class="anchor-link" href="#Conversion-from-MaterialX-to-glTF">&#182;</a></h3><p>This file is then converted back to glTF.</p>
+
 </div>
 </div>
 </div>
@@ -15556,7 +15675,7 @@ Generated MaterialX document is valid
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>&gt; Load MaterialX document: c:\Users\home\AppData\Local\Programs\Python\Python310\lib\site-packages\materialxgltf\data\BoomBoxWithAxes.mtlx
+<pre>&gt; Load MaterialX document: d:\Work\materialx\materialxgltf_private\.venv\lib\site-packages\materialxgltf\data\BoomBoxWithAxes.mtlx
 - Convert MaterialX node to glTF: M_BoomBox
 - Convert MaterialX node to glTF: M_Coordinates
 - Generating a new primitive for each of 2 materials
@@ -15572,6 +15691,7 @@ Generated MaterialX document is valid
 
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
 <details ><summary>Resulting glTF</summary>
+
 <div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;copyright&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Copyright 2022-2023: Bernard Kwok.&quot;</span><span class="p">,</span>
@@ -15673,6 +15793,7 @@ Generated MaterialX document is valid
 </pre></div>
 </details>
 
+
 </div>
 
 </div>
@@ -15688,7 +15809,9 @@ Generated MaterialX document is valid
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Embed-Geometry">Embed Geometry<a class="anchor-link" href="#Embed-Geometry">&#182;</a></h3>
+<h3 id="Embedding-Geometry">Embedding Geometry<a class="anchor-link" href="#Embedding-Geometry">&#182;</a></h3><p>To view the material on sample geometry the sample &quot;shader ball&quot; geometry is imported.
+The first MaterialX material will be assigned to all of the geometric primitives.</p>
+
 </div>
 </div>
 </div>
@@ -15704,9 +15827,11 @@ Generated MaterialX document is valid
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; Load glTF geometry file: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">gltfGeometryFile</span><span class="p">)</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">())</span>
 
 <span class="n">options</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFOptions</span><span class="p">()</span>
+<span class="c1"># Set the geometry file to use</span>
 <span class="n">options</span><span class="p">[</span><span class="s1">&#39;geometryFile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gltfGeometryFile</span>
-<span class="n">options</span><span class="p">[</span><span class="s1">&#39;primsPerMaterial&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">setOptions</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+
+<span class="c1"># Perform the conversion</span>
 <span class="n">gltfString</span> <span class="o">=</span> <span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gltfString</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
     <span class="n">displaySource</span><span class="p">(</span><span class="s1">&#39;Resulting glTF&#39;</span><span class="p">,</span> <span class="n">gltfString</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
@@ -15732,415 +15857,8 @@ Generated MaterialX document is valid
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>&gt; Load glTF geometry file: shaderBall.gltf
-- Embedding glTF geometry file:c:\Users\home\AppData\Local\Programs\Python\Python310\lib\site-packages\materialxgltf\data\shaderBall.gltf
-- Convert MaterialX node to glTF: M_BoomBox
-- Convert MaterialX node to glTF: M_Coordinates
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-
-
-<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
-<details ><summary>Resulting glTF</summary>
-<div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;copyright&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Copyright 2022-2023: Bernard Kwok.&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;accessors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">36228</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC3&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">1.0168780088424683</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">2.091491937637329</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.9763060212135315</span>
-<span class="w">      </span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">-1.1265790462493896</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.07684300094842911</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">-1.1052850484848022</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">36228</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC3&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">0.9999819993972778</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.9999993443489075</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.9999726414680481</span>
-<span class="w">      </span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">-0.9999819993972778</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">-0.9999997615814209</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">-0.9999726414680481</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">36228</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC2&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">0.9962999820709229</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.9973000288009644</span>
-<span class="w">      </span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">0.002199999988079071</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.004199981689453125</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5125</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">212424</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SCALAR&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mi">36227</span>
-<span class="w">      </span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mi">0</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9140</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC3&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">0.6733869910240173</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">1.8961529731750488</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.7821810245513916</span>
-<span class="w">      </span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">-0.7826089859008789</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.004230000078678131</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">-0.763903021812439</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9140</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC3&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">        </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">        </span><span class="mi">1</span>
-<span class="w">      </span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mi">-1</span><span class="p">,</span>
-<span class="w">        </span><span class="mi">-1</span><span class="p">,</span>
-<span class="w">        </span><span class="mi">-1</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9140</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC2&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">0.9962000250816345</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.7520999908447266</span>
-<span class="w">      </span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">0.0027000000700354576</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">0.0037999749183654785</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5125</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">52368</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SCALAR&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mi">9139</span>
-<span class="w">      </span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mi">0</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;buffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;shaderball_data.bin&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2510944</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;bufferViews&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">434736</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">434736</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">434736</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">869472</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">289824</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1159296</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">849696</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34963</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2008992</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">109680</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2118672</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">109680</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2228352</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">73120</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2301472</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">209472</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34963</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;materials&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;M_BoomBox&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;pbrMetallicRoughness&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;baseColorTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;metallicRoughnessTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;normalTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;emissiveTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;emissiveFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mf">1.0</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">1.0</span><span class="p">,</span>
-<span class="w">        </span><span class="mf">1.0</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;M_Coordinates&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;pbrMetallicRoughness&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;baseColorTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;metallicFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;roughnessFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7350000143051147</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;meshes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Preview_Mesh&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;primitives&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;material&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;POSITION&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;NORMAL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;TEXCOORD_0&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calibration_Mesh&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;primitives&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;material&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;POSITION&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;NORMAL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;TEXCOORD_0&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;nodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Preview_Mesh&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;mesh&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calibration_Mesh&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;mesh&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;scenes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;nodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">        </span><span class="mi">1</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;scene&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;textures&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_base_color&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_orm&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_normal&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_emissive&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_base_color2&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;images&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_base_color&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_baseColor.png&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_orm&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_roughnessMetallic.png&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_normal&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_normal.png&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_emissive&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_emissive.png&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_base_color2&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_baseColor1.png&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;samplers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;wrapS&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10497</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;wrapT&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10497</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;magFilter&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9729</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;minFilter&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9986</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</details>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Creating-Primitives-Per-Material">Creating Primitives Per Material<a class="anchor-link" href="#Creating-Primitives-Per-Material">&#182;</a></h3>
-</div>
-</div>
-</div>
-</div><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gltfGeometryFile</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;materialxgltf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/shaderBall.gltf&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; Load glTF geometry file: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">gltfGeometryFile</span><span class="p">)</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">())</span>
-
-<span class="n">options</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFOptions</span><span class="p">()</span>
-<span class="n">options</span><span class="p">[</span><span class="s1">&#39;geometryFile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gltfGeometryFile</span>
-<span class="n">options</span><span class="p">[</span><span class="s1">&#39;primsPerMaterial&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">setOptions</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
-<span class="n">gltfString</span> <span class="o">=</span> <span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gltfString</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">displaySource</span><span class="p">(</span><span class="s1">&#39;Resulting glTF&#39;</span><span class="p">,</span> <span class="n">gltfString</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; Failed to convert MaterialX document to glTF&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>&gt; Load glTF geometry file: shaderBall.gltf
-- Embedding glTF geometry file:c:\Users\home\AppData\Local\Programs\Python\Python310\lib\site-packages\materialxgltf\data\shaderBall.gltf
+- glTF geometry file:d:\Work\materialx\materialxgltf_private\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
+- Embedding glTF geometry file:d:\Work\materialx\materialxgltf_private\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
 - Convert MaterialX node to glTF: M_BoomBox
 - Convert MaterialX node to glTF: M_Coordinates
 - Generating a new primitive for each of 2 materials
@@ -16156,6 +15874,7 @@ Generated MaterialX document is valid
 
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
 <details ><summary>Resulting glTF</summary>
+
 <div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
@@ -16540,6 +16259,7 @@ Generated MaterialX document is valid
 </pre></div>
 </details>
 
+
 </div>
 
 </div>
@@ -16555,7 +16275,478 @@ Generated MaterialX document is valid
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Package-Binary">Package Binary<a class="anchor-link" href="#Package-Binary">&#182;</a></h3>
+<h3 id="Creating-Primitives-Per-Material">Creating Primitives Per Material<a class="anchor-link" href="#Creating-Primitives-Per-Material">&#182;</a></h3><p>This geometry is (transform) instanced for each of the MaterialX materials and then assigned that material.</p>
+<p>In this case there are 2 materials.</p>
+
+</div>
+</div>
+</div>
+</div><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gltfGeometryFile</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;materialxgltf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/shaderBall.gltf&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; Load glTF geometry file: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">gltfGeometryFile</span><span class="p">)</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFOptions</span><span class="p">()</span>
+<span class="n">options</span><span class="p">[</span><span class="s1">&#39;geometryFile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gltfGeometryFile</span>
+
+<span class="c1"># Set to create an transform instance for each material and assign the material</span>
+<span class="n">options</span><span class="p">[</span><span class="s1">&#39;primsPerMaterial&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">setOptions</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+<span class="n">gltfString</span> <span class="o">=</span> <span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gltfString</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">displaySource</span><span class="p">(</span><span class="s1">&#39;Resulting glTF&#39;</span><span class="p">,</span> <span class="n">gltfString</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; Failed to convert MaterialX document to glTF&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>&gt; Load glTF geometry file: d:\Work\materialx\materialxgltf_private\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
+- glTF geometry file:d:\Work\materialx\materialxgltf_private\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
+- Embedding glTF geometry file:d:\Work\materialx\materialxgltf_private\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
+- Convert MaterialX node to glTF: M_BoomBox
+- Convert MaterialX node to glTF: M_Coordinates
+- Generating a new primitive for each of 2 materials
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
+<details ><summary>Resulting glTF</summary>
+
+<div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;copyright&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Copyright 2022-2023: Bernard Kwok.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;accessors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">36228</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC3&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">1.0168780088424683</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">2.091491937637329</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.9763060212135315</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">-1.1265790462493896</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.07684300094842911</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">-1.1052850484848022</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">36228</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC3&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">0.9999819993972778</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.9999993443489075</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.9999726414680481</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">-0.9999819993972778</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">-0.9999997615814209</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">-0.9999726414680481</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">36228</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC2&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">0.9962999820709229</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.9973000288009644</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">0.002199999988079071</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.004199981689453125</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5125</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">212424</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SCALAR&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mi">36227</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9140</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC3&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">0.6733869910240173</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">1.8961529731750488</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.7821810245513916</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">-0.7826089859008789</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.004230000078678131</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">-0.763903021812439</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9140</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC3&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">1</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">-1</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5126</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9140</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEC2&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">0.9962000250816345</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.7520999908447266</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">0.0027000000700354576</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">0.0037999749183654785</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;bufferView&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;componentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5125</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">52368</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SCALAR&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mi">9139</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;buffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;shaderball_data.bin&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2510944</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;bufferViews&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">434736</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">434736</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">434736</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">869472</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">289824</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1159296</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">849696</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34963</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2008992</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">109680</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2118672</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">109680</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2228352</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">73120</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34962</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;buffer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2301472</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;byteLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">209472</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34963</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;materials&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;M_BoomBox&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;pbrMetallicRoughness&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;baseColorTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;metallicRoughnessTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;normalTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;emissiveTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;emissiveFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">1.0</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;M_Coordinates&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;pbrMetallicRoughness&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;baseColorTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;metallicFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;roughnessFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7350000143051147</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;meshes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Preview_Mesh&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;primitives&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;material&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;POSITION&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;NORMAL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;TEXCOORD_0&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calibration_Mesh&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;primitives&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;material&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;POSITION&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;NORMAL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;TEXCOORD_0&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Preview_Mesh_material_1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;primitives&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;material&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;POSITION&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;NORMAL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;TEXCOORD_0&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calibration_Mesh_material_1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;primitives&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;material&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;POSITION&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;NORMAL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;TEXCOORD_0&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;nodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Preview_Mesh&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;mesh&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calibration_Mesh&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;mesh&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Preview_Mesh_material_1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;mesh&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;translation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">2.5</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calibration_Mesh_material_1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;mesh&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;translation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mf">2.5</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;scenes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;nodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">3</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;scene&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;textures&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_base_color&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_orm&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_normal&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_emissive&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_base_color2&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;images&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_base_color&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_baseColor.png&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_orm&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_roughnessMetallic.png&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_normal&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_normal.png&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_emissive&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_emissive.png&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image_base_color2&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BoomBoxWithAxes_baseColor1.png&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;samplers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;wrapS&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10497</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wrapT&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10497</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;magFilter&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9729</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;minFilter&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9986</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</details>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Package-Binary">Package Binary<a class="anchor-link" href="#Package-Binary">&#182;</a></h3><p>For transfer and preview the glTF file is packaged to produce a single glb file.</p>
+<img src="./images/ThreeJS_editor_boombox.png" width="80%">
+<sub>Result after conversion to glTF as show in the ThreeJS editor</sub>
+
+
 </div>
 </div>
 </div>
@@ -16630,13 +16821,509 @@ Packaging GLB...Done
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Translate-Shader-and-Bake-Textures">Translate Shader and Bake Textures<a class="anchor-link" href="#Translate-Shader-and-Bake-Textures">&#182;</a></h3><p>These  steps can be done as an independent pre-process 
+<h3 id="Translate-Shader-and-Bake-Textures">Translate Shader and Bake Textures<a class="anchor-link" href="#Translate-Shader-and-Bake-Textures">&#182;</a></h3><p>Shader translation and and baking generally are paired together as
+shader translation inserts an additional MaterialX &quot;translation&quot; node graph
+which needs to be &quot;baked&quot; out to get direct mappings from the upstream pattern
+graphs to the target shading model.</p>
+<p>The built in baking for MaterialX is used. This baking:</p>
+<ul>
+<li>Requires a GPU which can render GLSL or Metal (for Mac platforms).</li>
+<li>Always writes new files and images to disk.</li>
+<li>Can may halt or not run <em>inside a Jupyter notebook</em> due to it's usage of GPU rendering.</li>
+</ul>
+<p>These steps can be performed as an independent pre-process
 with only a dependency on the core MaterialX distribution -- thus
 does not require this package to be used.</p>
 
 </div>
 </div>
 </div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Marble-Example">Marble Example<a class="anchor-link" href="#Marble-Example">&#182;</a></h4><p>The following assumes access to the &quot;marble&quot; example available from MaterialX github.</p>
+<img src="./images/MaterialXGraphEditor_boombox.png">
+<sub>Figure: Original shader graph in MaterialX Graph Editor. The marble is a procedural shader.</sub>
+
+<p>The first step executes shader translation.</p>
+
+</div>
+</div>
+</div>
+</div><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Set search path to defaut so that MaterialX libraries can be found</span>
+<span class="n">searchPath</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">getDefaultDataSearchPath</span><span class="p">()</span>
+
+<span class="c1"># Translate shaders</span>
+<span class="n">materialXFileName</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;materialxgltf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/standard_surface_marble_solid.mtlx&#39;</span><span class="p">)</span>
+<span class="n">materialXFileNameBase</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">materialXFileName</span><span class="p">)</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; Load MaterialX file: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">materialXFileNameBase</span><span class="p">)</span>
+
+<span class="n">mtlx2glTFWriter</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFWriter</span><span class="p">()</span>
+<span class="n">doc</span><span class="p">,</span> <span class="n">libFiles</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Util</span><span class="o">.</span><span class="n">createMaterialXDoc</span><span class="p">()</span>
+<span class="n">mx</span><span class="o">.</span><span class="n">readFromXmlFile</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">materialXFileName</span><span class="p">,</span> <span class="n">mx</span><span class="o">.</span><span class="n">FileSearchPath</span><span class="p">())</span>
+
+ <span class="c1"># Perform shader translation and baking if necessary</span>
+<span class="n">translatedCount</span> <span class="o">=</span> <span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">translateShaders</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="n">title</span> <span class="o">=</span> <span class="s1">&#39; Translated &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">translatedCount</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; shader(s).&#39;</span>
+<span class="n">displaySource</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Util</span><span class="o">.</span><span class="n">writeMaterialXDocString</span><span class="p">(</span><span class="n">doc</span><span class="p">),</span> <span class="s1">&#39;xml&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>&gt; Load MaterialX file: standard_surface_marble_solid.mtlx
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
+<details ><summary> Translated 1 shader(s).</summary>
+
+<div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;lin_rec709&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;nodegraph</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;NG_marble1&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.8, 0.8, 0.8&quot;</span><span class="w"> </span><span class="na">uiname=</span><span class="s">&quot;Color 1&quot;</span><span class="w"> </span><span class="na">uifolder=</span><span class="s">&quot;Marble Color&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.1, 0.1, 0.3&quot;</span><span class="w"> </span><span class="na">uiname=</span><span class="s">&quot;Color 2&quot;</span><span class="w"> </span><span class="na">uifolder=</span><span class="s">&quot;Marble Color&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;noise_scale_1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;6.0&quot;</span><span class="w"> </span><span class="na">uisoftmin=</span><span class="s">&quot;1.0&quot;</span><span class="w"> </span><span class="na">uisoftmax=</span><span class="s">&quot;10.0&quot;</span><span class="w"> </span><span class="na">uiname=</span><span class="s">&quot;Scale 1&quot;</span><span class="w"> </span><span class="na">uifolder=</span><span class="s">&quot;Marble Noise&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;noise_scale_2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;4.0&quot;</span><span class="w"> </span><span class="na">uisoftmin=</span><span class="s">&quot;1.0&quot;</span><span class="w"> </span><span class="na">uisoftmax=</span><span class="s">&quot;10.0&quot;</span><span class="w"> </span><span class="na">uiname=</span><span class="s">&quot;Scale 2&quot;</span><span class="w"> </span><span class="na">uifolder=</span><span class="s">&quot;Marble Noise&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;noise_power&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;3.0&quot;</span><span class="w"> </span><span class="na">uisoftmin=</span><span class="s">&quot;1.0&quot;</span><span class="w"> </span><span class="na">uisoftmax=</span><span class="s">&quot;10.0&quot;</span><span class="w"> </span><span class="na">uiname=</span><span class="s">&quot;Power&quot;</span><span class="w"> </span><span class="na">uifolder=</span><span class="s">&quot;Marble Noise&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;noise_octaves&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;3&quot;</span><span class="w"> </span><span class="na">uisoftmin=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">uisoftmax=</span><span class="s">&quot;8&quot;</span><span class="w"> </span><span class="na">uiname=</span><span class="s">&quot;Octaves&quot;</span><span class="w"> </span><span class="na">uifolder=</span><span class="s">&quot;Marble Noise&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;position</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;obj_pos&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dotproduct</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;add_xyz&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;obj_pos&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;1, 1, 1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dotproduct&gt;</span>
+<span class="w">    </span><span class="nt">&lt;multiply</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;scale_xyz&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;add_xyz&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">interfacename=</span><span class="s">&quot;noise_scale_1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/multiply&gt;</span>
+<span class="w">    </span><span class="nt">&lt;multiply</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;scale_pos&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;obj_pos&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">interfacename=</span><span class="s">&quot;noise_scale_2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/multiply&gt;</span>
+<span class="w">    </span><span class="nt">&lt;fractal3d</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;noise&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;octaves&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="w"> </span><span class="na">interfacename=</span><span class="s">&quot;noise_octaves&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;position&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;scale_pos&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/fractal3d&gt;</span>
+<span class="w">    </span><span class="nt">&lt;multiply</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;scale_noise&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;noise&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;3.0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/multiply&gt;</span>
+<span class="w">    </span><span class="nt">&lt;add</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sum&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;scale_xyz&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;scale_noise&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/add&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sin</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sin&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;sum&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/sin&gt;</span>
+<span class="w">    </span><span class="nt">&lt;multiply</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;scale&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;sin&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.5&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/multiply&gt;</span>
+<span class="w">    </span><span class="nt">&lt;add</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;bias&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;scale&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.5&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/add&gt;</span>
+<span class="w">    </span><span class="nt">&lt;power</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;power&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;bias&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">interfacename=</span><span class="s">&quot;noise_power&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/power&gt;</span>
+<span class="w">    </span><span class="nt">&lt;mix</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;color_mix&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;bg&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">interfacename=</span><span class="s">&quot;base_color_1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;fg&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">interfacename=</span><span class="s">&quot;base_color_2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;mix&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;power&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/mix&gt;</span>
+<span class="w">    </span><span class="nt">&lt;standard_surface_to_gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;multioutput&quot;</span><span class="w"> </span><span class="na">nodedef=</span><span class="s">&quot;ND_standard_surface_to_gltf_pbr&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;color_mix&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;specular_roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/standard_surface_to_gltf_pbr&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;base_color_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;metallic_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;roughness_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;transmission_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;transmission_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;thickness_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;thickness_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;attenuation_color_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;attenuation_color_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sheen_color_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;sheen_color_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sheen_roughness_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;sheen_roughness_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;clearcoat_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;clearcoat_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;clearcoat_roughness_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;clearcoat_roughness_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;emissive_out&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;node1&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;emissive_out&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/nodegraph&gt;</span>
+<span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;SR_marble1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;base_color_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;metallic_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;roughness_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;transmission&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;transmission_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;thickness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;thickness_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;attenuation_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;attenuation_color_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sheen_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;sheen_color_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sheen_roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;sheen_roughness_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;clearcoat&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;clearcoat_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;clearcoat_roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;clearcoat_roughness_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;emissive&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;emissive_out&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
+<span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Marble_3D&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;material&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;SR_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/surfacematerial&gt;</span>
+<span class="nt">&lt;/materialx&gt;</span>
+</pre></div>
+</details>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>This is followed by texture baking.</p>
+<table>
+<thead>
+<tr>
+  <th style="text-align:center">MaterialX Graph Editor</th>
+  <th style="text-align:center">Baked Image(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center"><img src="./images/MaterialXGraphEditor_boombox_baked.png"></td>
+  <td style="text-align:center"><img src="./images/Marble_3D_gltf_pbr_base_color.png"></td>
+</tr>
+</tbody>
+</table>
+<p><sub>Figure: Baked shader graph in MaterialX Graph Editor (lef). Baked images (right)</sub></p>
+
+</div>
+</div>
+</div>
+</div><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">materialXFileName</span> <span class="o">=</span> <span class="n">materialXFileName</span> <span class="o">+</span> <span class="s1">&#39;_baked.mtlx&#39;</span>
+<span class="n">bakeResolution</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">bakeTextures</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">bakeResolution</span><span class="p">,</span> <span class="n">bakeResolution</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> 
+                            <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">searchPath</span><span class="p">,</span> <span class="n">materialXFileName</span><span class="p">)</span>
+<span class="n">doc</span><span class="p">,</span> <span class="n">libFiles</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Util</span><span class="o">.</span><span class="n">createMaterialXDoc</span><span class="p">()</span>
+<span class="n">mx</span><span class="o">.</span><span class="n">readFromXmlFile</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">materialXFileName</span><span class="p">,</span> <span class="n">searchPath</span><span class="p">)</span>
+<span class="n">title</span> <span class="o">=</span> <span class="s1">&#39; Baked document: &#39;</span>
+<span class="n">displaySource</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Util</span><span class="o">.</span><span class="n">writeMaterialXDocString</span><span class="p">(</span><span class="n">doc</span><span class="p">),</span> <span class="s1">&#39;xml&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
+<details ><summary> Baked document: </summary>
+
+<div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;lin_rec709&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;nodegraph</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;NG_baked&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;srgb_texture&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;image</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;filename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;d:\Work\materialx\materialxgltf_private\.venv\lib\site-packages\materialxgltf\data\Marble_3D_gltf_pbr_base_color.png&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/image&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;base_color_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/nodegraph&gt;</span>
+<span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;SR_marble1_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.0980392&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;clearcoat_roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.0980392&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
+<span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Marble_3D_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;material&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;SR_marble1_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/surfacematerial&gt;</span>
+<span class="nt">&lt;/materialx&gt;</span>
+</pre></div>
+</details>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The assumption for the bake is that the output images will reside under the same parent folder
+as the baked document.</p>
+<p>We thus perform a final pass to make these image paths relative to that folder as glTF itself does no accept platform specific absolute paths.</p>
+
+</div>
+</div>
+</div>
+</div><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remappedUris</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Util</span><span class="o">.</span><span class="n">makeFilePathsRelative</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">materialXFileName</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">uri</span> <span class="ow">in</span> <span class="n">remappedUris</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;  - Remapped URI: &quot;</span><span class="si">%s</span><span class="s1">&quot; to &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">uri</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">uri</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">title</span> <span class="o">=</span> <span class="s1">&#39; Baked document with resolved URIs: &#39;</span>
+<span class="n">displaySource</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Util</span><span class="o">.</span><span class="n">writeMaterialXDocString</span><span class="p">(</span><span class="n">doc</span><span class="p">),</span> <span class="s1">&#39;xml&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>  - Remapped URI: &#34;d:\Work\materialx\materialxgltf_private\.venv\lib\site-packages\materialxgltf\data\Marble_3D_gltf_pbr_base_color.png&#34; to &#34;\Marble_3D_gltf_pbr_base_color.png&#34;
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
+<details ><summary> Baked document with resolved URIs: </summary>
+
+<div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;lin_rec709&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;nodegraph</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;NG_baked&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;srgb_texture&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;image</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;filename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;\Marble_3D_gltf_pbr_base_color.png&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/image&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;base_color_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/nodegraph&gt;</span>
+<span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;SR_marble1_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.0980392&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;clearcoat_roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.0980392&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
+<span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Marble_3D_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;material&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;SR_marble1_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/surfacematerial&gt;</span>
+<span class="nt">&lt;/materialx&gt;</span>
+</pre></div>
+</details>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>This final document can then be used as input for conversion to glTF.</p>
+<img src="./images/ThreeJS_editor_baked_marble.png" width="80%">
+
+<p><sub>Figure: Marble glTF document in shown in ThreeJS editor</sub></p>
+
+</div>
+</div>
+</div>
+</div><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mtlx2glTFWriter</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFWriter</span><span class="p">()</span>
+<span class="n">options</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFOptions</span><span class="p">()</span>
+<span class="n">options</span><span class="p">[</span><span class="s1">&#39;debugOutput&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">setOptions</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+<span class="n">gltfString</span> <span class="o">=</span> <span class="n">mtlx2glTFWriter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gltfString</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">displaySource</span><span class="p">(</span><span class="s1">&#39;Translate and Baked Result to glTF&#39;</span><span class="p">,</span> <span class="n">gltfString</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; Failed to convert MaterialX document to glTF&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>- Convert MaterialX node to glTF: SR_marble1_baked
+- Generating a new primitive for each of 1 materials
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output " data-mime-type="text/markdown">
+<details ><summary>Translate and Baked Result to glTF</summary>
+
+<div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;copyright&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Copyright 2022-2023: Bernard Kwok.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;materials&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;extensions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;KHR_materials_clearcoat&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;clearcoatRoughnessFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.09803920239210129</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SR_marble1_baked&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;pbrMetallicRoughness&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;baseColorTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;metallicFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;roughnessFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.09803920239210129</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;textures&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NG_baked/base_color_baked&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;images&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NG_baked/base_color_baked&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marble_3D_gltf_pbr_base_color.png&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;samplers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;wrapS&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10497</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wrapT&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10497</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;magFilter&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9729</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;minFilter&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9986</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;extensionsUsed&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;KHR_materials_clearcoat&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</details>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 </body>
 

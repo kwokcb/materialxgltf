@@ -58,7 +58,7 @@ Refer to [this documentation](https://kwokcb.github.io/materialxgltf/docs/html) 
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js">    
 </script>
 
-<model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer>
+<model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer>
 
 The following shows is a set of progressive examples to convert from a glTF file to MaterialX and then to a new glTF file for "shader ball" preview of
 extracted materials.
@@ -227,6 +227,11 @@ except Exception as err:
 All materials are assumed to use glTF PBR surface shaders.
 Conversion to this shading model can be performed via MaterialX
 utilities, which includes texture baking.
+
+Please refer to the sample Jupyter notebook for an example of shader
+translation and baking using some convenience functions included with the package.
+Note that they do not need to be used as the core MaterialX distribution provides
+access to the APIs used in this package.
 
 ## Author
 
