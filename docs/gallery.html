@@ -227,6 +227,82 @@ pre code {
 </style>
 
 <style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
 /*
  * Markdown PDF CSS
  */
@@ -296,9 +372,85 @@ code {
 <p>The following are some examples of conversions from MaterialX to glTF. The input files are from the <code>resources</code> folder of the ASWF MaterialX Repository found <a href="https://github.com/AcademySoftwareFoundation/MaterialX/tree/main/resources/Materials/Examples">here</a>. the glTF and Autodesk<br>
 Standard Surface example scenes are converted. For the latter shader translation and texture baking are performed. All results are packaged into<br>
 individual glTF binary files (glb).</p>
-<p>These files can be previewed in any integration which accepts <code>glb</code> files as input such as the <a href="https://threejs.org/editor/">ThreeJS editor</a>, and the <a href="https://sandbox.babylonjs.com/">Babylon viewer</a>. For this page the <a href="https://modelviewer.dev/">model-viewer</a> package is used.</p>
+<p>These files can be previewed in any integration which accepts <code>glb</code> files as input such as the <a href="https://threejs.org/editor/">ThreeJS editor</a>, and the <a href="https://sandbox.babylonjs.com/">Babylon viewer</a>.</p>
+<p>For this page the <a href="https://modelviewer.dev/">model-viewer</a> package is used. Note that materials with transmission do not render well with this viewer (e.g. the &quot;glass shaders&quot;).</p>
+<h4 id="gltf-pbr-shading-model-conversions">glTF PBR Shading Model Conversions</h4>
+<p>These materials directly use glTF PBR as the shading model</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/gltf_pbr_boombox.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Boombox</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/gltf_pbr_carpaint.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Car Paint</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/gltf_pbr_default.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Default glTF PBR</td>
+</tr>
+<tr>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/gltf_pbr_glass.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Glass</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/gltf_pbr_gold.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Gold</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/gltf_pbr_plastic.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Plastic</td>
+</tr>
+</tbody>
+</table>
+<h4 id="%22standard-surface%22-shading-model-conversions">&quot;Standard Surface&quot; Shading Model Conversions</h4>
+<p>These materials use Autodesk Standard Surface as the shading model and are hence converted to glTF PBR and then the upstream graph is &quot;baked&quot;. This results in some loss of mappings currently including normal maps and incorrect 3d procedural. This is due to logic within the MaterialX core package itself and not this package.</p>
+<p>All materials are mapped to a default &quot;shader ball&quot; geometry in glTF format.</p>
+<p>MaterialX files with multiple materials are each converted and then packaged into a single GLB file for preview (such as the &quot;Open Chess Set&quot;).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_brass_tiled.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Brass</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_brick_procedural.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Brick</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_carpaint.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Car Paint</td>
+</tr>
+<tr>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_chess_set.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Open Chess Set</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_chrome.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Chrome</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_copper.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Copper</td>
+</tr>
+<tr>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_default.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Default Standard Surface</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_glass.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Glass</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_glass_tinted.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Glass Tinted</td>
+</tr>
+<tr>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_gold.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Gold</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_greysphere.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Grey</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_greysphere_calibration.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Grey Calibiration</td>
+</tr>
+<tr>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_jade.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Jade</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_look_brass_tiled.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Brass Tiled Look</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_look_wood_tiled.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Wood Tiled Look</td>
+</tr>
+<tr>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_marble_solid.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> 3D Marble</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_metal_brushed.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Brushed Metal</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_plastic.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Plastic</td>
+</tr>
+<tr>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_thin_film.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Thin Film</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_velvet.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Velvet</td>
+<td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_wood_tiled.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Wood Tiled</td>
+</tr>
+</tbody>
+</table>
 <h3 id="gltf-to-materialx">glTF to MaterialX</h3>
-<p><model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='https://kwokcb.github.io//docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='https://kwokcb.github.io/docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer></p>
+<p>Example previews to come. A small example of the glTF Sample Model &quot;Boombox with Axes&quot; is shown<br>
+after conversion and imported into the MaterialX &quot;Node Graph&quot; Editor.</p>
+<img src="./images/gltf_to_mtlx_boombox_with_axes.png">
 
 </body>
 </html>

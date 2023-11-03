@@ -227,6 +227,82 @@ pre code {
 </style>
 
 <style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
 /*
  * Markdown PDF CSS
  */
@@ -291,17 +367,30 @@ code {
   </script>
 <h1 id="materialxgltf">MaterialXglTF</h1>
 <p>This is the home page for the <code>materialxgltf</code> Python package which provides bi-directional data model conversion between MaterialX and glTF materials.</p>
+<p>The package can be downloaded fro PyPi <a href="https://pypi.org/project/materialxgltf">here</a></p>
 <h3 id="documentation">Documentation</h3>
 <ul>
 <li><strong>Python Package</strong>: Details about how to use this package can be found <a href="https://kwokcb.github.io/materialxgltf/README.html">here</a></li>
 <li><strong>API Documentation</strong>): Python interface documentation can be found <a href="https://kwokcb.github.io/materialxgltf/docs/html/index.html">here</a></li>
-<li><strong>Jupyter Notebook</strong>: An example is shown here <a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">here</a>. The notebook file<br>
-can be found in the source repository.</li>
+<li><strong>Jupyter Notebook</strong>: An example is shown here <a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">here</a>. The notebook file can be found in the source repository.</li>
 </ul>
 <h3 id="examples">Examples</h3>
-<p>Some example conversion can be found <a href="https://kwokcb.github.io/materialxgltf/docs/gallery.html">here</a></p>
-<img src="https://kwokcb.github.io/materialxgltf/docs/images/bablyon_chessset.png">
-<img src="https://kwokcb.github.io/materialxgltf/docs/images/ThreeJS_editor_chessset.png">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Babylon Viewer</th>
+<th style="text-align:center">ThreeJS Editor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><img src="https://kwokcb.github.io/materialxgltf/docs/images/bablyon_chessset.png"></td>
+<td style="text-align:center"><img src="https://kwokcb.github.io/materialxgltf/docs/images/ThreeJS_editor_chessset.png"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Figure</strong>: The Open Chess Set reference asset MaterialX file in the Standard Surface shading model converted to glTF PBR shading model, then packaged into a binary (GLB). Asset is authored by Moeen Sayed and Mujtaba Sayed, and was contributed to the MaterialX project by Side Effects.</p>
+<p>A gallery of example conversions can be found <a href="https://kwokcb.github.io/materialxgltf/docs/gallery.html">here</a></p>
 
 </body>
 </html>
