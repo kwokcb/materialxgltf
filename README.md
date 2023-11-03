@@ -58,7 +58,7 @@ Refer to [this documentation](https://kwokcb.github.io/materialxgltf/docs/html) 
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js">    
 </script>
 
-<model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer>
+<model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer>
 
 The following shows is a set of progressive examples to convert from a glTF file to MaterialX and then to a new glTF file for "shader ball" preview of
 extracted materials.
@@ -81,7 +81,7 @@ width="50%">
 
 ## Interactive Example
 
-A `Jupyter` notebook which performs the same steps is available [here](./docs/examples.html). This or any other notebook can be used if the user wishes to test the package in an interactive environment.
+A `Jupyter` notebook which performs the same steps is available [here](https://kwokcb.github.io/docs/examples.html). This or any other notebook can be used if the user wishes to test the package in an interactive environment.
 
 ### Import the package
 ```python

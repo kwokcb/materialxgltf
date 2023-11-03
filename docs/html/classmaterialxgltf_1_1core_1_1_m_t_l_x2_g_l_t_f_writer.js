@@ -1,7 +1,7 @@
 var classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer =
 [
     [ "assignMaterial", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a523d3962b5b26f7f1bb38cf0ebd154c6", null ],
-    [ "bakeTextures", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a32af4b478576dbf99717a7b3d05240ae", null ],
+    [ "bakeTextures", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a5d2190619cb07b2f1e61ecba8711cd83", null ],
     [ "buildPrimPaths", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a2f4d8a7b98afa25201547fd5d05ac007", null ],
     [ "clearLog", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a42170aa99d43f0c3569708d56a6412e3", null ],
     [ "convert", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#adbba3a483ca3cebe5d8a244b2319962e", null ],
