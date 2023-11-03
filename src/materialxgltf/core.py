@@ -20,7 +20,7 @@ from pygltflib import GLTF2, BufferFormat
 from pygltflib.utils import ImageFormat
 
 # Utilities
-import os, re, copy
+import os, re, copy, math
 
 from materialxgltf.globals import *
 
@@ -107,15 +107,11 @@ class Util:
                 if unresolvedValue.isAbsolute():
                     elementResolver.setFilePrefix('')
                 resolvedValue = valueElem.getResolvedValueString(elementResolver)
-
-                # Remove parent path from file name. Assumes image is relative to the document
-                docPath = mx.FilePath(docPath).getParentPath()
-                if not docPath.isEmpty():
-                    resolvedValue = resolvedValue.replace(docPath.asString(), '')
-                    valueElem.setValueString(resolvedValue)  
+                resolvedValue = mx.FilePath(resolvedValue).getBaseName()
+                valueElem.setValueString(resolvedValue)
 
                 if unresolvedValue != resolvedValue:
-                    result.append([unresolvedValue.asString(), resolvedValue])
+                    result.append([unresolvedValue.asString(mx.FormatPosix), resolvedValue])
 
         return result  
 
@@ -1071,6 +1067,7 @@ class MTLX2GLTFOptions(dict):
         - 'packageBinary' : Package binary data in glTF. Default is False.
         - 'geometryFile' : Path to geometry file to use for glTF. Default is ''.
         - 'primsPerMaterial' : Create a new primitive per material in the MaterialX file and assign the material. Default is False.
+        - 'searchPath' : Search path for files. Default is empty.
         - 'debugOutput' : Print debug output. Default is True.
     '''
     def __init__(self, *args, **kwargs):
@@ -1087,6 +1084,7 @@ class MTLX2GLTFOptions(dict):
         self['primsPerMaterial'] = True     
         self['debugOutput'] = True
         self['createProceduralTextures'] = False
+        self['searchPath'] = mx.FileSearchPath()
 
 class MTLX2GLTFWriter:
     '''
@@ -1143,7 +1141,7 @@ class MTLX2GLTFWriter:
         image = {}
         image['name'] = name
         uriPath = mx.FilePath(uri)
-        image['uri'] = uriPath.asString() # mx.FilePath.Format.FormatPosix()
+        image['uri'] = uriPath.asString(mx.FormatPosix)
         images.append(image)
 
         texture['name'] = name
@@ -1455,7 +1453,7 @@ class MTLX2GLTFWriter:
         
         return True, ''
 
-    def bakeTextures(self, doc, hdr, width, height, useGlslBackend, average, writeDocumentPerMaterial, searchPath, outputFilename) -> None:
+    def bakeTextures(self, doc, hdr, width, height, useGlslBackend, average, writeDocumentPerMaterial, outputFilename) -> None:
         '''
         @brief Bake all textures in a MaterialX document.
         @param doc: The MaterialX document to bake textures from.
@@ -1465,7 +1463,6 @@ class MTLX2GLTFWriter:
         @param useGlslBackend: Whether to use the GLSL backend for baking.
         @param average: Whether to average the baked textures.
         @param writeDocumentPerMaterial: Whether to write a separate MaterialX document per material.
-        @param searchPath: The search path to use for baking.
         @param outputFilename: The output filename to write the baked document to.
         '''
         baseType = mx_render.BaseType.FLOAT if hdr else mx_render.BaseType.UINT8    
@@ -1481,7 +1478,7 @@ class MTLX2GLTFWriter:
         if average:
             baker.setAverageImages(True)
         baker.writeDocumentPerMaterial(writeDocumentPerMaterial)
-        baker.bakeAllMaterials(doc, searchPath, outputFilename)  
+        baker.bakeAllMaterials(doc, self._options['searchPath'], outputFilename)  
         
         return True      
    
@@ -2185,53 +2182,63 @@ class MTLX2GLTFWriter:
             metallicFilename = mx.FilePath(filenames[0])
             roughnessFilename = mx.FilePath(filenames[1])
             occlusionFilename = mx.FilePath(filenames[2])
+            metallicFilename = self._options['searchPath'].find(metallicFilename)
+            roughnessFilename = self._options['searchPath'].find(roughnessFilename)
+            occlusionFilename = self._options['searchPath'].find(occlusionFilename)            
 
             # if metallic and roughness match but occlusion differs, Then export 2 textures if found
-            if not metallicFilename.isEmpty():
-                texture = {}
-                self.initialize_gtlf_texture(texture, imageNamePaths[0], metallicFilename.asString(), images)
-                self.writeImageProperties(texture, samplers, imageNode)
-                textures.append(texture)
+            if metallicFilename == roughnessFilename:
+                if roughnessFilename == occlusionFilename:
+                    # All 3 are the same:
+                    if not roughnessFilename.isEmpty():
+                        print('- Append single ORM texture', roughnessFilename.asString())
+                        texture = {}
+                        self.initialize_gtlf_texture(texture, imageNamePaths[0], roughnessFilename.asString(mx.FormatPosix), images)
+                        self.writeImageProperties(texture, samplers, imageNode)
+                        textures.append(texture)
 
-                roughness['metallicRoughnessTexture']  = {}
-                roughness['metallicRoughnessTexture']['index'] = len(textures) - 1                    
+                        roughness['metallicRoughnessTexture']  = {}
+                        roughness['metallicRoughnessTexture']['index'] = len(textures) - 1
+                else:
+                    # Metallic and roughness are the same
+                    if not metallicFilename.isEmpty():
+                        print('- Append single metallic-roughness texture', metallicFilename.asString())
+                        texture = {}
+                        self.initialize_gtlf_texture(texture, imageNamePaths[0], metallicFilename.asString(mx.FormatPosix), images)
+                        self.writeImageProperties(texture, samplers, imageNode)
+                        textures.append(texture)
 
-            elif not roughnessFilename.isEmpty():
-                print('Append roughness texture', roughnessFilename.asString())
-                texture = {}
-                self.initialize_gtlf_texture(texture, imageNamePaths[0], roughnessFilename.asString(), images)
-                self.writeImageProperties(texture, samplers, imageNode)
-                textures.append(texture)
+                        roughness['metallicRoughnessTexture']  = {}
+                        roughness['metallicRoughnessTexture']['index'] = len(textures) - 1                    
 
-                roughness['metallicRoughnessTexture']  = {}
-                roughness['metallicRoughnessTexture']['index'] = len(textures) - 1
+                    # Append separate occlusion texture
+                    if not occlusionFilename.isEmpty():
+                        print('- Append single occlusion texture', metallicFilename.asString())
+                        texture = {}
+                        self.initialize_gtlf_texture(texture, imageNamePaths[2], occlusionFilename.asString(mx.FormatPosix), images)
+                        self.writeImageProperties(texture, samplers, imageNode)
+                        textures.append(texture)
 
-            if not occlusionFilename.isEmpty() and occlusionFilename != roughnessFilename:
-                texture = {}
-                self.initialize_gtlf_texture(texture, imageNamePaths[2], occlusionFilename.asString(), images)
-                self.writeImageProperties(texture, samplers, imageNode)
-                textures.append(texture)
-
-                material['occlusionTexture']  = {}
-                material['occlusionTexture']['index'] = len(textures) - 1                    
+                        material['occlusionTexture']  = {}
+                        material['occlusionTexture']['index'] = len(textures) - 1                    
 
             # Metallic and roughness do no match and one or both are images. Merge as necessary
             elif not metallicFilename.isEmpty() or not (roughnessFilename).isEmpty():
-
                 loader = mx_render.StbImageLoader.create()
-                if loader:
+                handler = mx_render.ImageHandler.create(loader)
+                handler.setSearchPath(self._options['searchPath'])
+                if handler:
                     ormFilename = roughnessFilename if metallicFilename.isEmpty() else metallicFilename
 
-                #     Color4 color(0.0f)
                 imageWidth = 0
                 imageHeight = 0
 
-                roughnessImage = loader.loadImage(roughnessFilename) if roughnessFilename.isEmpty() else None
+                roughnessImage = handler.acquireImage(roughnessFilename) if not roughnessFilename.isEmpty() else None
                 if roughnessImage:
                     imageWidth = max(roughnessImage.getWidth(), imageWidth)
-                    imageHeight = max(roughnessImage.getHieght(), imageHeight)
+                    imageHeight = max(roughnessImage.getHeight(), imageHeight)
 
-                metallicImage = loader.loadImage(metallicFilename) if metallicFilename.isEmpty() else None
+                metallicImage = handler.acquireImage(metallicFilename) if not metallicFilename.isEmpty() else None
                 if metallicImage:
                     imageWidth = max(metallicImage.getWidth(), imageWidth)
                     imageHeight = max(metallicImage.getHeight(), imageHeight)
@@ -2239,12 +2246,18 @@ class MTLX2GLTFWriter:
                 outputImage = None
                 if (imageWidth * imageHeight) != 0:
                     color = mx.Color4(0.0)
-                    outputImage = mx.createUniformImage(imageWidth, imageHeight, 3, mx.Image.BaseType.UINT8, color)
+                    outputImage = mx_render.createUniformImage(imageWidth, imageHeight, 
+                                                               3, mx_render.BaseType.UINT8, color)
 
-                    uniformRoughnessColor = roughness['roughnessFactor']
+                    uniformRoughnessColor = 1.0
+                    if 'roughnessFactor' in roughness:
+                        uniformRoughnessColor = roughness['roughnessFactor']
                     if roughnessImage:
                         roughness['roughnessFactor'] = 1.0
-                    uniformMetallicColor = roughness['metallicFactor']
+
+                    uniformMetallicColor = 1.0
+                    if 'metallicFactor' in roughness:
+                        uniformMetallicColor = roughness['metallicFactor']
                     if metallicImage:
                         roughness['metallicFactor'] = 1.0
 
@@ -2256,10 +2269,14 @@ class MTLX2GLTFWriter:
                             outputImage.setTexelColor(x, y, finalColor)
 
                     ormFilename.removeExtension()
-                    ormfilePath = ormFilename.asString() + '_combined.png'
-                    saved = loader.saveImage(ormfilePath, outputImage)
+                    ormfilePath = ormFilename.asString(mx.FormatPosix) + '_combined.png'
+                    flipImage = False
+                    saved = loader.saveImage(ormfilePath, outputImage, flipImage)
 
-                    self.initialize_gtlf_texture(texture, imageNode.getNamePath(), ormfilePath.asString(), images)
+                    uri = mx.FilePath(ormfilePath).getBaseName()
+                    print('- Merged metallic-roughness to single texture:', uri, 'Saved: ', saved)
+                    texture = {}
+                    self.initialize_gtlf_texture(texture,  imageNode.getNamePath(), uri, images)
                     self.writeImageProperties(texture, samplers, imageNode)
                     textures.append(texture)
 
@@ -2411,18 +2428,18 @@ class MTLX2GLTFWriter:
                     if thicknessValue:
                         outputExtension['thicknessFactor'] = thicknessValue
 
-                # Parse attenuation and attenuation distance
-                attenuationInput = pbrNode.getInput('attenuation_color')
-                if attenuationInput:
-                    attenuationValue = attenuationInput.getValue() 
-                    if attenuationValue:
-                        inputType = attenuationInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE)
-                        outputExtension['attenuationColor'] = self.stringToScalar(attenuationInput.getValueString(), inputType)
-                attenuationInput = pbrNode.getInput('attenuation_distance')
-                if attenuationInput:
-                    attenuationValue = attenuationInput.getValue() 
-                    if attenuationValue:
-                        outputExtension['attenuationDistance'] = attenuationValue
+            # Parse attenuation and attenuation distance
+            attenuationInput = pbrNode.getInput('attenuation_color')
+            if attenuationInput:
+                attenuationValue = attenuationInput.getValue() 
+                if attenuationValue:
+                    inputType = attenuationInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE)
+                    outputExtension['attenuationColor'] = self.stringToScalar(attenuationInput.getValueString(), inputType)
+            attenuationInput = pbrNode.getInput('attenuation_distance')
+            if attenuationInput:
+                attenuationValue = attenuationInput.getValue() 
+                if attenuationValue:
+                    outputExtension['attenuationDistance'] = attenuationValue
 
             if len(outputExtension) > 0: 
                 extensionName = 'KHR_materials_volume'        
@@ -2615,7 +2632,9 @@ class MTLX2GLTFWriter:
         if self._options['primsPerMaterial'] and (materialCount > 0):
             if self._options['debugOutput']:
                 print('- Generating a new primitive for each of %d materials' % materialCount)
-            self.createPrimsForMaterials(gltfJson)
+            # Compute sqrt of materialCount
+            rowCount = int(math.sqrt(materialCount))
+            self.createPrimsForMaterials(gltfJson, rowCount)
 
         # Get resulting glTF JSON string
         gltfString = json.dumps(gltfJson, indent=2)

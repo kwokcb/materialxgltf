@@ -141,9 +141,9 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memitem:a533b7bd3cbb08c85445a4f721198ca79"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a533b7bd3cbb08c85445a4f721198ca79">translateShader</a> (self, shader, destCategory)</td></tr>
 <tr class="memdesc:a533b7bd3cbb08c85445a4f721198ca79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Translate a MaterialX shader to a different category.  <a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a533b7bd3cbb08c85445a4f721198ca79">More...</a><br /></td></tr>
 <tr class="separator:a533b7bd3cbb08c85445a4f721198ca79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32af4b478576dbf99717a7b3d05240ae"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a32af4b478576dbf99717a7b3d05240ae">bakeTextures</a> (self, doc, hdr, width, height, useGlslBackend, average, writeDocumentPerMaterial, searchPath, outputFilename)</td></tr>
-<tr class="memdesc:a32af4b478576dbf99717a7b3d05240ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bake all textures in a MaterialX document.  <a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a32af4b478576dbf99717a7b3d05240ae">More...</a><br /></td></tr>
-<tr class="separator:a32af4b478576dbf99717a7b3d05240ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d2190619cb07b2f1e61ecba8711cd83"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a5d2190619cb07b2f1e61ecba8711cd83">bakeTextures</a> (self, doc, hdr, width, height, useGlslBackend, average, writeDocumentPerMaterial, outputFilename)</td></tr>
+<tr class="memdesc:a5d2190619cb07b2f1e61ecba8711cd83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bake all textures in a MaterialX document.  <a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a5d2190619cb07b2f1e61ecba8711cd83">More...</a><br /></td></tr>
+<tr class="separator:a5d2190619cb07b2f1e61ecba8711cd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f4d8a7b98afa25201547fd5d05ac007"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a2f4d8a7b98afa25201547fd5d05ac007">buildPrimPaths</a> (self, primPaths, cnode, path, nodeCount, meshCount, meshes, nodes)</td></tr>
 <tr class="memdesc:a2f4d8a7b98afa25201547fd5d05ac007"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recurse through a node hierarcht to build a dictionary of paths to primitives.  <a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a2f4d8a7b98afa25201547fd5d05ac007">More...</a><br /></td></tr>
 <tr class="separator:a2f4d8a7b98afa25201547fd5d05ac007"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,8 +224,8 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 </div>
 </div>
-<a id="a32af4b478576dbf99717a7b3d05240ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32af4b478576dbf99717a7b3d05240ae">&#9670;&nbsp;</a></span>bakeTextures()</h2>
+<a id="a5d2190619cb07b2f1e61ecba8711cd83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d2190619cb07b2f1e61ecba8711cd83">&#9670;&nbsp;</a></span>bakeTextures()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,12 +282,6 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>searchPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>outputFilename</em>&#160;</td>
         </tr>
         <tr>
@@ -308,7 +302,6 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
     <tr><td class="paramname">useGlslBackend</td><td>Whether to use the GLSL backend for baking. </td></tr>
     <tr><td class="paramname">average</td><td>Whether to average the baked textures. </td></tr>
     <tr><td class="paramname">writeDocumentPerMaterial</td><td>Whether to write a separate MaterialX document per material. </td></tr>
-    <tr><td class="paramname">searchPath</td><td>The search path to use for baking. </td></tr>
     <tr><td class="paramname">outputFilename</td><td>The output filename to write the baked document to. </td></tr>
   </table>
   </dd>
@@ -1359,7 +1352,7 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/materialxgltf/core.py</li>
+<li>D:/Work/materialx/materialxgltf_private/src/materialxgltf/core.py</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
