@@ -10,6 +10,8 @@
 
 This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38 8 and the target glTF version is 2.0.1.  
 
+See the [home page](https://kwokcb.github.io/materialxgltf/) for this project.
+
 Below is an example of converting the "Damaged Helmet" asset (found in the [glTF Sample Model repository](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet) to MaterialX and previewing.
 <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" width="80%">
 
@@ -20,7 +22,7 @@ The functionality found here is equivalent to the C++ module available in
 
 The minimum version of Python is assumed to be 3.9.
 
-The package can be installed using `pip``:
+The package hosted on [PyPi](https://pypi.org/project/materialxgltf/) can be installed using `pip`:
 
 ```bash
 pip install materialxgltf
@@ -51,12 +53,11 @@ Requires the installation of the following packages:
 
 For more detailed information about the workflow this package supports, please refer to this [documentation](https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html).
 
-Refer to [this documentation](https://kwokcb.github.io/materialxgltf/docs/html) for API usage. 
+For API usage, refer to [this documentation](https://kwokcb.github.io/materialxgltf/docs/html).
 
 ## Usage
 
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js">    
-</script>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
 
 <model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer>
 
