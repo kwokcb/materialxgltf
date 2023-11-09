@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<materialx version="1.38">
+  <!-- Generated shader: GlamVelvetSofa_legs -->
+  <gltf_pbr name="GlamVelvetSofa_legs" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.02, 0.02, 0.02" colorspace="srgb_texture" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0.0" />
+    <input name="roughness" type="float" value="0.4" />
+    <input name="occlusion" type="float" nodename="image_occlusion" />
+    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_GlamVelvetSofa_legs -->
+  <surfacematerial name="MAT_GlamVelvetSofa_legs" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="GlamVelvetSofa_legs" />
+  </surfacematerial>
+  <gltf_image name="image_occlusion" type="float">
+    <input name="file" type="filename" value="GlamVelvetSofa_occlusion.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <!-- Generated shader: GlamVelvetSofa_feet -->
+  <gltf_pbr name="GlamVelvetSofa_feet" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="1, 0.8, 0.7" colorspace="srgb_texture" />
+    <input name="alpha" type="float" value="1" />
+    <input name="roughness" type="float" value="0.4" />
+    <input name="occlusion" type="float" nodename="image_occlusion2" />
+    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_GlamVelvetSofa_feet -->
+  <surfacematerial name="MAT_GlamVelvetSofa_feet" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="GlamVelvetSofa_feet" />
+  </surfacematerial>
+  <gltf_image name="image_occlusion2" type="float">
+    <input name="file" type="filename" value="GlamVelvetSofa_occlusion.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <!-- Generated shader: GlamVelvetSofa_fabric_champagne -->
+  <gltf_pbr name="GlamVelvetSofa_fabric_champagne" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.075, 0.06, 0.04" colorspace="srgb_texture" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.7" />
+    <input name="normal" type="vector3" nodename="image_normal" />
+    <input name="occlusion" type="float" nodename="image_occlusion3" />
+    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+    <input name="specular_color" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+    <input name="sheen_color" type="color3" value="0.9, 0.7, 0.6" colorspace="srgb_texture" />
+    <input name="sheen_roughness" type="float" value="0.6" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_GlamVelvetSofa_fabric_champagne -->
+  <surfacematerial name="MAT_GlamVelvetSofa_fabric_champagne" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="GlamVelvetSofa_fabric_champagne" />
+  </surfacematerial>
+  <gltf_normalmap name="image_normal" type="vector3">
+    <input name="file" type="filename" value="GlamVelvetSofa_normal.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_normalmap>
+  <gltf_image name="image_occlusion3" type="float">
+    <input name="file" type="filename" value="GlamVelvetSofa_occlusion.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <!-- Generated shader: GlamVelvetSofa_fabric_navy -->
+  <gltf_pbr name="GlamVelvetSofa_fabric_navy" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.01, 0.01, 0.01" colorspace="srgb_texture" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.7" />
+    <input name="normal" type="vector3" nodename="image_normal2" />
+    <input name="occlusion" type="float" nodename="image_occlusion4" />
+    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+    <input name="specular_color" type="color3" value="0.1, 0.34, 1" colorspace="srgb_texture" />
+    <input name="sheen_color" type="color3" value="0.05, 0.17, 0.5" colorspace="srgb_texture" />
+    <input name="sheen_roughness" type="float" value="0.6" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_GlamVelvetSofa_fabric_navy -->
+  <surfacematerial name="MAT_GlamVelvetSofa_fabric_navy" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="GlamVelvetSofa_fabric_navy" />
+  </surfacematerial>
+  <gltf_normalmap name="image_normal2" type="vector3">
+    <input name="file" type="filename" value="GlamVelvetSofa_normal.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_normalmap>
+  <gltf_image name="image_occlusion4" type="float">
+    <input name="file" type="filename" value="GlamVelvetSofa_occlusion.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <!-- Generated shader: GlamVelvetSofa_fabric_gray -->
+  <gltf_pbr name="GlamVelvetSofa_fabric_gray" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.25, 0.25, 0.225" colorspace="srgb_texture" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="1" />
+    <input name="normal" type="vector3" nodename="image_normal3" />
+    <input name="occlusion" type="float" nodename="image_occlusion5" />
+    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+    <input name="specular_color" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+    <input name="sheen_color" type="color3" value="0.85, 0.9, 1" colorspace="srgb_texture" />
+    <input name="sheen_roughness" type="float" value="1" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_GlamVelvetSofa_fabric_gray -->
+  <surfacematerial name="MAT_GlamVelvetSofa_fabric_gray" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="GlamVelvetSofa_fabric_gray" />
+  </surfacematerial>
+  <gltf_normalmap name="image_normal3" type="vector3">
+    <input name="file" type="filename" value="GlamVelvetSofa_normal.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_normalmap>
+  <gltf_image name="image_occlusion5" type="float">
+    <input name="file" type="filename" value="GlamVelvetSofa_occlusion.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <!-- Generated shader: GlamVelvetSofa_fabric_black -->
+  <gltf_pbr name="GlamVelvetSofa_fabric_black" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.01, 0.01, 0.01" colorspace="srgb_texture" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.5" />
+    <input name="normal" type="vector3" nodename="image_normal4" />
+    <input name="occlusion" type="float" nodename="image_occlusion6" />
+    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+    <input name="specular_color" type="color3" value="0.12, 0.12, 0.13" colorspace="srgb_texture" />
+    <input name="sheen_color" type="color3" value="0.12, 0.12, 0.13" colorspace="srgb_texture" />
+    <input name="sheen_roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_GlamVelvetSofa_fabric_black -->
+  <surfacematerial name="MAT_GlamVelvetSofa_fabric_black" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="GlamVelvetSofa_fabric_black" />
+  </surfacematerial>
+  <gltf_normalmap name="image_normal4" type="vector3">
+    <input name="file" type="filename" value="GlamVelvetSofa_normal.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_normalmap>
+  <gltf_image name="image_occlusion6" type="float">
+    <input name="file" type="filename" value="GlamVelvetSofa_occlusion.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <!-- Generated shader: GlamVelvetSofa_fabric_palepink -->
+  <gltf_pbr name="GlamVelvetSofa_fabric_palepink" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.76, 0.53, 0.54" colorspace="srgb_texture" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.75" />
+    <input name="normal" type="vector3" nodename="image_normal5" />
+    <input name="occlusion" type="float" nodename="image_occlusion7" />
+    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+    <input name="specular_color" type="color3" value="1, 0.9, 0.9" colorspace="srgb_texture" />
+    <input name="sheen_color" type="color3" value="1, 0.9, 0.9" colorspace="srgb_texture" />
+    <input name="sheen_roughness" type="float" value="0.85" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_GlamVelvetSofa_fabric_palepink -->
+  <surfacematerial name="MAT_GlamVelvetSofa_fabric_palepink" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="GlamVelvetSofa_fabric_palepink" />
+  </surfacematerial>
+  <gltf_normalmap name="image_normal5" type="vector3">
+    <input name="file" type="filename" value="GlamVelvetSofa_normal.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_normalmap>
+  <gltf_image name="image_occlusion7" type="float">
+    <input name="file" type="filename" value="GlamVelvetSofa_occlusion.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <!-- Generated material assignments -->
+  <look name="look">
+    <materialassign name="MAT_GlamVelvetSofa_legs" material="MAT_GlamVelvetSofa_legs" geom="/GlamVelvetSofa_legs/GlamVelvetSofa_legs" />
+    <materialassign name="MAT_GlamVelvetSofa_fabric_navy" material="MAT_GlamVelvetSofa_fabric_navy" geom="/GlamVelvetSofa_fabric/GlamVelvetSofa_fabric" />
+    <materialassign name="MAT_GlamVelvetSofa_feet" material="MAT_GlamVelvetSofa_feet" geom="/GlamVelvetSofa_feet/GlamVelvetSofa_feet" />
+  </look>
+</materialx>

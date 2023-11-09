@@ -10,7 +10,7 @@
 # 
 # <script type='module' src='https://unpkg.com/@google/model-viewer/dist/model-viewer.js'></script>
 # 
-# <model-viewer style='background-color:rgba(0.2, 0.2, 0.2, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./data/BoomBoxWithAxes_primMaterials.png'></model-viewer>
+# <model-viewer style='background-color:grey;; width: 100%; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./data/BoomBoxWithAxes_primMaterials.png'></model-viewer>
 # 
 
 # %%
@@ -25,7 +25,7 @@ from IPython.display import display_markdown
 def displaySource(title, string, language='xml', open=True):
     text = '<details '
     text = text + (' open' if open else '') 
-    text = text + '><summary>' + title + '</summary>\n\n' + '```' + language + '\n' + string + '\n```\n' + '</details>\n' 
+    text = text + '><summary><b>' + title + '</b></summary>\n\n' + '```' + language + '\n' + string + '\n```\n' + '</details>\n' 
     display_markdown(text, raw=True)
 
 # %% [markdown]
@@ -38,9 +38,11 @@ import pkg_resources
 
 directory_name = "data"  
 files = pkg_resources.resource_listdir('materialxgltf', directory_name)
+result = ''
 for file in files:
-    print('Data file: ', file)
+    result = result + file + '\n'
 
+displaySource('Available data files', result, 'text', True)
 
 # %% [markdown]
 # ### Convert from glTF to MaterialX
@@ -59,7 +61,7 @@ print('Converting: %s' % mx.FilePath(gltfFileName).getBaseName())
 gltf2MtlxReader = core.GLTF2MtlxReader()
 doc = gltf2MtlxReader.convert(gltfFileName)
 if not doc:
-    print('Existing due to error')
+    print('Exiting due to error')
 else:
     status, err = doc.validate()
     if not status:
@@ -69,7 +71,7 @@ else:
 
 # Examine the document output
 result = core.Util.writeMaterialXDocString(doc)
-displaySource('Resulting MaterialX document', result, 'xml', False)
+displaySource('Resulting MaterialX document', result, 'xml', True)
 
 # %% [markdown]
 # ### Using glTF to MaterialX Options
@@ -95,7 +97,7 @@ else:
 
 # Display the resulting document
 result = core.Util.writeMaterialXDocString(doc)
-displaySource('Resulting MaterialX document', result, 'xml', False)
+displaySource('Resulting MaterialX document', result, 'xml', True)
 
 # %% [markdown]
 # ### Conversion from MaterialX to glTF
@@ -115,7 +117,7 @@ options['debugOutput'] = True
 mtlx2glTFWriter.setOptions(options)
 gltfString = mtlx2glTFWriter.convert(doc)
 if len(gltfString) > 0:
-    displaySource('Resulting glTF', gltfString, 'json', False)
+    displaySource('Resulting glTF', gltfString, 'json', True)
 else:
     print('> Failed to convert MaterialX document to glTF')
 
@@ -166,34 +168,38 @@ else:
     print('> Failed to convert MaterialX document to glTF')
 
 # %% [markdown]
-# ### Package Binary
+# ### Creating Binary Package
 # 
-# For transfer and preview the glTF file is packaged to produce a single glb file.
+# For the purposesd of data interop and preview the glTF file is packaged to produce a single glb file.
 # 
-# <img src="./images/ThreeJS_editor_boombox.png" width="80%">
+# <img src="./images/ThreeJS_editor_boombox.png" width="100%"><br>
 # <sub>Result after conversion to glTF as show in the ThreeJS editor</sub>
 
 # %%
+# Load in sample gltf file
 gltfFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes_primMaterials.gltf')
 gltfFileNameBase = mx.FilePath(gltfGeometryFile).getBaseName()
-print('> Load glTF geometry file: %s' % gltfFileNameBase)
+
+log = 'Packaging GLB...\n'
+log = log + '- Load glTF geometry file: %s' % gltfFileNameBase + '\n'
 
 # Package the gltf file's dependents into a glb file
 binaryFileName = str()
 binaryFileName = gltfFileName .replace('.gltf', '.glb')
 gltfFileNameBase = mx.FilePath(binaryFileName).getBaseName()
-print('Packaging GLB...')
 try:
     saved, images, buffers = mtlx2glTFWriter.packageGLTF(gltfFileName , binaryFileName)
-    print('Save GLB file:' + gltfFileNameBase + '. Status:' + str(saved))
+    log = log + '- Save GLB file:' + gltfFileNameBase + '. Status: ' + str(saved)
+    log = log + '\n'
     for image in images:
-        print('- Embedded image: %s' % image)
+        log = log + '  - Embedded image: %s' % image + '\n'
     for buffer in buffers:
-        print('  - Embedded buffer: %s' % buffer)
-    print('Packaging GLB...Done')
+        log = log + '  - Embedded buffer: %s' % buffer + '\n'
+    log = log + 'Packaging completed.\n'
 except Exception as err:
-    print('Failed to package GLB file: %s' % err)
+    log = log + '- Failed to package GLB file: %s' % err + '\n'
 
+displaySource('Packaging Log', log, 'text', True)
 
 # %% [markdown]
 # ### Translate Shader and Bake Textures
@@ -217,7 +223,7 @@ except Exception as err:
 # 
 # The following assumes access to the "marble" example available from MaterialX github.
 # 
-# <img src="./images/MaterialXGraphEditor_boombox.png">
+# <img src="./images/MaterialXGraphEditor_boombox.png" width=100%>
 # <sub>Figure: Original shader graph in MaterialX Graph Editor. The marble is a procedural shader.</sub>
 # 
 # The first step executes shader translation.
@@ -238,60 +244,81 @@ mx.readFromXmlFile(doc, materialXFileName, mx.FileSearchPath())
  # Perform shader translation and baking if necessary
 translatedCount = mtlx2glTFWriter.translateShaders(doc)
 title = ' Translated ' + str(translatedCount) + ' shader(s).'
-displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', False)
+displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', True)
 
 
 # %% [markdown]
-# This is followed by texture baking.
+# This is followed by texture baking to obtain this result:
 # 
 # | MaterialX Graph Editor | Baked Image(s) |
 # | :--: | :--: |
 # | <img src="./images/MaterialXGraphEditor_boombox_baked.png"> | <img src="./images/Marble_3D_gltf_pbr_base_color.png"> |
-# <sub>Figure: Baked shader graph in MaterialX Graph Editor (lef). Baked images (right)</sub>
+# 
+# <em><sub>Figure: Baked shader graph in MaterialX Graph Editor (lef). Baked images (right)</sub></em>
+# 
+# Baking itself will write out a new MaterialX document and a set of baked images. 
+# 
+# There are two issues to be aware of when using baking:
+# 
+# - Baking requires that the shader implementation code be accessible as it's either using `GLSL`` or `Metal`` code generation (at time of writing). Thus the appropriate search paths must be set to find the shader code. Additionally any file image references must be resolved taking into any document file name paths qualifiers (such as `fileprefix` and tokens.
+# 
+# - Baking embeds baked image file name references with **absolute paths**. This is not a problem for the MaterialX document itself, but is a problem for the glTF file which is being generated. To handle this all absolute paths are converted to relative paths, given the assumption that baking will write the files into the same folder location as the baked MaterialX document.
 
 # %%
+import os
 
 materialXFileName = materialXFileName + '_baked.mtlx'
 bakeResolution = 256
+
+# Set the search options properly to ensure the MaterialX definition library can be found
+# as well as set search paths for filename resolving.
+options = core.MTLX2GLTFOptions()
+searchPath = mx.getDefaultDataSearchPath()
+if not mx.FilePath(materialXFileName).isAbsolute():
+    materialXFileName = os.path.abspath(materialXFileName)
+searchPath.append(mx.FilePath(materialXFileName).getParentPath())
+searchPath.append(mx.FilePath.getCurrentPath())
+options['searchPath'] = searchPath
+mtlx2glTFWriter.setOptions(options)
+
+# Perform baking
 mtlx2glTFWriter.bakeTextures(doc, False, bakeResolution, bakeResolution, False, 
-                            False, False, searchPath, materialXFileName)
+                            False, False, materialXFileName)
 doc, libFiles = core.Util.createMaterialXDoc()
 mx.readFromXmlFile(doc, materialXFileName, searchPath)
 title = ' Baked document: '
-displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', False)
+displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', True)
 
 # %% [markdown]
-# The assumption for the bake is that the output images will reside under the same parent folder
-# as the baked document. 
-# 
-# We thus perform a final pass to make these image paths relative to that folder as glTF itself does no accept platform specific absolute paths. 
+# After baking we perform a final pass to make these image paths relative to that folder as platform specific absolute paths are not valid for glTF.
 
 # %%
 
 remappedUris = core.Util.makeFilePathsRelative(doc, materialXFileName)
 for uri in remappedUris:
-    print('  - Remapped URI: "%s" to "%s"' % (uri[0], uri[1]))
+    print('- Remapped URI: "%s" to "%s"' % (uri[0], uri[1]))
 
 title = ' Baked document with resolved URIs: '
-displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', False)
+displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', True)
 
 # %% [markdown]
-# This final document can then be used as input for conversion to glTF.
-# 
-# <img src="./images/ThreeJS_editor_baked_marble.png" width="80%">
-# 
-# <sub>Figure: Marble glTF document in shown in ThreeJS editor</sub>
+# This final document can then be used as input for conversion to glTF:
 
 # %%
-
+# Create a convert and convert write only materials to a glTF file
 mtlx2glTFWriter = core.MTLX2GLTFWriter()
 options = core.MTLX2GLTFOptions()
 options['debugOutput'] = True
 mtlx2glTFWriter.setOptions(options)
 gltfString = mtlx2glTFWriter.convert(doc)
 if len(gltfString) > 0:
-    displaySource('Translate and Baked Result to glTF', gltfString, 'json', False)
+    displaySource('Translate and Baked Result to glTF', gltfString, 'json', True)
 else:
     print('> Failed to convert MaterialX document to glTF')
+
+# %% [markdown]
+# The final result can then be viewed using a viewer such as the ThreeJS editor:
+# 
+# <img src="./images/ThreeJS_editor_baked_marble.png" width="100%">
 
 
