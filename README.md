@@ -12,23 +12,23 @@ This package supports the bi-directional translation between MaterialX materials
 
 See the [home page](https://kwokcb.github.io/materialxgltf/) for this project.
 
-Below is an example of converting the "Damaged Helmet" asset (found in the [glTF Sample Model repository](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet) to MaterialX and previewing.
+Below is an example of converting the "Damaged Helmet" asset (found in the **[glTF Sample Model repository](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet)**) to MaterialX and previewing.
 <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" width="80%">
 
 The functionality found here is equivalent to the C++ module available in
-[this repository](https://github.com/kwokcb/glTF_MaterialX). Note that additional documentation can be found on that site. 
+**[this repository](https://github.com/kwokcb/glTF_MaterialX)**. Note that additional documentation can be found on that site. 
 
 ## Installation
 
 The minimum version of Python is assumed to be 3.9.
 
-The package hosted on [PyPi](https://pypi.org/project/materialxgltf/) can be installed using `pip`:
+The package hosted on **[PyPi](https://pypi.org/project/materialxgltf/)** can be installed using `pip`:
 
 ```bash
 pip install materialxgltf
 ```
 
-or the [source repository](https://github.com/kwokcb/materialxgltf) can be cloned and the package built from the command line:
+or the **[source repository](https://github.com/kwokcb/materialxgltf)** can be cloned and the package built from the command line:
 
 ```bash
 py -m build
@@ -51,9 +51,9 @@ Requires the installation of the following packages:
 
 ## Documentation
 
-For more detailed information about the workflow this package supports, please refer to this [documentation](https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html).
+For more detailed information about the workflow this package supports, please refer to this **[documentation](https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html)**.
 
-For API usage, refer to [this documentation](https://kwokcb.github.io/materialxgltf/docs/html).
+For API usage, refer to **[this documentation](https://kwokcb.github.io/materialxgltf/docs/html)**.
 
 ## Usage
 
@@ -66,11 +66,11 @@ extracted materials.
 
 Note that the sample data is included as part of the package for convenience.
 
-The sample input file is the "BoomBox with Axes" file from the glTF sample repository found [here](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF).
+The sample input file is the "BoomBox with Axes" file from the glTF sample repository found **[here](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF)**.
 
 <img src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoomBoxWithAxes/screenshot/screenshot.jpg">
 
-This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the "MaterialX Graph Editor" which comes with [MaterialX releases](https://github.com/AcademySoftwareFoundation/MaterialX/releases).
+This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the "MaterialX Graph Editor" which comes with **[MaterialX releases](https://github.com/AcademySoftwareFoundation/MaterialX/releases)**.
 
 <img src="https://raw.githubusercontent.com/kwokcb/MaterialX_Learn/main/documents/images/gltf_to_mtlx_boombox_with_axes.png" alt="MaterialX Graph Editor Snapshot"
 width="80%">
@@ -82,7 +82,9 @@ width="50%">
 
 ## Interactive Example
 
-A `Jupyter` notebook which performs the same steps is available [here](https://kwokcb.github.io/docs/examples.html). This or any other notebook can be used if the user wishes to test the package in an interactive environment.
+A `Jupyter` notebook which performs the same steps is available **[here](https://kwokcb.github.io/materialxgltf/docs/examples.html)**.
+
+This or any other notebook can be used if the user wishes to test the package in an interactive environment.
 
 ### Import the package
 ```python
@@ -229,7 +231,7 @@ All materials are assumed to use glTF PBR surface shaders.
 Conversion to this shading model can be performed via MaterialX
 utilities, which includes texture baking.
 
-Please refer to the sample Jupyter notebook for an example of shader
+Please refer to the **[sample Jupyter notebook](https://kwokcb.github.io/materialxgltf/docs/examples.html)** for an example of shader
 translation and baking using some convenience functions included with the package.
 Note that they do not need to be used as the core MaterialX distribution provides
 access to the APIs used in this package.

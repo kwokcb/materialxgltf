@@ -375,16 +375,17 @@ code {
 </ul>
 <h2 id="introduction">Introduction</h2>
 <p>This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38 8 and the target glTF version is 2.0.1.</p>
-<p>Below is an example of converting the &quot;Damaged Helmet&quot; asset (found in the <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet">glTF Sample Model repository</a> to MaterialX and previewing.<br>
+<p>See the <a href="https://kwokcb.github.io/materialxgltf/">home page</a> for this project.</p>
+<p>Below is an example of converting the &quot;Damaged Helmet&quot; asset (found in the <strong><a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet">glTF Sample Model repository</a></strong>) to MaterialX and previewing.<br>
 <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" width="80%"></p>
 <p>The functionality found here is equivalent to the C++ module available in<br>
-<a href="https://github.com/kwokcb/glTF_MaterialX">this repository</a>. Note that additional documentation can be found on that site.</p>
+<strong><a href="https://github.com/kwokcb/glTF_MaterialX">this repository</a></strong>. Note that additional documentation can be found on that site.</p>
 <h2 id="installation">Installation</h2>
 <p>The minimum version of Python is assumed to be 3.9.</p>
-<p>The package can be installed using `pip``:</p>
+<p>The package hosted on <strong><a href="https://pypi.org/project/materialxgltf/">PyPi</a></strong> can be installed using <code>pip</code>:</p>
 <pre class="hljs"><code><div>pip install materialxgltf
 </div></code></pre>
-<p>or the <a href="https://github.com/kwokcb/materialxgltf">source repository</a> can be cloned and the package built from the command line:</p>
+<p>or the <strong><a href="https://github.com/kwokcb/materialxgltf">source repository</a></strong> can be cloned and the package built from the command line:</p>
 <pre class="hljs"><code><div>py -m build
 </div></code></pre>
 <p>This will build a distribution folder called <code>dist</code> which contains<br>
@@ -398,25 +399,25 @@ a zip file which can be installed using:</p>
 <li><code>pygltflib</code> : For conversion from <code>glTF</code> to <code>glb</code> including packaging dependent geometry and image resources.</li>
 </ul>
 <h2 id="documentation">Documentation</h2>
-<p>For more detailed information about the workflow this package supports, please refer to this <a href="https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html">documentation</a>.</p>
-<p>Refer to <a href="https://kwokcb.github.io/materialxgltf/docs/html">this documentation</a> for API usage.</p>
+<p>For more detailed information about the workflow this package supports, please refer to this <strong><a href="https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html">documentation</a></strong>.</p>
+<p>For API usage, refer to <strong><a href="https://kwokcb.github.io/materialxgltf/docs/html">this documentation</a></strong>.</p>
 <h2 id="usage">Usage</h2>
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js">    
-</script>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
 <p><model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer></p>
 <p>The following shows is a set of progressive examples to convert from a glTF file to MaterialX and then to a new glTF file for &quot;shader ball&quot; preview of<br>
 extracted materials.</p>
 <p>Note that the sample data is included as part of the package for convenience.</p>
-<p>The sample input file is the &quot;BoomBox with Axes&quot; file from the glTF sample repository found <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF">here</a>.</p>
+<p>The sample input file is the &quot;BoomBox with Axes&quot; file from the glTF sample repository found <strong><a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF">here</a></strong>.</p>
 <img src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoomBoxWithAxes/screenshot/screenshot.jpg">
-<p>This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the &quot;MaterialX Graph Editor&quot; which comes with <a href="https://github.com/AcademySoftwareFoundation/MaterialX/releases">MaterialX releases</a>.</p>
+<p>This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the &quot;MaterialX Graph Editor&quot; which comes with <strong><a href="https://github.com/AcademySoftwareFoundation/MaterialX/releases">MaterialX releases</a></strong>.</p>
 <p><img src="https://raw.githubusercontent.com/kwokcb/MaterialX_Learn/main/documents/images/gltf_to_mtlx_boombox_with_axes.png" alt="MaterialX Graph Editor Snapshot"
 width="80%"></p>
 <p>The converted materials are then used to create a new glTF file using sample &quot;shaderball&quot; data with each material found assigned to different instances of the &quot;shaderball&quot;</p>
 <p><img src="https://raw.githubusercontent.com/kwokcb/MaterialX_Learn/main/documents/images/mtlx_to_gltf_materialviewer.png" alt="VSCode Snapshot"
 width="50%"></p>
 <h2 id="interactive-example">Interactive Example</h2>
-<p>A <code>Jupyter</code> notebook which performs the same steps is available <a href="https://kwokcb.github.io/docs/examples.html">here</a>. This or any other notebook can be used if the user wishes to test the package in an interactive environment.</p>
+<p>A <code>Jupyter</code> notebook which performs the same steps is available <strong><a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">here</a></strong>.</p>
+<p>This or any other notebook can be used if the user wishes to test the package in an interactive environment.</p>
 <h3 id="import-the-package">Import the package</h3>
 <pre class="hljs"><code><div><span class="hljs-keyword">import</span> materialxgltf.core <span class="hljs-keyword">as</span> core
 </div></code></pre>
@@ -543,7 +544,7 @@ print(<span class="hljs-string">'Packaging GLB...'</span>)
 <p>All materials are assumed to use glTF PBR surface shaders.<br>
 Conversion to this shading model can be performed via MaterialX<br>
 utilities, which includes texture baking.</p>
-<p>Please refer to the sample Jupyter notebook for an example of shader<br>
+<p>Please refer to the <strong><a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">sample Jupyter notebook</a></strong> for an example of shader<br>
 translation and baking using some convenience functions included with the package.<br>
 Note that they do not need to be used as the core MaterialX distribution provides<br>
 access to the APIs used in this package.</p>

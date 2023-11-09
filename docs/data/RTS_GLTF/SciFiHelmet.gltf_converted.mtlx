@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<materialx version="1.38">
+  <!-- Generated shader: SciFiHelmet -->
+  <gltf_pbr name="SciFiHelmet" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
+    <input name="alpha" type="float" nodename="image_base_color" output="outa" />
+    <input name="metallic" type="float" nodename="image_orm" channels="z" />
+    <input name="roughness" type="float" nodename="image_orm" channels="y" />
+    <input name="occlusion" type="float" nodename="image_occlusion" channels="x" />
+    <input name="normal" type="vector3" nodename="image_normal" />
+    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_SciFiHelmet -->
+  <surfacematerial name="MAT_SciFiHelmet" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="SciFiHelmet" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color" type="multioutput">
+    <input name="file" type="filename" value="SciFiHelmet_BaseColor.png" colorspace="srgb_texture" />
+  </gltf_colorimage>
+  <gltf_image name="image_orm" type="vector3">
+    <input name="file" type="filename" value="SciFiHelmet_MetallicRoughness.png" />
+  </gltf_image>
+  <gltf_normalmap name="image_normal" type="vector3">
+    <input name="file" type="filename" value="SciFiHelmet_Normal.png" />
+  </gltf_normalmap>
+  <gltf_image name="image_occlusion" type="float">
+    <input name="file" type="filename" value="SciFiHelmet_AmbientOcclusion.png" />
+  </gltf_image>
+  <!-- Generated material assignments -->
+  <look name="look">
+    <materialassign name="MAT_SciFiHelmet" material="MAT_SciFiHelmet" geom="/SciFiHelmet/SciFiHelmet" />
+  </look>
+</materialx>
