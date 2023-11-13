@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MaterialXglTF
-   &#160;<span id="projectnumber">0.0.1</span>
+   &#160;<span id="projectnumber">0.0.3</span>
    </div>
   </td>
  </tr>
@@ -99,14 +99,15 @@ Contents</h1>
 Introduction</h1>
 <p>This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38 8 and the target glTF version is 2.0.1. <br  />
 </p>
-<p>Below is an example of converting the "Damaged Helmet" asset (found in the <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet">glTF Sample Model repository</a> to MaterialX and previewing. <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" alt="" width="80%" class="inline"/></p>
-<p>The functionality found here is equivalent to the C++ module available in <a href="https://github.com/kwokcb/glTF_MaterialX">this repository</a>. Note that additional documentation can be found on that site.</p>
+<p>See the <a href="https://kwokcb.github.io/materialxgltf/">home page</a> for this project.</p>
+<p>Below is an example of converting the "Damaged Helmet" asset (found in the <b><a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet">glTF Sample Model repository</a></b>) to MaterialX and previewing. <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" alt="" width="80%" class="inline"/></p>
+<p>The functionality found here is equivalent to the C++ module available in <b><a href="https://github.com/kwokcb/glTF_MaterialX">this repository</a></b>. Note that additional documentation can be found on that site.</p>
 <h1><a class="anchor" id="autotoc_md6"></a>
 Installation</h1>
 <p>The minimum version of Python is assumed to be 3.9.</p>
-<p>The package can be installed using <code>pip</code>`:</p>
+<p>The package hosted on <b><a href="https://pypi.org/project/materialxgltf/">PyPi</a></b> can be installed using <code>pip</code>:</p>
 <div class="fragment"><div class="line">pip install materialxgltf</div>
-</div><!-- fragment --><p>or the <a href="https://github.com/kwokcb/materialxgltf">source repository</a> can be cloned and the package built from the command line:</p>
+</div><!-- fragment --><p>or the <b><a href="https://github.com/kwokcb/materialxgltf">source repository</a></b> can be cloned and the package built from the command line:</p>
 <div class="fragment"><div class="line">py -m build</div>
 </div><!-- fragment --><p>This will build a distribution folder called <code>dist</code> which contains a zip file which can be installed using:</p>
 <div class="fragment"><div class="line">pip --install &lt;name of zip&gt;</div>
@@ -119,27 +120,24 @@ Requirements</h2>
 </ul>
 <h1><a class="anchor" id="autotoc_md8"></a>
 Documentation</h1>
-<p>For more detailed information about the workflow this package supports, please refer to this <a href="https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html">documentation</a>.</p>
-<p>Refer to <a href="https://kwokcb.github.io/materialxgltf/docs/html">this documentation</a> for API usage.</p>
+<p>For more detailed information about the workflow this package supports, please refer to this <b><a href="https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html">documentation</a></b>.</p>
+<p>For API usage, refer to <b><a href="https://kwokcb.github.io/materialxgltf/docs/html">this documentation</a></b>.</p>
 <h1><a class="anchor" id="autotoc_md9"></a>
 Usage</h1>
-
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js">
- </script>
-
-<model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer>
-
+<p>&lt;script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"&gt;&lt;/script&gt;</p>
+<p>&lt;model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'&gt;&lt;/model-viewer&gt;</p>
 <p>The following shows is a set of progressive examples to convert from a glTF file to MaterialX and then to a new glTF file for "shader ball" preview of extracted materials.</p>
 <p>Note that the sample data is included as part of the package for convenience.</p>
-<p>The sample input file is the "BoomBox with Axes" file from the glTF sample repository found <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF">here</a>.</p>
+<p>The sample input file is the "BoomBox with Axes" file from the glTF sample repository found <b><a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF">here</a></b>.</p>
 <p><img src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoomBoxWithAxes/screenshot/screenshot.jpg" alt="" class="inline"/></p>
-<p>This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the "MaterialX Graph Editor" which comes with <a href="https://github.com/AcademySoftwareFoundation/MaterialX/releases">MaterialX releases</a>.</p>
+<p>This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the "MaterialX Graph Editor" which comes with <b><a href="https://github.com/AcademySoftwareFoundation/MaterialX/releases">MaterialX releases</a></b>.</p>
 <p><img src="https://raw.githubusercontent.com/kwokcb/MaterialX_Learn/main/documents/images/gltf_to_mtlx_boombox_with_axes.png" alt="MaterialX Graph Editor Snapshot" width="80%" class="inline"/></p>
 <p>The converted materials are then used to create a new glTF file using sample "shaderball" data with each material found assigned to different instances of the "shaderball"</p>
 <p><img src="https://raw.githubusercontent.com/kwokcb/MaterialX_Learn/main/documents/images/mtlx_to_gltf_materialviewer.png" alt="VSCode Snapshot" width="50%" class="inline"/></p>
 <h1><a class="anchor" id="autotoc_md10"></a>
 Interactive Example</h1>
-<p>A <code>Jupyter</code> notebook which performs the same steps is available <a href="https://kwokcb.github.io/docs/examples.html">here</a>. This or any other notebook can be used if the user wishes to test the package in an interactive environment.</p>
+<p>A <code>Jupyter</code> notebook which performs the same steps is available <b><a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">here</a></b>.</p>
+<p>This or any other notebook can be used if the user wishes to test the package in an interactive environment.</p>
 <h2><a class="anchor" id="autotoc_md11"></a>
 Import the package</h2>
 <div class="fragment"><div class="line">import materialxgltf.core as core</div>
@@ -265,7 +263,7 @@ Packaging A Binary File</h2>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md19"></a>
 Translate Shader and Bake Textures</h2>
 <p>All materials are assumed to use glTF PBR surface shaders. Conversion to this shading model can be performed via MaterialX utilities, which includes texture baking.</p>
-<p>Please refer to the sample Jupyter notebook for an example of shader translation and baking using some convenience functions included with the package. Note that they do not need to be used as the core MaterialX distribution provides access to the APIs used in this package.</p>
+<p>Please refer to the <b><a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">sample Jupyter notebook</a></b> for an example of shader translation and baking using some convenience functions included with the package. Note that they do not need to be used as the core MaterialX distribution provides access to the APIs used in this package.</p>
 <h1><a class="anchor" id="autotoc_md20"></a>
 Author</h1>
 <ul>

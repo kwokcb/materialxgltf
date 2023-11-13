@@ -116,6 +116,10 @@ def main():
         options = MTLX2GLTFOptions()
         options['primsPerMaterial'] = opts.primsPerMaterial
         options['packageBinary'] = opts.packageBinary
+        gltfGeomFileName = opts.gltfGeomFileName
+        if len(gltfGeomFileName) > 0:
+            if not mx.FilePath(gltfGeomFileName).isAbsolute():
+                gltfGeomFileName = os.path.abspath(gltfGeomFileName)        
         options['geometryFile'] = opts.gltfGeomFileName
         options['translateShaders'] = opts.translateShaders
         options['bakeTextures'] = opts.bakeTextures
@@ -128,6 +132,7 @@ def main():
             mtlxFileName = os.path.abspath(mtlxFileName)
         searchPath.append(mx.FilePath(mtlxFileName).getParentPath())
         searchPath.append(mx.FilePath.getCurrentPath())
+        searchPath.append(mx.FilePath(gltfGeomFileName).getParentPath())
         options['searchPath'] = searchPath
 
         print("- Search path set to:", searchPath.asString())         

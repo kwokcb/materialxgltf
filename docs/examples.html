@@ -15219,13 +15219,43 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Using-The-Core-Library">Using The Core Library<a class="anchor-link" href="#Using-The-Core-Library">&#182;</a></h3><p>This notebook provides a set of sample code which demonstrates the
-workflow to convert between glTF and MaterialX.</p>
-<p>The sample input file is the &quot;BoomBox with Axes&quot; file from the glTF sample repository found <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF">here</a> is used to demonstrate glTF to MaterialX conversion.</p>
-<p>The resulting MaterialX file after conversion is used to demonstrate conversion to glTF.</p>
 <script type='module' src='https://unpkg.com/@google/model-viewer/dist/model-viewer.js'></script>
 
-<p><model-viewer style='background-color:grey;; width: 100%; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./data/BoomBoxWithAxes_primMaterials.png'></model-viewer></p>
+<h3 id="Using-The-Core-Library">Using The Core Library<a class="anchor-link" href="#Using-The-Core-Library">&#182;</a></h3><p>This notebook provides a set of sample code which demonstrates the workflow to convert between glTF and MaterialX.</p>
+<p>The sample input file is the &quot;BoomBox with Axes&quot; file from the glTF sample repository found <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF">here</a> is used to demonstrate glTF to MaterialX conversion. The resulting MaterialX file after conversion is used to demonstrate conversion to glTF.</p>
+<table>
+<thead>
+<tr>
+  <th style="text-align:center"></th>
+  <th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center"><model-viewer style='background-color:grey;; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./data/BoomBoxWithAxes_primMaterials.png'></model-viewer></td>
+  <td style="text-align:center"><model-viewer style='background-color:grey;; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes.mtlx_sphere.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer></td>
+</tr>
+</tbody>
+</table>
+<p>The following are some examples from conversion of Substance3D materials to glTF</p>
+<table>
+<thead>
+<tr>
+  <th style="text-align:center"></th>
+  <th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer></td>
+  <td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx_moebius.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer></td>
+</tr>
+<tr>
+  <td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx_shaderball.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer></td>
+  <td style="text-align:center"><model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx_sphere.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 </div>
@@ -17383,6 +17413,70 @@ does not require this package to be used.</p>
 <p>The final result can then be viewed using a viewer such as the ThreeJS editor:</p>
 <img src="./images/ThreeJS_editor_baked_marble.png" width="100%">
 
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Convenience-Functions-and-Command-Line-Tools">Convenience Functions and Command Line Tools<a class="anchor-link" href="#Convenience-Functions-and-Command-Line-Tools">&#182;</a></h2><p>The following are convenience functions and command line tools which are provided as part of this package.</p>
+<ul>
+<li>The file <code>mtlx2gltf.py`` contains a command line tool that uses a utility function </code>mtlx2gltf<code> to convert from MaterialX to glTF. Various command line options are mapped to conversion options (</code>MTLX2GLTFOptions`).</li>
+</ul>
+<div class="highlight"><pre><span></span>usage:<span class="w"> </span>mtlx2gltf.py<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>--gltfFileName<span class="w"> </span>GLTFFILENAME<span class="o">]</span><span class="w"> </span><span class="o">[</span>--gltfGeomFileName<span class="w"> </span>GLTFGEOMFILENAME<span class="o">]</span><span class="w"> </span><span class="o">[</span>--primsPerMaterial<span class="w"> </span>PRIMSPERMATERIAL<span class="o">]</span>
+<span class="w">                    </span><span class="o">[</span>--packageBinary<span class="w"> </span>PACKAGEBINARY<span class="o">]</span><span class="w"> </span><span class="o">[</span>--translateShaders<span class="w"> </span>TRANSLATESHADERS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--bakeTextures<span class="w"> </span>BAKETEXTURES<span class="o">]</span>
+<span class="w">                    </span><span class="o">[</span>--bakeResolution<span class="w"> </span>BAKERESOLUTION<span class="o">]</span>
+<span class="w">                    </span>mtlxFileName
+
+Utility<span class="w"> </span>to<span class="w"> </span>convert<span class="w"> </span>a<span class="w"> </span>MaterialX<span class="w"> </span>file<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>glTF<span class="w"> </span>file
+
+positional<span class="w"> </span>arguments:
+<span class="w">  </span>mtlxFileName<span class="w">          </span>Path<span class="w"> </span>containing<span class="w"> </span>MaterialX<span class="w"> </span>file<span class="w"> </span>to<span class="w"> </span>convert.
+
+options:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>--gltfFileName<span class="w"> </span>GLTFFILENAME
+<span class="w">                        </span>Name<span class="w"> </span>of<span class="w"> </span>MaterialX<span class="w"> </span>output<span class="w"> </span>file.<span class="w"> </span>If<span class="w"> </span>not<span class="w"> </span>specified<span class="w"> </span>the<span class="w"> </span>glTF<span class="w"> </span>name<span class="w"> </span>with<span class="w"> </span><span class="s2">&quot;_tomtlx.mtlx&quot;</span><span class="w"> </span>suffix<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>used
+<span class="w">  </span>--gltfGeomFileName<span class="w"> </span>GLTFGEOMFILENAME
+<span class="w">                        </span>Name<span class="w"> </span>of<span class="w"> </span>MaterialX<span class="w"> </span>output<span class="w"> </span>file.<span class="w"> </span>If<span class="w"> </span>not<span class="w"> </span>specified<span class="w"> </span>the<span class="w"> </span>glTF<span class="w"> </span>name<span class="w"> </span>with<span class="w"> </span><span class="s2">&quot;_tomtlx.mtlx&quot;</span><span class="w"> </span>suffix<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>used
+<span class="w">  </span>--primsPerMaterial<span class="w"> </span>PRIMSPERMATERIAL
+<span class="w">                        </span>Create<span class="w"> </span>a<span class="w"> </span>new<span class="w"> </span>primitive<span class="w"> </span>per<span class="w"> </span>material<span class="w"> </span>and<span class="w"> </span>assign<span class="w"> </span>the<span class="w"> </span>material.<span class="w"> </span>Default<span class="w"> </span>is<span class="w"> </span>False
+<span class="w">  </span>--packageBinary<span class="w"> </span>PACKAGEBINARY
+<span class="w">                        </span>Create<span class="w"> </span>a<span class="w"> </span>biary<span class="w"> </span>packaged<span class="w"> </span>GLB<span class="w"> </span>file.<span class="w"> </span>Default<span class="w"> </span>is<span class="w"> </span>False
+<span class="w">  </span>--translateShaders<span class="w"> </span>TRANSLATESHADERS
+<span class="w">                        </span>Translate<span class="w"> </span>shaders<span class="w"> </span>to<span class="w"> </span>glTF.<span class="w"> </span>Default<span class="w"> </span>is<span class="w"> </span>False
+<span class="w">  </span>--bakeTextures<span class="w"> </span>BAKETEXTURES
+<span class="w">                        </span>Bake<span class="w"> </span>pattern<span class="w"> </span>graphs<span class="w"> </span>as<span class="w"> </span>textures.<span class="w"> </span>Default<span class="w"> </span>is<span class="w"> </span>False
+<span class="w">  </span>--bakeResolution<span class="w"> </span>BAKERESOLUTION
+<span class="w">                        </span>Bake<span class="w"> </span>image<span class="w"> </span>resolution.<span class="w"> </span>Default<span class="w"> </span>is<span class="w"> </span><span class="m">256</span>
+</pre></div>
+<ul>
+<li>The file gltf2mtlx.py contains a command line tool that uses a utility function to convert from glTF to MaterialX.
+Various command line options are mapped to conversion options (<code>GLTF2MTLXOptions</code>).</li>
+</ul>
+<div class="highlight"><pre><span></span>usage:<span class="w"> </span>gltf2mtlx.py<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>--mtlxFileName<span class="w"> </span>MTLXFILENAME<span class="o">]</span><span class="w"> </span><span class="o">[</span>--createAssignments<span class="w"> </span>CREATEASSIGNMENTS<span class="o">]</span><span class="w"> </span>gltfFileName
+
+Utility<span class="w"> </span>to<span class="w"> </span>convert<span class="w"> </span>a<span class="w"> </span>glTF<span class="w"> </span>file<span class="w"> </span>to<span class="w"> </span>MaterialX<span class="w"> </span>file
+
+positional<span class="w"> </span>arguments:
+<span class="w">  </span>gltfFileName<span class="w">          </span>Path<span class="w"> </span>containing<span class="w"> </span>glTF<span class="w"> </span>file<span class="w"> </span>to<span class="w"> </span>convert.
+
+options:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>--mtlxFileName<span class="w"> </span>MTLXFILENAME
+<span class="w">                        </span>Name<span class="w"> </span>of<span class="w"> </span>MaterialX<span class="w"> </span>output<span class="w"> </span>file.<span class="w"> </span>If<span class="w"> </span>not<span class="w"> </span>specified<span class="w"> </span>the<span class="w"> </span>glTF<span class="w"> </span>name<span class="w"> </span>with<span class="w"> </span><span class="s2">&quot;_tomtlx.mtlx&quot;</span><span class="w"> </span>suffix<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>used
+<span class="w">  </span>--createAssignments<span class="w"> </span>CREATEASSIGNMENTS
+<span class="w">                        </span>Create<span class="w"> </span>material<span class="w"> </span>assignments.<span class="w"> </span>Default<span class="w"> </span>is<span class="w"> </span>True
+</pre></div>
+<h3 id="Image-and-Geometry-Pathing">Image and Geometry Pathing<a class="anchor-link" href="#Image-and-Geometry-Pathing">&#182;</a></h3><p>glTF does not allow for any pathing specifieds on resources such as image and geometry uris. As such the proper pathing
+must be set before packaging to glb files. This is handled during the packaing process which uses the <code>pygltflib</code> Python package.</p>
+<p>By default <code>mtlx2gltf</code>adds search paths (mx.FileSearchPath) to attempt to find the absoluate location of the uri resources, sets the uri and hen performs binary packing. Thus it is possible for instance to specify embedding geometry which is not in the same folder as the root glTF file.</p>
+<p>The examples at the beginning of this document show an example Adobe Substance 3D material which was exported and mapped to a MaterialX material. Then it was converted to glTF with different geometry paths.</p>
 
 </div>
 </div>

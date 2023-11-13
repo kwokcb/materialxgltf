@@ -1899,8 +1899,28 @@ class MTLX2GLTFWriter:
         @param gltfJson: The glTF document to write to.
         @param resetMaterials: Whether to clear any existing glTF materials.
         '''        
-        self.writeCopyright(doc, gltfJson)
+        pbrNodes = {}
+        unlitNodes = {}
 
+        for material in doc.getMaterialNodes():
+            shaderNodes = mx.getShaderNodes(material)
+            for shaderNode in shaderNodes:
+                category = shaderNode.getCategory()
+                path = shaderNode.getNamePath()
+                if category == MTLX_GLTF_PBR_CATEGORY and path not in pbrNodes:
+                    #if addInputsFromNodeDef:
+                    #    shaderNode.addInputsFromNodeDef()
+                    pbrNodes[path] = shaderNode
+                elif category == MTLX_UNLIT_CATEGORY_STRING and path not in unlitNodes:
+                    #if addInputsFromNodeDef:
+                    #    shaderNode.addInputsFromNodeDef()
+                    unlitNodes[path] = shaderNode
+
+        materials_count = len(pbrNodes) + len(unlitNodes)
+        if materials_count == 0:
+            return
+
+        self.writeCopyright(doc, gltfJson)
         materials = None
         if 'materials' in gltfJson and not resetMaterials:
             materials = gltfJson['materials']
@@ -1924,27 +1944,6 @@ class MTLX2GLTFWriter:
             samplers = gltfJson['samplers']
         else:
             samplers = gltfJson['samplers'] = list()
-
-        pbrNodes = {}
-        unlitNodes = {}
-
-        for material in doc.getMaterialNodes():
-            shaderNodes = mx.getShaderNodes(material)
-            for shaderNode in shaderNodes:
-                category = shaderNode.getCategory()
-                path = shaderNode.getNamePath()
-                if category == MTLX_GLTF_PBR_CATEGORY and path not in pbrNodes:
-                    #if addInputsFromNodeDef:
-                    #    shaderNode.addInputsFromNodeDef()
-                    pbrNodes[path] = shaderNode
-                elif category == MTLX_UNLIT_CATEGORY_STRING and path not in unlitNodes:
-                    #if addInputsFromNodeDef:
-                    #    shaderNode.addInputsFromNodeDef()
-                    unlitNodes[path] = shaderNode
-
-        materials_count = len(pbrNodes) + len(unlitNodes)
-        if materials_count == 0:
-            return False
 
         # Get 'extensions used' element to fill in if extensions are used
         extensionsUsed = None
@@ -2562,12 +2561,27 @@ class MTLX2GLTFWriter:
         # Embed images
         if len(gltf.images):
             for im in gltf.images:
+                searchPath = self._options['searchPath']
+                path = searchPath.find(im.uri)
+                path = searchPath.find(im.uri)
+                if path:
+                    im.uri = path.asString(mx.FormatPosix)                    
+                    self.log('- Remapped buffer URI to: ' + im.uri) 
                 images.append(im.uri)
             gltf.convert_images(ImageFormat.DATAURI)
 
-        # Embed buffer references
+        # Embed buffer references.
+        # If the input file is not in the same folder as the current working directory,
+        # then modify the buffer uri to be an absolute path.
         if len(gltf.buffers):
+            absinputFile = os.path.abspath(inputFile)
+            parentFolder = os.path.dirname(absinputFile)
             for buf in gltf.buffers:
+                searchPath = self._options['searchPath']
+                path = searchPath.find(buf.uri)
+                if path:
+                    buf.uri = path.asString(mx.FormatPosix)                    
+                    self.log('- Remapped buffer URI to: ' + buf.uri) 
                 buffers.append(buf.uri)
         gltfb.convert_buffers(BufferFormat.BINARYBLOB)            
 
@@ -2583,8 +2597,9 @@ class MTLX2GLTFWriter:
         shadersTranslated = 0
         if not doc:
             return shadersTranslated
-        
-        for material in doc.getMaterialNodes():
+
+        materialNodes = doc.getMaterialNodes()
+        for material in materialNodes:
             shaderNodes = mx.getShaderNodes(material)
             for shaderNode in shaderNodes:
                 category = shaderNode.getCategory()
@@ -2614,10 +2629,17 @@ class MTLX2GLTFWriter:
             print('- glTF geometry file:' + gltfGeometryFile)
             if os.path.exists(gltfGeometryFile):
                 gltfFile = open(gltfGeometryFile, 'r')
-                gltfJson = json.load(gltfFile)
+                if gltfFile:
+                    gltfJson = json.load(gltfFile)
                 if self._options['debugOutput']:
                     print('- Embedding glTF geometry file:' + gltfGeometryFile)
                 self.log('- Embedding glTF geometry file:' + gltfGeometryFile)
+
+                # If no materials, add a default material
+                for mesh in gltfJson['meshes']:
+                    for primitive in mesh['primitives']:
+                        if 'material' not in primitive:
+                            primitive['material'] = 0
             else:
                 if self._options['debugOutput']:
                     print('- glTF geometry file not found:' + gltfGeometryFile)
