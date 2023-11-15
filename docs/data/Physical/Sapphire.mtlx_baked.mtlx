@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<materialx version="1.38" colorspace="lin_rec709">
+  <gltf_pbr name="SR_Sapphire_baked" type="surfaceshader">
+    <input name="base_color" type="color3" value="0.839216, 0.890196, 0.933333" colorspace="srgb_texture" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0" />
+    <input name="transmission" type="float" value="1" />
+    <input name="attenuation_color" type="color3" value="0.839216, 0.890196, 0.933333" colorspace="srgb_texture" />
+    <input name="clearcoat_roughness" type="float" value="0.0980392" />
+  </gltf_pbr>
+  <surfacematerial name="Sapphire_baked" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="SR_Sapphire_baked" />
+  </surfacematerial>
+</materialx>

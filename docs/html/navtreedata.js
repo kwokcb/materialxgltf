@@ -26,8 +26,9 @@ var NAVTREE =
 [
   [ "MaterialXglTF", "index.html", [
     [ "materialxgltf", "md__d___work_materialx_materialxgltf__r_e_a_d_m_e.html", [
-      [ "Documentation", "index.html#autotoc_md1", null ],
-      [ "Examples", "index.html#autotoc_md2", null ],
+      [ "Documentation", "index.html#autotoc_md1", [
+        [ "Examples", "index.html#autotoc_md2", null ]
+      ] ],
       [ "Contents", "md__d___work_materialx_materialxgltf__r_e_a_d_m_e.html#autotoc_md4", null ],
       [ "Introduction", "md__d___work_materialx_materialxgltf__r_e_a_d_m_e.html#autotoc_md5", null ],
       [ "Installation", "md__d___work_materialx_materialxgltf__r_e_a_d_m_e.html#autotoc_md6", [

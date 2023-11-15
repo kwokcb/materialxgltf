@@ -1,17 +1,21 @@
 # %% [markdown]
-# ### Using The Core Library
-# 
-# This notebook provides a set of sample code which demonstrates the 
-# workflow to convert between glTF and MaterialX.
-# 
-# The sample input file is the "BoomBox with Axes" file from the glTF sample repository found [here](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF) is used to demonstrate glTF to MaterialX conversion.
-# 
-# The resulting MaterialX file after conversion is used to demonstrate conversion to glTF.
-# 
 # <script type='module' src='https://unpkg.com/@google/model-viewer/dist/model-viewer.js'></script>
 # 
-# <model-viewer style='background-color:grey;; width: 100%; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./data/BoomBoxWithAxes_primMaterials.png'></model-viewer>
+# ### Using The Core Library
 # 
+# This notebook provides a set of sample code which demonstrates the workflow to convert between glTF and MaterialX.
+# 
+# The sample input file is the "BoomBox with Axes" file from the glTF sample repository found [here](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF) is used to demonstrate glTF to MaterialX conversion. The resulting MaterialX file after conversion is used to demonstrate conversion to glTF.
+# 
+# | | |
+# | :--: | :--: |
+# | <model-viewer style='background-color:grey;; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./data/BoomBoxWithAxes_primMaterials.png'></model-viewer> | <model-viewer style='background-color:grey;; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/BoomBoxWithAxes.mtlx_sphere.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> |
+# 
+# The following are some examples from conversion of Substance3D materials to glTF
+# | | |
+# | :--: | :--: |
+# | <model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer> | <model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx_moebius.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer> | 
+# | <model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx_shaderball.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer> | <model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx_sphere.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer> |
 
 # %%
 import materialxgltf.core as core
@@ -320,5 +324,74 @@ else:
 # The final result can then be viewed using a viewer such as the ThreeJS editor:
 # 
 # <img src="./images/ThreeJS_editor_baked_marble.png" width="100%">
+
+# %% [markdown]
+# Translation and baking are useful to just convert shading models. Below is a snapshot of a few materials which were downloaded from
+#  the [Physical Based Site](https://physicallybased.info/) which is maintained by Anton Palmqvist. The materials were converted from MaterialX with the preview using the ThreeJS editor:
+# 
+#  <img src="./images/PhysicallyBasedExamples.png" width=100%>
+#  <sub>Figure: From left to right: "Aluminum", "Sapphire", "Whiteboard", and "Tire" examples</sub>
+
+# %% [markdown]
+# ## Convenience Functions and Command Line Tools
+# 
+# The following are convenience functions and command line tools which are provided as part of this package.
+# 
+# - The file `mtlx2gltf.py`` contains a command line tool that uses a utility function `mtlx2gltf` to convert from MaterialX to glTF.
+# Various command line options are mapped to conversion options (`MTLX2GLTFOptions`).
+# ```bash
+# usage: mtlx2gltf.py [-h] [--gltfFileName GLTFFILENAME] [--gltfGeomFileName GLTFGEOMFILENAME] [--primsPerMaterial PRIMSPERMATERIAL]
+#                     [--packageBinary PACKAGEBINARY] [--translateShaders TRANSLATESHADERS] [--bakeTextures BAKETEXTURES]
+#                     [--bakeResolution BAKERESOLUTION]
+#                     mtlxFileName
+# 
+# Utility to convert a MaterialX file to a glTF file
+# 
+# positional arguments:
+#   mtlxFileName          Path containing MaterialX file to convert.
+# 
+# options:
+#   -h, --help            show this help message and exit
+#   --gltfFileName GLTFFILENAME
+#                         Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used
+#   --gltfGeomFileName GLTFGEOMFILENAME
+#                         Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used
+#   --primsPerMaterial PRIMSPERMATERIAL
+#                         Create a new primitive per material and assign the material. Default is False
+#   --packageBinary PACKAGEBINARY
+#                         Create a biary packaged GLB file. Default is False
+#   --translateShaders TRANSLATESHADERS
+#                         Translate shaders to glTF. Default is False
+#   --bakeTextures BAKETEXTURES
+#                         Bake pattern graphs as textures. Default is False
+#   --bakeResolution BAKERESOLUTION
+#                         Bake image resolution. Default is 256
+# ```                        
+# - The file gltf2mtlx.py contains a command line tool that uses a utility function to convert from glTF to MaterialX.
+# Various command line options are mapped to conversion options (`GLTF2MTLXOptions`).
+# ```bash
+# usage: gltf2mtlx.py [-h] [--mtlxFileName MTLXFILENAME] [--createAssignments CREATEASSIGNMENTS] gltfFileName
+# 
+# Utility to convert a glTF file to MaterialX file
+# 
+# positional arguments:
+#   gltfFileName          Path containing glTF file to convert.
+# 
+# options:
+#   -h, --help            show this help message and exit
+#   --mtlxFileName MTLXFILENAME
+#                         Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used
+#   --createAssignments CREATEASSIGNMENTS
+#                         Create material assignments. Default is True
+# ```
+# ### Image and Geometry Pathing
+# 
+# glTF does not allow for any pathing specifieds on resources such as image and geometry uris. As such the proper pathing
+# must be set before packaging to glb files. This is handled during the packaing process which uses the `pygltflib` Python package.
+# 
+# By default `mtlx2gltf`adds search paths (mx.FileSearchPath) to attempt to find the absoluate location of the uri resources, sets the uri and hen performs binary packing. Thus it is possible for instance to specify embedding geometry which is not in the same folder as the root glTF file.
+# 
+# The examples at the beginning of this document show an example Adobe Substance 3D material which was exported and mapped to a MaterialX material. Then it was converted to glTF with different geometry paths.
+# 
 
 

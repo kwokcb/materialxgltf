@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<materialx version="1.38" colorspace="lin_rec709">
+  <standard_surface name="SR_Sapphire" type="surfaceshader">
+    <input name="base_color" type="color3" value="0.67, 0.764, 0.855" />
+    <input name="specular_roughness" type="float" value="0" />
+    <input name="specular_IOR" type="float" value="1.7682" />
+    <input name="metalness" type="float" value="0" />
+    <input name="transmission" type="float" value="1" />
+    <input name="transmission_color" type="color3" value="0.67, 0.764, 0.855" />
+    <input name="transmission_dispersion" type="float" value="72.2" />
+  </standard_surface>
+  <surfacematerial name="Sapphire" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="SR_Sapphire" />
+  </surfacematerial>
+</materialx>

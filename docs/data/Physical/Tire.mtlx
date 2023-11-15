@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<materialx version="1.38" colorspace="lin_rec709">
+  <standard_surface name="SR_Tire" type="surfaceshader">
+    <input name="base_color" type="color3" value="0.023, 0.023, 0.023" />
+    <input name="specular_roughness" type="float" value="0.5" />
+    <input name="specular_IOR" type="float" value="1.5" />
+    <input name="metalness" type="float" value="0" />
+  </standard_surface>
+  <surfacematerial name="Tire" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="SR_Tire" />
+  </surfacematerial>
+</materialx>
