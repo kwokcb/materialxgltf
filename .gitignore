@@ -1,3 +1,4 @@
 src/materialxgltf/__pycache__/
 dist/
 src/materialxgltf.egg-info/
+build/

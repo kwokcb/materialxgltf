@@ -872,7 +872,7 @@ class GLTF2MtlxReader:
         if 'name' in cnode:
             cnodeName = cnode['name']
         else:    
-            cnodeName =  self.GLTF_DEFAULT_NODE_PREFIX + str(nodeCount)
+            cnodeName =  GLTF_DEFAULT_NODE_PREFIX + str(nodeCount)
             nodeCount = nodeCount + 1
         path = path + '/' + ( mx.createValidName(cnodeName) )
 
@@ -1068,6 +1068,7 @@ class MTLX2GLTFOptions(dict):
         - 'geometryFile' : Path to geometry file to use for glTF. Default is ''.
         - 'primsPerMaterial' : Create a new primitive per material in the MaterialX file and assign the material. Default is False.
         - 'searchPath' : Search path for files. Default is empty.
+        - 'writeDefaultInputs' : Emit inputs even if they have default values. Default is False.
         - 'debugOutput' : Print debug output. Default is True.
     '''
     def __init__(self, *args, **kwargs):
@@ -1085,6 +1086,7 @@ class MTLX2GLTFOptions(dict):
         self['debugOutput'] = True
         self['createProceduralTextures'] = False
         self['searchPath'] = mx.FileSearchPath()
+        self['writeDefaultInputs'] = False
 
 class MTLX2GLTFWriter:
     '''
@@ -1256,7 +1258,10 @@ class MTLX2GLTFWriter:
             if len(splitvalue) > 1: 
                 returnvalue = [float(x) for x in splitvalue]
             else:
-                returnvalue = float(value)
+                if type == 'integer':
+                    returnvalue = int(value)
+                else:
+                    returnvalue = float(value)
 
         return returnvalue
 
@@ -1362,44 +1367,46 @@ class MTLX2GLTFWriter:
                 if attrName not in skipAttr:
                     jsonNode[attrName] = node.getAttribute(attrName)
 
-            inputs = {}
+            inputs = []
             for input in node.getInputs():
 
+                inputItem = {}
+                inputItem['name'] = input.getName()
+
                 if input.getValue() != None:
-                    inputs[input.getName()] = {}
                     # If it's a file name then create a texture
                     inputType = input.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE)
-                    inputs[input.getName()]['type'] = inputType
+                    inputItem['type'] = inputType
                     if  inputType == mx.FILENAME_TYPE_STRING:
                         texture = {}
                         filename = input.getValueString()                
                         self.initialize_gtlf_texture(texture, input.getNamePath(), filename, images)
                         textures.append(texture)
-                        inputs[input.getName()]['texture'] = len(textures) -1
+                        inputItem['texture'] = len(textures) -1
                         self.writeImageProperties(texture, samplers, node)
                     # Otherwise just set the value
                     else:
                         inputType = input.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE)
                         value  = input.getValueString()
                         value = self.stringToScalar(value, inputType)    
-                        inputs[input.getName()]['value'] = value                                       
+                        inputItem['value'] = value                                       
                 else:
-                    outputString = connection = input.getAttribute('output')
-                    if len(connection) == 0:
-                        connection = input.getAttribute('interfacename')
+                    connection = input.getAttribute('interfacename')
                     if len(connection) == 0:
                         connection = input.getAttribute(MTLX_NODE_NAME_ATTRIBUTE)
                     connectionNode = graph.getChild(connection)
                     if connectionNode:
-                        #inputs[input.getName()] = connectionNode.getNamePath()
-                        inputs[input.getName()] = {}
                         inputType = input.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE)
-                        inputs[input.getName()]['type'] = inputType
+                        inputItem['type'] = inputType
                         if debug:
-                            inputs[input.getName()]['proceduralName'] = connectionNode.getNamePath()
-                        inputs[input.getName()]['procedural'] = procDict[connectionNode.getNamePath()]
+                            inputItem['proceduralName'] = connectionNode.getNamePath()
+                        inputItem['procedural'] = procDict[connectionNode.getNamePath()]
+                        outputString = input.getAttribute('output')
                         if len(outputString) > 0:
-                            inputs[input.getName()]['output'] = outputString
+                            inputItem['output'] = outputString
+
+                inputs.append(inputItem)
+
             if len(inputs) > 0:
                 jsonNode['inputs'] = inputs
 
@@ -1821,8 +1828,9 @@ class MTLX2GLTFWriter:
             value = pbrNode.getInputValue(inputName)
             if value != None:
                 nodedef = pbrNode.getNodeDef()
-                # Don't write default values
-                if nodedef and nodedef.getInputValue(inputName) != value:
+                # Don't write default values, unless specified
+                writeDefaultInputs= self._options['writeDefaultInputs']
+                if nodedef and (writeDefaultInputs or nodedef.getInputValue(inputName) != value):
                     if remapper:
                         if value in remapper:
                             material[gltfValueName] = remapper[value]
@@ -1873,8 +1881,9 @@ class MTLX2GLTFWriter:
             if value:
                 nodedef = pbrNode.getNodeDef()
                 # Don't write default values
-                if nodedef and nodedef.getInputValue(inputName) != value:
-                    material[gltfValueName] = [ value[0], value[1], value[2] ]      
+                writeDefaultInputs= self._options['writeDefaultInputs']
+                if nodedef and (writeDefaultInputs or nodedef.getInputValue(inputName) != value):
+                    material[gltfValueName] = [ value[0], value[1], value[2] ]
 
 
     def writeCopyright(self, doc, gltfJson):
@@ -1902,18 +1911,22 @@ class MTLX2GLTFWriter:
         pbrNodes = {}
         unlitNodes = {}
 
+        addInputsFromNodeDef = self._options['writeDefaultInputs']
+
         for material in doc.getMaterialNodes():
             shaderNodes = mx.getShaderNodes(material)
             for shaderNode in shaderNodes:
                 category = shaderNode.getCategory()
                 path = shaderNode.getNamePath()
                 if category == MTLX_GLTF_PBR_CATEGORY and path not in pbrNodes:
-                    #if addInputsFromNodeDef:
-                    #    shaderNode.addInputsFromNodeDef()
+                    if addInputsFromNodeDef:
+                        shaderNode.addInputsFromNodeDef()
+                        shaderNode.removeChild('tangent')
+                        shaderNode.removeChild('normal')
                     pbrNodes[path] = shaderNode
                 elif category == MTLX_UNLIT_CATEGORY_STRING and path not in unlitNodes:
-                    #if addInputsFromNodeDef:
-                    #    shaderNode.addInputsFromNodeDef()
+                    if addInputsFromNodeDef:
+                        shaderNode.addInputsFromNodeDef()
                     unlitNodes[path] = shaderNode
 
         materials_count = len(pbrNodes) + len(unlitNodes)
@@ -2063,9 +2076,9 @@ class MTLX2GLTFWriter:
                 extensionName = 'KHR_procedurals'
                 if  extensionName not in extensionsUsed:
                     extensionsUsed.append(extensionName)             
-                if extensionName not in extensions:                          
-                    extensions[extensionName] = {}
-                outputExtension = extensions[extensionName]                
+                #if extensionName not in extensions:                          
+                #    extensions[extensionName] = {}
+                #outputExtension = extensions[extensionName]                
 
                 #jsonGraph = documentToJSON(imageGraph)
                 graphOutputs, procDict = self.graphToJson(imageGraph, gltfJson, materials, textures, images, samplers)
@@ -2076,7 +2089,17 @@ class MTLX2GLTFWriter:
                     outputSpecifier = inputBaseColor.getAttribute('output')
                     if len(outputSpecifier) > 0:            
                         connectionName = imageGraph.getNamePath() + '/' + outputSpecifier
-                    outputExtension['baseColorTexture'] = procDict[connectionName]
+
+                    # Add extension to texture entry
+                    baseColorEntry = roughness['baseColorTexture'] = {}
+                    baseColorEntry['index'] = 0 # Q: What should this be ?
+                    if 'extensions' not in baseColorEntry:
+                        baseColorEntry['extensions'] = {}
+                    extensions = baseColorEntry['extensions']
+                    if extensionName not in extensions:                          
+                        extensions[extensionName] = {}
+                    procExtensions = extensions[extensionName]                
+                    procExtensions['index'] = procDict[connectionName]
 
             else:            
                 if imageNode:                         
