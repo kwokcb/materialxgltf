@@ -53,7 +53,7 @@ def mtlx2gltf(materialXFileName, gltfOutputFileName, options=MTLX2GLTFOptions())
         f.close()
     else:
         return False, mtlx2glTFWriter.getLog()
-
+    
     if options['packageBinary']:
         binaryFileName = str(gltfOutputFileName)
         binaryFileName = binaryFileName.replace('.gltf', '.glb')
@@ -80,6 +80,7 @@ def main():
     parser.add_argument('--translateShaders', dest='translateShaders', type=mx.stringToBoolean, default=False, help='Translate shaders to glTF. Default is False')
     parser.add_argument('--bakeTextures', dest='bakeTextures', type=mx.stringToBoolean, default=False, help='Bake pattern graphs as textures. Default is False')
     parser.add_argument('--bakeResolution', dest='bakeResolution', type=int, default=256, help='Bake image resolution. Default is 256')
+    parser.add_argument('--writeDefaultInputs', dest='writeDefaultInputs', type=mx.stringToBoolean, default=False, help='Write default inputs on shader nodes. Default is False')
 
     opts = parser.parse_args()
 
@@ -124,6 +125,7 @@ def main():
         options['translateShaders'] = opts.translateShaders
         options['bakeTextures'] = opts.bakeTextures
         options['bakeResolution'] = opts.bakeResolution
+        options['writeDefaultInputs'] = opts.writeDefaultInputs
 
         # Set search path to default library path as well as folder containing MaterialX file
         # and current path
