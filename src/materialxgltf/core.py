@@ -785,9 +785,8 @@ class GLTF2MtlxReader:
                     # Untextured attenuation color
                     if 'attenuationColor' in volumeExtension:
                         attenuationColor = volumeExtension['attenuationColor']
-                        attenuationColor = str(attenuationColor)
                         attenuationInput = shaderNode.addInputFromNodeDef('attenuation_color')
-                        attenuationInput.setValueString(attenuationColor)                    
+                        attenuationInput.setValue(mx.Color3(attenuationColor[0], attenuationColor[1], attenuationColor[2]))
 
                     # Untextured attenuation distance
                     if 'attenuationDistance' in volumeExtension:
