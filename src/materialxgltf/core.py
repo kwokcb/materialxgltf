@@ -2631,7 +2631,8 @@ class MTLX2GLTFWriter:
                     status, error = self.translateShader(shaderNode, MTLX_GLTF_PBR_CATEGORY)
                     if not status:
                         self.log('Failed to translate shader:' + shaderNode.getNamePath() + 
-                            ' of type ' + shaderNode.getCategory() + '\nError: ', error)
+                            ' of type ' + shaderNode.getCategory())
+                        # + '\nError: ' + error.error)
                     else:
                         shadersTranslated = shadersTranslated + 1
         
