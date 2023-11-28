@@ -1,6 +1,9 @@
 var namespaces_dup =
 [
     [ "materialxgltf", null, [
+      [ "__main__", null, [
+        [ "main", "____main_____8py.html#a0fdc40264ff91ec3c2e0b7e02ab0aa08", null ]
+      ] ],
       [ "core", null, [
         [ "Util", "classmaterialxgltf_1_1core_1_1_util.html", null ],
         [ "GLTF2MtlxOptions", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_options.html", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_options" ],

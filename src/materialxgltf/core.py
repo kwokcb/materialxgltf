@@ -123,7 +123,8 @@ class GLTF2MtlxOptions(dict):
     @brief Class to hold options for glTF to MaterialX conversion.
     Available options:
         - 'addAllInputs' : Add all inputs from the node definition. Default is False. 
-        - 'createAssignments' : Create MaterialX assignments for each glTF primitive. Default is False.  
+        - 'createAssignments' : Create MaterialX assignments for each glTF primitive. Default is False.
+        - 'addExtractNodes' : Add extract nodes to route channels from a multi-output ORM node. Default is False.
         - 'debugOutput' : Print debug output. Default is False.
     '''
     def __init__(self, *args, **kwargs):
@@ -134,6 +135,7 @@ class GLTF2MtlxOptions(dict):
 
         self['createAssignments'] = False
         self['addAllInputs'] = False
+        self['addExtractNodes'] = False
         self['debugOutput'] = True
 
 class GLTF2MtlxReader:
@@ -425,6 +427,10 @@ class GLTF2MtlxReader:
         addAllInputs = self._options['addAllInputs']
         if addAllInputs:
             shaderNode.addInputsFromNodeDef()
+            shaderNode.removeChild('tangent')
+            shaderNode.removeChild('normal')
+            shaderNode.removeChild('clearcoat_normal')
+            shaderNode.removeChild('attenuation_distance')
 
         # Try to assign a texture (image node)
         if colorTexture:
@@ -610,16 +616,43 @@ class GLTF2MtlxReader:
 
                     # Route individual channels on ORM image to the appropriate inputs on the shader
                     indexName = [ 'x', 'y', 'z' ]
+                    outputName = [ 'outx', 'outy', 'outz' ]
                     metallicInput = shaderNode.addInputFromNodeDef('metallic')
                     roughnessInput = shaderNode.addInputFromNodeDef('roughness')
                     occlusionInput = None if haveSeparateOcclusion else shaderNode.addInputFromNodeDef('occlusion')
                     inputs = [ occlusionInput, roughnessInput, metallicInput ]
+                    addSeparateNode = False # TODO: This options is not supported on write parsing yet.
+                    addExtractNode = self._options['addExtractNodes']
+                    separateNode = None
+                    if addSeparateNode:
+                        # Add a separate node to route the channels
+                        separateNodeName = doc.createValidChildName('separate_orm')
+                        separateNode = doc.addNode('separate3', separateNodeName, 'multioutput')      
+                        seperateInput = separateNode.addInputFromNodeDef('in')
+                        seperateInput.setType('vector3')
+                        seperateInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())                  
                     for i in range(0,3): 
                         input = inputs[i]
                         if input:
-                            input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
                             input.setType('float') #mx.FLOAT_STRING
-                            input.setChannels(indexName[i])
+                            if addExtractNode:
+                                extractNodeName = doc.createValidChildName('extract_orm')
+                                extractNode = doc.addNode('extract', extractNodeName, 'float')
+                                extractNode.addInputsFromNodeDef()
+                                extractNodeInput = extractNode.getInput('in')
+                                extractNodeInput.setType('vector3')    
+                                extractNodeInput.removeAttribute('value')
+                                extractNodeInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())                                
+                                extractNodeInput = extractNode.getInput('index')
+                                extractNodeInput.setValue(i)
+
+                                input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, extractNode.getName())
+                            elif separateNode:
+                                input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, separateNode.getName())
+                                input.setOutputString(outputName[i])
+                            else:
+                                input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
+                                input.setChannels(indexName[i])
 
             # Parse normal input
             # ------------------
@@ -1926,6 +1959,8 @@ class MTLX2GLTFWriter:
                 elif category == MTLX_UNLIT_CATEGORY_STRING and path not in unlitNodes:
                     if addInputsFromNodeDef:
                         shaderNode.addInputsFromNodeDef()
+                        shaderNode.removeChild('tangent')
+                        shaderNode.removeChild('normal')                        
                     unlitNodes[path] = shaderNode
 
         materials_count = len(pbrNodes) + len(unlitNodes)
