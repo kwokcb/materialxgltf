@@ -866,7 +866,7 @@ class GLTF2MtlxReader:
                     sheenColorFactor = sheenColorTexture = None
                     if 'sheenColorFactor' in sheen:
                         sheenColorFactor = sheen['sheenColorFactor']
-                    if 'specularTexture' in sheen:
+                    if 'sheenColorTexture' in sheen:
                         sheenColorTexture = sheen['sheenColorTexture']
                     if sheenColorFactor or sheenColorTexture:
                         self.readColorInput(doc, sheenColorTexture, sheenColorFactor, 'image_sheen',
