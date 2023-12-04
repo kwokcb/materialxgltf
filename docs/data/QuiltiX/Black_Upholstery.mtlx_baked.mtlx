@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<materialx version="1.38">
+  <nodegraph name="NG_baked" colorspace="srgb_texture">
+    <image name="roughness_baked" type="float" xpos="13.768116" ypos="-0.094828">
+      <input name="file" type="filename" value="textures\Black_Upholstery_roughness.png" fileprefix="" />
+    </image>
+    <output name="roughness_output" type="float" nodename="roughness_baked" xpos="17.391304" ypos="0.000000" />
+    <image name="sheen_color_baked" type="color3" xpos="13.768116" ypos="1.327586">
+      <input name="file" type="filename" value="textures\Black_Upholstery_gltf_pbr_sheen_color.png" fileprefix="" />
+    </image>
+    <output name="sheen_color_output" type="color3" nodename="sheen_color_baked" xpos="17.391304" ypos="1.336207" />
+    <gltf_normalmap name="gltf_normalmap_vector3_1_0" type="vector3" xpos="12.862319" ypos="3.025862">
+      <input name="file" type="filename" value="textures\Black_Upholstery_normal.png" />
+    </gltf_normalmap>
+    <output name="output_vector3" type="vector3" nodename="gltf_normalmap_vector3_1_0" xpos="17.630434" ypos="3.068965" />
+  </nodegraph>
+  <gltf_pbr name="standard_surface_1_baked" type="surfaceshader" xpos="13.768116" ypos="-0.810345">
+    <input name="base_color" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" output="roughness_output" nodegraph="NG_baked" />
+    <input name="sheen_color" type="color3" output="sheen_color_output" nodegraph="NG_baked" />
+    <input name="sheen_roughness" type="float" value="0.498039" />
+    <input name="clearcoat_roughness" type="float" value="0.0980392" />
+    <input name="normal" type="vector3" output="output_vector3" nodegraph="NG_baked" />
+  </gltf_pbr>
+  <surfacematerial name="Black_Upholstery_baked" type="material" xpos="17.391304" ypos="0.000000">
+    <input name="surfaceshader" type="surfaceshader" nodename="standard_surface_1_baked" />
+  </surfacematerial>
+</materialx>

@@ -428,7 +428,7 @@ individual glTF binary files (glb).</p>
 <tr>
 <td style="text-align:center">&lt;<model-viewer  skybox-image="data/Lights/san_giuseppe_bridge.hdr" environment-image="data/Lights/san_giuseppe_bridge.hdr" viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_gold.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Gold</td>
 <td style="text-align:center">&lt;<model-viewer  skybox-image="data/Lights/san_giuseppe_bridge.hdr" environment-image="data/Lights/san_giuseppe_bridge.hdr" viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_greysphere.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Grey</td>
-<td style="text-align:center">&lt;<model-viewer  skybox-image="data/Lights/san_giuseppe_bridge.hdr" environment-image="data/Lights/san_giuseppe_bridge.hdr" viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_greysphere_calibration.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Grey Calibiration</td>
+<td style="text-align:center">&lt;<model-viewer  skybox-image="data/Lights/san_giuseppe_bridge.hdr" environment-image="data/Lights/san_giuseppe_bridge.hdr" viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_greysphere_calibration.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Grey Calibration</td>
 </tr>
 <tr>
 <td style="text-align:center">&lt;<model-viewer  skybox-image="data/Lights/san_giuseppe_bridge.hdr" environment-image="data/Lights/san_giuseppe_bridge.hdr" viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/RTS/standard_surface_jade.mtlx.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster=''></model-viewer> Jade</td>
@@ -452,6 +452,31 @@ individual glTF binary files (glb).</p>
 </tr>
 </tbody>
 </table>
+<p>The following are examples materials from <a href="https://github.com/PrismPipeline/QuiltiX" target="_blank">QuiltiX (0.5.0)</a>. This library uses QuiltiX by creating a <a href="https://github.com/kwokcb/QuiltiX/blob/gltf_plugin/plugins/pluginQuiltX.py" target="_blank">custom script</a> which calls into QuiltiX and extends the functionality by adding in glTF import and export menu items.<br>
+Some QuiltiX and MaterialX code fixes and overriding to use the MaterialX 1.38.8 definition library for OpenUSD was required. The results of a few examples which come with QuiltIX are shown.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">&lt;<model-viewer  skybox-image="data/Lights/san_giuseppe_bridge.hdr" environment-image="data/Lights/san_giuseppe_bridge.hdr" viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/QuiltiX/Black_Upholstery.mtlx_baked.mtlx2.glb' shadow-intensity='0.3' alt='' exposure='1.0' poster=''></model-viewer> Black Uphostery</td>
+<td style="text-align:center">&lt;<model-viewer  skybox-image="data/Lights/san_giuseppe_bridge.hdr" environment-image="data/Lights/san_giuseppe_bridge.hdr" viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/QuiltiX/Motley_Patchwork_Rug.glb' shadow-intensity='0.3' alt='' exposure='1.0' poster=''></model-viewer> Motley Patchwork Run</td>
+<td style="text-align:center">&lt;<model-viewer  skybox-image="data/Lights/san_giuseppe_bridge.hdr" environment-image="data/Lights/san_giuseppe_bridge.hdr" viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/QuiltiX/Copper_Old.glb_baked.mtlx2.glb' shadow-intensity='0.3' alt='' exposure='1.0' poster=''></model-viewer> Copper (Old)</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<p>The following is one of the examples running QuiltiX with the <code>HDStorm</code> OpenUSD render delegate and a local model-viewer customization.</p>
+<img src="https://github.com/kwokcb/QuiltiX/blob/gltf_plugin/plugins/Copper_translated_baked_to_gltf.png?raw=true">
 <p>These materials are from the &quot;Physically Based&quot; site maintained by Anton Palmqvist. The MaterialX files were downloaded from the <a href="https://physicallybased.info/">Physical Based Site</a>.</p>
 <table>
 <thead>
