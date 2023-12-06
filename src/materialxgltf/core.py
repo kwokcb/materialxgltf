@@ -1952,15 +1952,23 @@ class MTLX2GLTFWriter:
                 path = shaderNode.getNamePath()
                 if category == MTLX_GLTF_PBR_CATEGORY and path not in pbrNodes:
                     if addInputsFromNodeDef:
+                        hasNormal = shaderNode.getInput('normal')
+                        hasTangent = shaderNode.getInput('tangent')
                         shaderNode.addInputsFromNodeDef()
-                        shaderNode.removeChild('tangent')
-                        shaderNode.removeChild('normal')
+                        if not hasNormal:
+                            shaderNode.removeChild('tangent')
+                        if not hasTangent:
+                            shaderNode.removeChild('normal')
                     pbrNodes[path] = shaderNode
                 elif category == MTLX_UNLIT_CATEGORY_STRING and path not in unlitNodes:
                     if addInputsFromNodeDef:
+                        hasNormal = shaderNode.getInput('normal')
+                        hasTangent = shaderNode.getInput('tangent')
                         shaderNode.addInputsFromNodeDef()
-                        shaderNode.removeChild('tangent')
-                        shaderNode.removeChild('normal')                        
+                        if not hasNormal:
+                            shaderNode.removeChild('tangent')
+                        if not hasTangent:
+                            shaderNode.removeChild('normal')                        
                     unlitNodes[path] = shaderNode
 
         materials_count = len(pbrNodes) + len(unlitNodes)
@@ -2349,7 +2357,7 @@ class MTLX2GLTFWriter:
                 if imageNode:
                     fileInput = imageNode.getInput(mx.Implementation.FILE_ATTRIBUTE)
                     filename = EMPTY_STRING
-                    if fileInput and fileInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE) == mx.FILENAME_TYPE_STRING:                    
+                    if fileInput and fileInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE) == mx.FILENAME_TYPE_STRING:
                         filename = fileInput.getResolvedValueString()
                     if len(filename) == 0:
                         imageNode = None
