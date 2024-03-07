@@ -27,7 +27,9 @@ MTLX_GLTF_COLOR_IMAGE = 'gltf_colorimage'
 MTLX_GLTF_NORMALMAP_IMAGE = 'gltf_normalmap'
 MTLX_DEFAULT_COLORSPACE = 'srgb_texture'
 # mx.PortElement.NODE_NAME_ATTRIBUTE is not exposed
+MTLX_INTERFACEINPUT_NAME_ATTRIBUTE = 'interfacename'
 MTLX_NODE_NAME_ATTRIBUTE = 'nodename'
+MTLX_NODEGRAPH_NAME_ATTRIBUTE = 'nodegraph'
 MTLX_COLOR_SPACE_ATTRIBUTE = 'colorspace' # mx.Element.COLOR_SPACE_ATTRIBUTE is not exposed
 MTLX_VEC3_STRING = 'vector3'
 EMPTY_STRING = ''
