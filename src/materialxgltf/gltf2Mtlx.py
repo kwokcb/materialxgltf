@@ -28,7 +28,9 @@ def gltf2Mtlx(gltfFileName, mtlxFileName, options=GLTF2MtlxOptions()):
         err = 'Error converting glTF file to MaterialX file'
     else:
         status, err = doc.validate()
-        print(mx.writeToXmlString(doc))
+        if not status:
+            print('Validation error: ', err)
+        #print(mx.writeToXmlString(doc))
         Util.writeMaterialXDoc(doc, mtlxFileName)
 
     return status, err

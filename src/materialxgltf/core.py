@@ -1929,8 +1929,8 @@ class MTLX2GLTFWriter:
             asset = gltfJson['asset']
         else:
             asset = gltfJson['asset'] = {}
-        asset['copyright'] = 'Copyright 2022-2023: Bernard Kwok.'
-        asset['generator'] = 'MaterialX ' + doc.getVersionString() + ' to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX'
+        asset['copyright'] = 'Copyright 2022-2024: Bernard Kwok.'
+        asset['generator'] = 'MaterialX ' + doc.getVersionString() + ' to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf'
         asset['version'] = '2.0'
 
     def materialX2glTF(self, doc, gltfJson, resetMaterials):

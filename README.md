@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38 8 and the target glTF version is 2.0.1.  
+This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1.  
 
 See the [home page](https://kwokcb.github.io/materialxgltf/) for this project.
 
@@ -34,8 +34,7 @@ or the **[source repository](https://github.com/kwokcb/materialxgltf)** can be c
 py -m build
 ```
 
-This will build a distribution folder called `dist` which contains 
-a zip file which can be installed using:
+This will build a distribution folder called `dist` which contains a zip file which can be installed using:
 
 ```bash
 pip --install <name of zip>
@@ -45,7 +44,7 @@ pip --install <name of zip>
 
 Requires the installation of the following packages:
 
-* `materialx` version 1.38.8 or higher: For editing MaterialX documents.
+* `materialx` version 1.38.9 or higher: For editing MaterialX documents.
 * `pygltflib` : For conversion from `glTF` to `glb` including packaging dependent geometry and image resources.
 
 
