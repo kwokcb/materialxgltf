@@ -124,7 +124,6 @@ class GLTF2MtlxOptions(dict):
     Available options:
         - 'addAllInputs' : Add all inputs from the node definition. Default is False. 
         - 'createAssignments' : Create MaterialX assignments for each glTF primitive. Default is False.
-        - 'addExtractNodes' : Add extract nodes to route channels from a multi-output ORM node. Default is False.
         - 'debugOutput' : Print debug output. Default is False.
     '''
     def __init__(self, *args, **kwargs):
@@ -135,7 +134,6 @@ class GLTF2MtlxOptions(dict):
 
         self['createAssignments'] = False
         self['addAllInputs'] = False
-        self['addExtractNodes'] = False
         self['debugOutput'] = True
 
 class GLTF2MtlxReader:
@@ -622,7 +620,7 @@ class GLTF2MtlxReader:
                     occlusionInput = None if haveSeparateOcclusion else shaderNode.addInputFromNodeDef('occlusion')
                     inputs = [ occlusionInput, roughnessInput, metallicInput ]
                     addSeparateNode = False # TODO: This options is not supported on write parsing yet.
-                    addExtractNode = self._options['addExtractNodes']
+                    addExtractNode = True
                     separateNode = None
                     if addSeparateNode:
                         # Add a separate node to route the channels
@@ -650,9 +648,6 @@ class GLTF2MtlxReader:
                             elif separateNode:
                                 input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, separateNode.getName())
                                 input.setOutputString(outputName[i])
-                            else:
-                                input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
-                                input.setChannels(indexName[i])
 
             # Parse normal input
             # ------------------

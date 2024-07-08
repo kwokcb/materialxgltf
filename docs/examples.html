@@ -15381,6 +15381,7 @@ shaderball.gltf
 shaderball_data.bin
 standard_surface_marble_solid.mtlx
 standard_surface_marble_solid.mtlx_baked.mtlx
+standard_surface_marble_solid_translated.mtlx
 </pre></div>
 </details>
 
@@ -15472,14 +15473,14 @@ standard_surface_marble_solid.mtlx_baked.mtlx
 <details  open><summary><b>Resulting MaterialX document</b></summary>
 
 <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.39&quot;</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="cm">&lt;!-- Generated shader: M_BoomBox --&gt;</span>
 <span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;M_BoomBox&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">nodedef=</span><span class="s">&quot;ND_gltf_pbr_surfaceshader&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_base_color&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;outcolor&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;alpha&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_base_color&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;outa&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="na">channels=</span><span class="s">&quot;z&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="na">channels=</span><span class="s">&quot;y&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;occlusion&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="na">channels=</span><span class="s">&quot;x&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;extract_orm3&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;extract_orm2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;occlusion&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;extract_orm&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;normal&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_normal&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;emissive&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_emissive&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;outcolor&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
@@ -15493,6 +15494,18 @@ standard_surface_marble_solid.mtlx_baked.mtlx
 <span class="w">  </span><span class="nt">&lt;gltf_image</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;filename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;BoomBoxWithAxes_roughnessMetallic.png&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_image&gt;</span>
+<span class="w">  </span><span class="nt">&lt;extract</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;extract_orm&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;index&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/extract&gt;</span>
+<span class="w">  </span><span class="nt">&lt;extract</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;extract_orm2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;index&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/extract&gt;</span>
+<span class="w">  </span><span class="nt">&lt;extract</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;extract_orm3&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;index&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/extract&gt;</span>
 <span class="w">  </span><span class="nt">&lt;gltf_normalmap</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;image_normal&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;filename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;BoomBoxWithAxes_normal.png&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_normalmap&gt;</span>
@@ -15603,14 +15616,14 @@ Generated MaterialX document is valid
 <details  open><summary><b>Resulting MaterialX document</b></summary>
 
 <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.39&quot;</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="cm">&lt;!-- Generated shader: M_BoomBox --&gt;</span>
 <span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;M_BoomBox&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">nodedef=</span><span class="s">&quot;ND_gltf_pbr_surfaceshader&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_base_color&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;outcolor&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;alpha&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_base_color&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;outa&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="na">channels=</span><span class="s">&quot;z&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="na">channels=</span><span class="s">&quot;y&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;occlusion&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="na">channels=</span><span class="s">&quot;x&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;extract_orm3&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;extract_orm2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;occlusion&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;extract_orm&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;normal&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_normal&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;emissive&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_emissive&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;outcolor&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
@@ -15624,6 +15637,18 @@ Generated MaterialX document is valid
 <span class="w">  </span><span class="nt">&lt;gltf_image</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;filename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;BoomBoxWithAxes_roughnessMetallic.png&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_image&gt;</span>
+<span class="w">  </span><span class="nt">&lt;extract</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;extract_orm&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;index&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/extract&gt;</span>
+<span class="w">  </span><span class="nt">&lt;extract</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;extract_orm2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;index&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/extract&gt;</span>
+<span class="w">  </span><span class="nt">&lt;extract</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;extract_orm3&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;in&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;image_orm&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;index&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/extract&gt;</span>
 <span class="w">  </span><span class="nt">&lt;gltf_normalmap</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;image_normal&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;vector3&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;filename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;BoomBoxWithAxes_normal.png&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_normalmap&gt;</span>
@@ -15717,7 +15742,7 @@ Generated MaterialX document is valid
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>&gt; Load MaterialX document: d:\Work\materialx\materialxgltf\.venv\lib\site-packages\materialxgltf\data\BoomBoxWithAxes.mtlx
+<pre>&gt; Load MaterialX document: c:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\BoomBoxWithAxes.mtlx
 - Convert MaterialX node to glTF: M_BoomBox
 - Append single ORM texture BoomBoxWithAxes_roughnessMetallic.png
 - Convert MaterialX node to glTF: M_Coordinates
@@ -15738,7 +15763,7 @@ Generated MaterialX document is valid
 <div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;copyright&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Copyright 2022-2024: Bernard Kwok.&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;materials&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -15900,8 +15925,8 @@ The first MaterialX material will be assigned to all of the geometric primitives
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>&gt; Load glTF geometry file: shaderBall.gltf
-- glTF geometry file:d:\Work\materialx\materialxgltf\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
-- Embedding glTF geometry file:d:\Work\materialx\materialxgltf\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
+- glTF geometry file:c:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
+- Embedding glTF geometry file:c:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
 - Convert MaterialX node to glTF: M_BoomBox
 - Append single ORM texture BoomBoxWithAxes_roughnessMetallic.png
 - Convert MaterialX node to glTF: M_Coordinates
@@ -15923,7 +15948,7 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;copyright&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Copyright 2022-2024: Bernard Kwok.&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX&quot;</span>
+<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;accessors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
@@ -16367,9 +16392,9 @@ The first MaterialX material will be assigned to all of the geometric primitives
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>&gt; Load glTF geometry file: d:\Work\materialx\materialxgltf\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
-- glTF geometry file:d:\Work\materialx\materialxgltf\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
-- Embedding glTF geometry file:d:\Work\materialx\materialxgltf\.venv\lib\site-packages\materialxgltf\data\shaderBall.gltf
+<pre>&gt; Load glTF geometry file: c:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
+- glTF geometry file:c:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
+- Embedding glTF geometry file:c:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
 - Convert MaterialX node to glTF: M_BoomBox
 - Append single ORM texture BoomBoxWithAxes_roughnessMetallic.png
 - Convert MaterialX node to glTF: M_Coordinates
@@ -16391,7 +16416,7 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;copyright&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Copyright 2022-2024: Bernard Kwok.&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX&quot;</span>
+<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;accessors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
@@ -16969,7 +16994,7 @@ does not require this package to be used.</p>
 <details  open><summary><b> Translated 1 shader(s).</b></summary>
 
 <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;lin_rec709&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.39&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;lin_rec709&quot;</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="nt">&lt;nodegraph</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;NG_marble1&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.8, 0.8, 0.8&quot;</span><span class="w"> </span><span class="na">uiname=</span><span class="s">&quot;Color 1&quot;</span><span class="w"> </span><span class="na">uifolder=</span><span class="s">&quot;Marble Color&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.1, 0.1, 0.3&quot;</span><span class="w"> </span><span class="na">uiname=</span><span class="s">&quot;Color 2&quot;</span><span class="w"> </span><span class="na">uifolder=</span><span class="s">&quot;Marble Color&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
@@ -17158,21 +17183,21 @@ does not require this package to be used.</p>
 <details  open><summary><b> Baked document: </b></summary>
 
 <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;lin_rec709&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.39&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;lin_rec709&quot;</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="nt">&lt;nodegraph</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;NG_baked&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;srgb_texture&quot;</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;image</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="nt">&gt;</span>
-<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;filename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;d:\Work\materialx\materialxgltf\.venv\lib\site-packages\materialxgltf\data\Marble_3D_gltf_pbr_base_color.png&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;image</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;filename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;c:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\Marble_3D_gltf_pbr_base_color.png&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;/image&gt;</span>
-<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;base_color_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/nodegraph&gt;</span>
-<span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;SR_marble1_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;SR_marble1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.0980392&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;clearcoat_roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.0980392&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
-<span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Marble_3D_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;material&quot;</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;SR_marble1_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Marble_3D&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;material&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;SR_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/surfacematerial&gt;</span>
 <span class="nt">&lt;/materialx&gt;</span>
 </pre></div>
@@ -17232,7 +17257,7 @@ does not require this package to be used.</p>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>- Remapped URI: &#34;d:/Work/materialx/materialxgltf/.venv/lib/site-packages/materialxgltf/data/Marble_3D_gltf_pbr_base_color.png&#34; to &#34;Marble_3D_gltf_pbr_base_color.png&#34;
+<pre>- Remapped URI: &#34;c:/Users/home/AppData/Local/Programs/Python/Python311/Lib/site-packages/materialxgltf/data/Marble_3D_gltf_pbr_base_color.png&#34; to &#34;Marble_3D_gltf_pbr_base_color.png&#34;
 </pre>
 </div>
 </div>
@@ -17247,21 +17272,21 @@ does not require this package to be used.</p>
 <details  open><summary><b> Baked document with resolved URIs: </b></summary>
 
 <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.38&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;lin_rec709&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.39&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;lin_rec709&quot;</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="nt">&lt;nodegraph</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;NG_baked&quot;</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">&quot;srgb_texture&quot;</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;image</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;image</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="nt">&gt;</span>
 <span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;filename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;Marble_3D_gltf_pbr_base_color.png&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;/image&gt;</span>
-<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;base_color_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/nodegraph&gt;</span>
-<span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;SR_marble1_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;SR_marble1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_color&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;color3&quot;</span><span class="w"> </span><span class="na">output=</span><span class="s">&quot;base_color_output&quot;</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">&quot;NG_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;metallic&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.0980392&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;clearcoat_roughness&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;float&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.0980392&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
-<span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Marble_3D_baked&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;material&quot;</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;SR_marble1_baked&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Marble_3D&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;material&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;surfaceshader&quot;</span><span class="w"> </span><span class="na">nodename=</span><span class="s">&quot;SR_marble1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/surfacematerial&gt;</span>
 <span class="nt">&lt;/materialx&gt;</span>
 </pre></div>
@@ -17325,7 +17350,7 @@ does not require this package to be used.</p>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>- Convert MaterialX node to glTF: SR_marble1_baked
+<pre>- Convert MaterialX node to glTF: SR_marble1
 - Generating a new primitive for each of 1 materials
 </pre>
 </div>
@@ -17343,7 +17368,7 @@ does not require this package to be used.</p>
 <div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;copyright&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Copyright 2022-2024: Bernard Kwok.&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;materials&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -17353,7 +17378,7 @@ does not require this package to be used.</p>
 <span class="w">          </span><span class="nt">&quot;clearcoatRoughnessFactor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.09803920239210129</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SR_marble1_baked&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SR_marble1&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;pbrMetallicRoughness&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;baseColorTexture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">          </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
@@ -17365,14 +17390,14 @@ does not require this package to be used.</p>
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;textures&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NG_baked/base_color_baked&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NG_baked/base_color&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;sampler&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;images&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NG_baked/base_color_baked&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NG_baked/base_color&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marble_3D_gltf_pbr_base_color.png&quot;</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">],</span>
