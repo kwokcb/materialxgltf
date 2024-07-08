@@ -41,10 +41,9 @@ def main():
     '''
     parser = argparse.ArgumentParser(description='Utility to convert a glTF file to MaterialX file')
     parser.add_argument(dest='gltfFileName', help='Path containing glTF file to convert.')
-    parser.add_argument('--mtlxFileName', dest='mtlxFileName', default='', help='Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used')
+    parser.add_argument('--mtlxFileName', dest='mtlxFileName', default='', help='Name of MaterialX output file. If not specified the glTF name with "_converted.mtlx" suffix will be used')
     parser.add_argument('--createAssignments', dest='createAssignments', type=mx.stringToBoolean, default=True, help='Create material assignments. Default is True')
     parser.add_argument('--addAllInputs', dest='addAllInputs', type=mx.stringToBoolean, default=False, help='Add all definition inputs to MaterialX shader nodes. Default is False')
-    parser.add_argument('--addExtractNodes', dest='addExtractNodes', type=mx.stringToBoolean, default=False, help='Add extract nodes for all definition inputs. Default is False')
 
     opts = parser.parse_args()
 
@@ -63,7 +62,6 @@ def main():
     options = GLTF2MtlxOptions()
     options['createAssignments'] = opts.createAssignments    
     options['addAllInputs'] = opts.addAllInputs
-    options['addExtractNodes'] = opts.addExtractNodes
     converted, err = gltf2Mtlx(gltfFileName, mtlxFilePath, options)
     print('Converted glTF file %s to MaterialX file: %s. Status: %s.' % (gltfFileName, mtlxFilePath, converted))
     if not converted:

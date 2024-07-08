@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<materialx version="1.38">
+<materialx version="1.39">
   <!-- Generated shader: GlamVelvetSofa_legs -->
   <gltf_pbr name="GlamVelvetSofa_legs" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" value="0.02, 0.02, 0.02" colorspace="srgb_texture" />
@@ -160,8 +160,8 @@
   </gltf_image>
   <!-- Generated material assignments -->
   <look name="look">
-    <materialassign name="MAT_GlamVelvetSofa_legs" material="MAT_GlamVelvetSofa_legs" geom="/GlamVelvetSofa_legs/GlamVelvetSofa_legs" />
-    <materialassign name="MAT_GlamVelvetSofa_fabric_navy" material="MAT_GlamVelvetSofa_fabric_navy" geom="/GlamVelvetSofa_fabric/GlamVelvetSofa_fabric" />
-    <materialassign name="MAT_GlamVelvetSofa_feet" material="MAT_GlamVelvetSofa_feet" geom="/GlamVelvetSofa_feet/GlamVelvetSofa_feet" />
+    <materialassign name="MAT_GlamVelvetSofa_legs" material="MAT_GlamVelvetSofa_legs" geom="GlamVelvetSofa_legs" />
+    <materialassign name="MAT_GlamVelvetSofa_fabric_navy" material="MAT_GlamVelvetSofa_fabric_navy" geom="GlamVelvetSofa_fabric" />
+    <materialassign name="MAT_GlamVelvetSofa_feet" material="MAT_GlamVelvetSofa_feet" geom="GlamVelvetSofa_feet" />
   </look>
 </materialx>

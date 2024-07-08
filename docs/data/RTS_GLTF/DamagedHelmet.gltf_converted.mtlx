@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<materialx version="1.38">
+<materialx version="1.39">
   <!-- Generated shader: Material_MR -->
   <gltf_pbr name="Material_MR" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
     <input name="alpha" type="float" nodename="image_base_color" output="outa" />
-    <input name="metallic" type="float" nodename="image_orm" channels="z" />
-    <input name="roughness" type="float" nodename="image_orm" channels="y" />
-    <input name="occlusion" type="float" nodename="image_occlusion" channels="x" />
+    <input name="metallic" type="float" nodename="extract_orm3" />
+    <input name="roughness" type="float" nodename="extract_orm2" />
+    <input name="occlusion" type="float" nodename="image_occlusion" />
     <input name="normal" type="vector3" nodename="image_normal" />
     <input name="emissive" type="color3" nodename="image_emissive" output="outcolor" />
   </gltf_pbr>
@@ -20,6 +20,18 @@
   <gltf_image name="image_orm" type="vector3">
     <input name="file" type="filename" value="Default_metalRoughness.jpg" />
   </gltf_image>
+  <extract name="extract_orm" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm2" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm3" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="2" />
+  </extract>
   <gltf_normalmap name="image_normal" type="vector3">
     <input name="file" type="filename" value="Default_normal.jpg" />
   </gltf_normalmap>

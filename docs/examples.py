@@ -5,7 +5,7 @@
 # 
 # This notebook provides a set of sample code which demonstrates the workflow to convert between glTF and MaterialX.
 # 
-# The sample input file is the "BoomBox with Axes" file from the glTF sample repository found [here](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF) is used to demonstrate glTF to MaterialX conversion. The resulting MaterialX file after conversion is used to demonstrate conversion to glTF.
+# The sample input file is the "BoomBox with Axes" file from the glTF sample repository found [here](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models//BoomBoxWithAxes/glTF) is used to demonstrate glTF to MaterialX conversion. The resulting MaterialX file after conversion is used to demonstrate conversion to glTF.
 # 
 # | | |
 # | :--: | :--: |
@@ -51,7 +51,7 @@ displaySource('Available data files', result, 'text', True)
 # %% [markdown]
 # ### Convert from glTF to MaterialX
 # 
-# The sample glTF input file is the "BoomBox with Axes" file from the glTF sample repository found [here](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF).
+# The sample glTF input file is the "BoomBox with Axes" file from the glTF sample repository [here](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models//BoomBoxWithAxes/glTF).
 
 # %%
 import pkg_resources

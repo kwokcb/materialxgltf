@@ -8,19 +8,21 @@
 
 ## Introduction
 
-This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1.  
+This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1.  The current package is synced with MaterialX release 1.39.
 
 See the [home page](https://kwokcb.github.io/materialxgltf/) for this project.
 
-Below is an example of converting the "Damaged Helmet" asset (found in the **[glTF Sample Model repository](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet)**) to MaterialX and previewing.
-<img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" width="80%">
+Below is an example of converting the "Sci Fi Helmet" asset (found in the **[glTF Sample Model repository](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/SciFiHelmet)**) to MaterialX and previewing.
+<!-- 
+<img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" width="80%"> -->
+<img src="https://github.com/kwokcb/materialxgltf/docs/images/SciFiHelmet_graph.png" width="100%">
 
 The functionality found here is equivalent to the C++ module available in
 **[this repository](https://github.com/kwokcb/glTF_MaterialX)**. Note that additional documentation can be found on that site. 
 
 ## Installation
 
-The minimum version of Python is assumed to be 3.9.
+The minimum version of Python is assumed to be 3.9 and has been tested up to 3.11.
 
 The package hosted on **[PyPi](https://pypi.org/project/materialxgltf/)** can be installed using `pip`:
 
@@ -44,11 +46,83 @@ pip --install <name of zip>
 
 Requires the installation of the following packages:
 
-* `materialx` version 1.38.9 or higher: For editing MaterialX documents.
+* `materialx` version 1.39 or higher: For MaterialX support.
 * `pygltflib` : For conversion from `glTF` to `glb` including packaging dependent geometry and image resources.
 
 
 ## Documentation
+
+### Command Line Utilities
+
+The package provides basic command line utilities for converting between glTF and MaterialX. These can be found by running the module:
+
+```bash
+python -m materialxgltf -h
+```
+which will result in the following output:
+
+```bash
+Usage: python -m materialxgltf <command> [options] where command is mtlx2gltf or gltf2mtlx
+```
+
+Querying for help for each command will provide more detailed information:
+
+#### glTF to MaterialX Conversion
+
+```bash
+python -m materialxgltf gltf2mtlx -h
+```
+```bash
+usage: gltf2mtlx.py [-h] [--mtlxFileName MTLXFILENAME] [--createAssignments CREATEASSIGNMENTS] [--addAllInputs ADDALLINPUTS] gltfFileName
+
+Utility to convert a glTF file to MaterialX file
+
+positional arguments:
+  gltfFileName          Path containing glTF file to convert.
+
+options:
+  -h, --help            show this help message and exit
+  --mtlxFileName MTLXFILENAME
+                        Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used
+  --createAssignments CREATEASSIGNMENTS
+                        Create material assignments. Default is True
+  --addAllInputs ADDALLINPUTS
+                        Add all definition inputs to MaterialX shader nodes. Default is False
+```                        
+
+#### MaterialX to glTF Conversion
+```bash
+python -m materialxgltf mtlx2gltf -h
+```
+```bash
+usage: mtlx2gltf.py [-h] [--gltfFileName GLTFFILENAME] [--gltfGeomFileName GLTFGEOMFILENAME] [--primsPerMaterial PRIMSPERMATERIAL] [--packageBinary PACKAGEBINARY] [--translateShaders TRANSLATESHADERS] [--bakeTextures BAKETEXTURES][--bakeResolution BAKERESOLUTION] [--writeDefaultInputs WRITEDEFAULTINPUTS]
+ mtlxFileName
+
+Utility to convert a MaterialX file to a glTF file
+
+positional arguments:
+  mtlxFileName          Path containing MaterialX file to convert.
+
+options:
+  -h, --help            show this help message and exit
+  --gltfFileName GLTFFILENAME
+                        Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used
+  --gltfGeomFileName GLTFGEOMFILENAME
+                        Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used
+  --primsPerMaterial PRIMSPERMATERIAL
+                        Create a new primitive per material and assign the material. Default is False
+  --packageBinary PACKAGEBINARY
+                        Create a biary packaged GLB file. Default is False
+  --translateShaders TRANSLATESHADERS
+                        Translate shaders to glTF. Default is False
+  --bakeTextures BAKETEXTURES
+                        Bake pattern graphs as textures. Default is False
+  --bakeResolution BAKERESOLUTION
+                        Bake image resolution. Default is 256
+  --writeDefaultInputs WRITEDEFAULTINPUTS
+                        Write default inputs on shader nodes. Default is False
+```
+
 
 For more detailed information about the workflow this package supports, please refer to this **[documentation](https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html)**.
 
@@ -65,14 +139,14 @@ extracted materials.
 
 Note that the sample data is included as part of the package for convenience.
 
-The sample input file is the "BoomBox with Axes" file from the glTF sample repository found **[here](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBoxWithAxes/glTF)**.
+The sample input file is the "BoomBox with Axes" file from the glTF https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/sitory found **[here](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/BoomBoxWithAxes/glTF)**.
 
-<img src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoomBoxWithAxes/screenshot/screenshot.jpg">
+<img src="https://github.com/KhronosGroup/glTF-Sample-Assets/blob/main/Models/BoomBoxWithAxes/screenshot/screenshot_large.jpg?raw=true" width=30%>
 
-This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the "MaterialX Graph Editor" which comes with **[MaterialX releases](https://github.com/AcademySoftwareFoundation/MaterialX/releases)**.
+This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the a graph editor
 
-<img src="https://raw.githubusercontent.com/kwokcb/MaterialX_Learn/main/documents/images/gltf_to_mtlx_boombox_with_axes.png" alt="MaterialX Graph Editor Snapshot"
-width="80%">
+<img src="https://github.com/kwokcb/materialxgltf/docs/images/BoomBox_graph.png" alt="Graph Editor Snapshot" width="100%">
+
 
 The converted materials are then used to create a new glTF file using sample "shaderball" data with each material found assigned to different instances of the "shaderball"
 

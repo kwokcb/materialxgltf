@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<materialx version="1.38">
+<materialx version="1.39">
   <!-- Generated shader: phong1SG -->
   <gltf_pbr name="phong1SG" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
     <input name="alpha" type="float" nodename="image_base_color" output="outa" />
-    <input name="metallic" type="float" nodename="image_orm" channels="z" />
-    <input name="roughness" type="float" nodename="image_orm" channels="y" />
-    <input name="occlusion" type="float" nodename="image_occlusion" channels="x" />
+    <input name="metallic" type="float" nodename="extract_orm3" />
+    <input name="roughness" type="float" nodename="extract_orm2" />
+    <input name="occlusion" type="float" nodename="image_occlusion" />
     <input name="normal" type="vector3" nodename="image_normal" />
     <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
   </gltf_pbr>
@@ -23,6 +23,18 @@
     <input name="uaddressmode" type="string" value="periodic" />
     <input name="vaddressmode" type="string" value="periodic" />
   </gltf_image>
+  <extract name="extract_orm" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm2" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm3" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="2" />
+  </extract>
   <gltf_normalmap name="image_normal" type="vector3">
     <input name="file" type="filename" value="normal.jpg" />
     <input name="filtertype" type="string" value="closest" />
@@ -39,9 +51,9 @@
   <gltf_pbr name="phong1SG2" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color2" output="outcolor" />
     <input name="alpha" type="float" nodename="image_base_color2" output="outa" />
-    <input name="metallic" type="float" nodename="image_orm2" channels="z" />
-    <input name="roughness" type="float" nodename="image_orm2" channels="y" />
-    <input name="occlusion" type="float" nodename="image_occlusion2" channels="x" />
+    <input name="metallic" type="float" nodename="extract_orm6" />
+    <input name="roughness" type="float" nodename="extract_orm5" />
+    <input name="occlusion" type="float" nodename="image_occlusion2" />
     <input name="normal" type="vector3" nodename="image_normal2" />
     <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
   </gltf_pbr>
@@ -58,6 +70,18 @@
     <input name="uaddressmode" type="string" value="periodic" />
     <input name="vaddressmode" type="string" value="periodic" />
   </gltf_image>
+  <extract name="extract_orm4" type="float">
+    <input name="in" type="vector3" nodename="image_orm2" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm5" type="float">
+    <input name="in" type="vector3" nodename="image_orm2" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm6" type="float">
+    <input name="in" type="vector3" nodename="image_orm2" />
+    <input name="index" type="integer" value="2" />
+  </extract>
   <gltf_normalmap name="image_normal2" type="vector3">
     <input name="file" type="filename" value="normal.jpg" />
     <input name="filtertype" type="string" value="closest" />
@@ -74,9 +98,9 @@
   <gltf_pbr name="phong1SG3" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color3" output="outcolor" />
     <input name="alpha" type="float" nodename="image_base_color3" output="outa" />
-    <input name="metallic" type="float" nodename="image_orm3" channels="z" />
-    <input name="roughness" type="float" nodename="image_orm3" channels="y" />
-    <input name="occlusion" type="float" nodename="image_occlusion3" channels="x" />
+    <input name="metallic" type="float" nodename="extract_orm9" />
+    <input name="roughness" type="float" nodename="extract_orm8" />
+    <input name="occlusion" type="float" nodename="image_occlusion3" />
     <input name="normal" type="vector3" nodename="image_normal3" />
     <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
   </gltf_pbr>
@@ -93,6 +117,18 @@
     <input name="uaddressmode" type="string" value="periodic" />
     <input name="vaddressmode" type="string" value="periodic" />
   </gltf_image>
+  <extract name="extract_orm7" type="float">
+    <input name="in" type="vector3" nodename="image_orm3" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm8" type="float">
+    <input name="in" type="vector3" nodename="image_orm3" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm9" type="float">
+    <input name="in" type="vector3" nodename="image_orm3" />
+    <input name="index" type="integer" value="2" />
+  </extract>
   <gltf_normalmap name="image_normal3" type="vector3">
     <input name="file" type="filename" value="normal.jpg" />
     <input name="filtertype" type="string" value="closest" />
