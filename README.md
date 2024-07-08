@@ -15,7 +15,7 @@ See the [home page](https://kwokcb.github.io/materialxgltf/) for this project.
 Below is an example of converting the "Sci Fi Helmet" asset (found in the **[glTF Sample Model repository](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/SciFiHelmet)**) to MaterialX and previewing.
 <!-- 
 <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" width="80%"> -->
-<img src="https://github.com/kwokcb/materialxgltf/docs/images/SciFiHelmet_graph.png" width="100%">
+<img src="https://kwokcb.github.io/materialxgltf/docs/images/SciFiHelmet_graph.png" width="100%">
 
 The functionality found here is equivalent to the C++ module available in
 **[this repository](https://github.com/kwokcb/glTF_MaterialX)**. Note that additional documentation can be found on that site. 
@@ -145,7 +145,7 @@ The sample input file is the "BoomBox with Axes" file from the glTF https://gith
 
 This is converted from glTF to a MaterialX document which can be previewed / modified using an integration which supports MaterialX. Here the file is loaded into the a graph editor
 
-<img src="https://github.com/kwokcb/materialxgltf/docs/images/BoomBox_graph.png" alt="Graph Editor Snapshot" width="100%">
+<img src="https://kwokcb.github.io/materialxgltf/docs/images/BoomBox_graph.png" alt="Graph Editor Snapshot" width="100%">
 
 
 The converted materials are then used to create a new glTF file using sample "shaderball" data with each material found assigned to different instances of the "shaderball"
