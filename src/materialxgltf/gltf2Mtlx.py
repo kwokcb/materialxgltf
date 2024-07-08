@@ -41,7 +41,7 @@ def main():
     '''
     parser = argparse.ArgumentParser(description='Utility to convert a glTF file to MaterialX file')
     parser.add_argument(dest='gltfFileName', help='Path containing glTF file to convert.')
-    parser.add_argument('--mtlxFileName', dest='mtlxFileName', default='', help='Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used')
+    parser.add_argument('--mtlxFileName', dest='mtlxFileName', default='', help='Name of MaterialX output file. If not specified the glTF name with "_converted.mtlx" suffix will be used')
     parser.add_argument('--createAssignments', dest='createAssignments', type=mx.stringToBoolean, default=True, help='Create material assignments. Default is True')
     parser.add_argument('--addAllInputs', dest='addAllInputs', type=mx.stringToBoolean, default=False, help='Add all definition inputs to MaterialX shader nodes. Default is False')
 
