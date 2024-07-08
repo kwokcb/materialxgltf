@@ -49,7 +49,7 @@ QuiltiX and MaterialX to use the MaterialX 1.38.9 definition library for OpenUSD
 
 The following is one of the examples running QuiltiX with the `HDStorm` OpenUSD render delegate and a local model-viewer customization.
 
-<img src="./images/Copper_translated_baked_to_gltf.png?raw=true">
+<img src="https://kwokcb.github.io/materialxgltf/docs/images/Copper_translated_baked_to_gltf.png?raw=true">
 
 
 These materials are from the "Physically Based" site maintained by Anton Palmqvist. The MaterialX files were downloaded from the [Physical Based Site](https://physicallybased.info/).
