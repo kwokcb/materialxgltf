@@ -179,6 +179,19 @@ class GLTF2MtlxReader:
         '''
         return self._options
 
+    def addNodeDefOutputs(self, mx_node):
+
+        # Handle with node outputs are not explicitly specified on
+        # a multioutput node.
+        if mx_node.getType() == "multioutput":
+            mx_node_def = mx_node.getNodeDef()
+            if mx_node_def:
+                for mx_output in mx_node_def.getActiveOutputs():
+                    mx_output_name = mx_output.getName()
+                    if not mx_node.getOutput(mx_output_name):
+                        mx_output_type = mx_output.getType()
+                        mx_node.addOutput(mx_output_name, mx_output_type)
+
     def addMtlxImage(self, materials, nodeName, fileName, nodeCategory, nodeDefId, nodeType, colorspace='') -> mx.Node:
         '''
         Create a MaterialX image lookup.
@@ -210,6 +223,8 @@ class GLTF2MtlxReader:
                     fileInput.setAttribute(colorspaceattr, colorspace)
             else:
                 self.log('-- failed to create file input for name: %s' % fileName)
+
+            self.addNodeDefOutputs(imageNode)
 
         return imageNode
 
@@ -396,6 +411,19 @@ class GLTF2MtlxReader:
 
         return imageNode
 
+    def versionGreaterThan(self, major, minor, patch):
+        return False
+    
+        mx_major, mx_minor, mx_patch = mx.getVersionIntegers()
+        print('-------------- version: ', mx_major, mx_minor, mx_patch, '. vs', major, minor, mx_patch)
+        if mx_major < major:
+            return False
+        if mx_minor < minor:
+            return False
+        if mx_patch < patch:
+            return False
+        return True
+
     def readColorInput(self, materials, colorTexture, color, imageNodeName, nodeCategory, nodeType, nodeDefId,
                         shaderNode, colorInputName, alphaInputName, 
                         gltf_textures, gltf_images, gltf_samplers, colorspace=MTLX_DEFAULT_COLORSPACE):
@@ -456,7 +484,7 @@ class GLTF2MtlxReader:
                     assignedColorTexture = True
 
                 # Connect texture to alpha input on shader
-                if len(alphaInputName):            
+                if len(alphaInputName) and self.versionGreaterThan(1, 38, 10):            
                     alphaInput = shaderNode.addInputFromNodeDef(alphaInputName)
                     if not alphaInput:
                         self.log('Failed to add alpha input:' + alphaInputName)
@@ -573,7 +601,7 @@ class GLTF2MtlxReader:
                 if 'baseColorFactor' in pbrMetallicRoughness:
                     baseColorFactor = pbrMetallicRoughness['baseColorFactor']
                 if baseColorTexture or baseColorFactor:
-                    colorInputName = 'base_color'
+                    colorInputName = 'base_color'                    
                     alphaInputName = 'alpha'
                     if use_unlit:
                         colorInputName = 'emission_color'

@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<materialx version="1.39">
+<materialx version="1.38">
   <!-- Generated shader: SciFiHelmet -->
   <gltf_pbr name="SciFiHelmet" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
-    <input name="alpha" type="float" nodename="image_base_color" output="outa" />
     <input name="metallic" type="float" nodename="extract_orm3" />
     <input name="roughness" type="float" nodename="extract_orm2" />
     <input name="occlusion" type="float" nodename="image_occlusion" />
@@ -16,6 +15,8 @@
   </surfacematerial>
   <gltf_colorimage name="image_base_color" type="multioutput">
     <input name="file" type="filename" value="SciFiHelmet_BaseColor.png" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
   </gltf_colorimage>
   <gltf_image name="image_orm" type="vector3">
     <input name="file" type="filename" value="SciFiHelmet_MetallicRoughness.png" />

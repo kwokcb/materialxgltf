@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<materialx version="1.39">
+<materialx version="1.38">
   <!-- Generated shader: phong1SG -->
   <gltf_pbr name="phong1SG" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
-    <input name="alpha" type="float" nodename="image_base_color" output="outa" />
+    <input name="alpha" type="float" value="1" />
     <input name="metallic" type="float" nodename="extract_orm3" />
     <input name="roughness" type="float" nodename="extract_orm2" />
     <input name="occlusion" type="float" nodename="image_occlusion" />
@@ -16,6 +16,8 @@
   </surfacematerial>
   <gltf_colorimage name="image_base_color" type="multioutput">
     <input name="file" type="filename" value="diffuseMidnight.jpg" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
   </gltf_colorimage>
   <gltf_image name="image_orm" type="vector3">
     <input name="file" type="filename" value="occlusionRougnessMetalness.jpg" />
@@ -50,7 +52,7 @@
   <!-- Generated shader: phong1SG2 -->
   <gltf_pbr name="phong1SG2" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color2" output="outcolor" />
-    <input name="alpha" type="float" nodename="image_base_color2" output="outa" />
+    <input name="alpha" type="float" value="1" />
     <input name="metallic" type="float" nodename="extract_orm6" />
     <input name="roughness" type="float" nodename="extract_orm5" />
     <input name="occlusion" type="float" nodename="image_occlusion2" />
@@ -63,6 +65,8 @@
   </surfacematerial>
   <gltf_colorimage name="image_base_color2" type="multioutput">
     <input name="file" type="filename" value="diffuseBeach.jpg" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
   </gltf_colorimage>
   <gltf_image name="image_orm2" type="vector3">
     <input name="file" type="filename" value="occlusionRougnessMetalness.jpg" />
@@ -97,7 +101,7 @@
   <!-- Generated shader: phong1SG3 -->
   <gltf_pbr name="phong1SG3" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color3" output="outcolor" />
-    <input name="alpha" type="float" nodename="image_base_color3" output="outa" />
+    <input name="alpha" type="float" value="1" />
     <input name="metallic" type="float" nodename="extract_orm9" />
     <input name="roughness" type="float" nodename="extract_orm8" />
     <input name="occlusion" type="float" nodename="image_occlusion3" />
@@ -110,6 +114,8 @@
   </surfacematerial>
   <gltf_colorimage name="image_base_color3" type="multioutput">
     <input name="file" type="filename" value="diffuseStreet.jpg" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
   </gltf_colorimage>
   <gltf_image name="image_orm3" type="vector3">
     <input name="file" type="filename" value="occlusionRougnessMetalness.jpg" />

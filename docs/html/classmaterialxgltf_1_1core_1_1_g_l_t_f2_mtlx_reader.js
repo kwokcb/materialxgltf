@@ -2,6 +2,7 @@ var classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader =
 [
     [ "addMtlxImage", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a5559ec98e06281abe6a2b9190b5d849a", null ],
     [ "addMTLXTexCoordNode", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#aa96e7b03ac70b6d749f8241cd899813c", null ],
+    [ "addNodeDefOutputs", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a89c2a87a112718141751b42e14eb55bd", null ],
     [ "buildMaterialAssociations", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#ae3940a942c0ded19e96c61f4d0f3a281", null ],
     [ "clearLog", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a2bca699cfcef39d946c910b07b1d0fad", null ],
     [ "computeMeshMaterials", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a2e5aed25955cc9a7c51740b366f493f3", null ],
@@ -14,5 +15,6 @@ var classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader =
     [ "readColorInput", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a08275100d555202345e2408677d627c9", null ],
     [ "readGLTFImageProperties", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#ac9d32d0f91025c6e7f23f7adb706bde9", null ],
     [ "readInput", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a1db761e6711eff797496e9ed4e6eb4a3", null ],
-    [ "setOptions", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#ab737e1cf78fcf531e2b3ea2e51331c29", null ]
+    [ "setOptions", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#ab737e1cf78fcf531e2b3ea2e51331c29", null ],
+    [ "versionGreaterThan", "classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#ae87e1a30e909a5087f1028f3657bb988", null ]
 ];
