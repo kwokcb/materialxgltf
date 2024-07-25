@@ -27,7 +27,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MaterialXglTF
-   &#160;<span id="projectnumber">0.0.4</span>
+   &#160;<span id="projectnumber">1.39.0.1</span>
    </div>
   </td>
  </tr>
@@ -97,7 +97,18 @@ Documentation</h2>
 <li><b>Jupyter Notebook</b>: An example is shown here <b><a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">here</a></b>. The notebook file can be found in the source repository.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md2"></a>
-Examples</h3>
+Sample Integrations</h3>
+<p>A working version of a plug-in for QuiltiX can be found <a href="https://github.com/kwokcb/QuiltiX/tree/materialxgltf/sample_plugins/materialxgltf">here </a></p>
+<p>Below is a example of loading in the "Damaged Helmet" model from the <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/main/2.0/DamagedHelmet">Khronos glTF sample models</a> repository and converting it to a MaterialX file using the QuiltiX plugin. The textures are currently too dark due to lack of color management in the version of OpenUSD used.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadLeft">QuiltiX Plug-in   </th><th class="markdownTableHeadCenter">MaterialX View    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><img src="https://github.com/kwokcb/QuiltiX/blob/materialxgltf/sample_plugins/materialxgltf/DamagedHelmet_Example.png?raw=true" alt="" width="100%" class="inline"/>   </td><td class="markdownTableBodyCenter"><img src="https://github.com/kwokcb/QuiltiX/blob/materialxgltf/sample_plugins/materialxgltf/DamagedHelmet_Example_MXView.png?raw=true" alt="" width="100%" class="inline"/>   </td></tr>
+</table>
+<p><sub>Note that the MaterialX versions must match between QuiltiX and the MaterialXglTF package. The current development version is 1.38.9. Either the appropriate branch of the GitHub repository needs to be built locally or the matching version of the package needs to be installed from the PyPi repository.</sub></p>
+<h3><a class="anchor" id="autotoc_md3"></a>
+Material Examples</h3>
 <p>A gallery of example conversions can be found <b><a href="https://kwokcb.github.io/materialxgltf/docs/gallery.html">here</a></b></p>
 <p>These examples can be loaded into different viewers to see the results. The following table shows the results of loading the Open Chess Set MaterialX file which has been converted to used the glTF PBR shading model, baked, and then converted to a glTF binary (GLB). ( Asset is authored by Moeen Sayed and Mujtaba Sayed, and was contributed to the MaterialX project by Side Effects. )</p>
 <table class="markdownTable">
