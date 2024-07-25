@@ -32,6 +32,9 @@ MTLX_NODE_NAME_ATTRIBUTE = 'nodename'
 MTLX_NODEGRAPH_NAME_ATTRIBUTE = 'nodegraph'
 MTLX_COLOR_SPACE_ATTRIBUTE = 'colorspace' # mx.Element.COLOR_SPACE_ATTRIBUTE is not exposed
 MTLX_VEC3_STRING = 'vector3'
+MTLX_IN_STRING = 'in'
+MTLX_FLOAT_STRING = 'float'
+MTLX_VALUE_STRING = 'value'
 EMPTY_STRING = ''
 MTLX_VALUE_ATTRIBUTE = 'value' # mx.AttributeDef.MTLX_VALUE_ATTRIBUTE is not exposed
 

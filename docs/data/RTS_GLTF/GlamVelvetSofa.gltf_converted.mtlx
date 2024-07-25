@@ -160,8 +160,8 @@
   </gltf_image>
   <!-- Generated material assignments -->
   <look name="look">
-    <materialassign name="MAT_GlamVelvetSofa_legs" material="MAT_GlamVelvetSofa_legs" geom="GlamVelvetSofa_legs" />
-    <materialassign name="MAT_GlamVelvetSofa_fabric_navy" material="MAT_GlamVelvetSofa_fabric_navy" geom="GlamVelvetSofa_fabric" />
-    <materialassign name="MAT_GlamVelvetSofa_feet" material="MAT_GlamVelvetSofa_feet" geom="GlamVelvetSofa_feet" />
+    <materialassign name="MAT_GlamVelvetSofa_legs" material="MAT_GlamVelvetSofa_legs" geom="/GlamVelvetSofa_legs/GlamVelvetSofa_legs" />
+    <materialassign name="MAT_GlamVelvetSofa_fabric_navy" material="MAT_GlamVelvetSofa_fabric_navy" geom="/GlamVelvetSofa_fabric/GlamVelvetSofa_fabric" />
+    <materialassign name="MAT_GlamVelvetSofa_feet" material="MAT_GlamVelvetSofa_feet" geom="/GlamVelvetSofa_feet/GlamVelvetSofa_feet" />
   </look>
 </materialx>

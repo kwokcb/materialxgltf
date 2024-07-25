@@ -10,7 +10,21 @@ The package can be downloaded fro PyPi **[here](https://pypi.org/project/materia
 * **API Documentation**): Python interface documentation can be found **[here](https://kwokcb.github.io/materialxgltf/docs/html/index.html)**
 * **Jupyter Notebook**: An example is shown here **[here](https://kwokcb.github.io/materialxgltf/docs/examples.html)**. The notebook file can be found in the source repository.
 
-#### Examples
+#### Sample Integrations
+
+A working version of a plug-in for QuiltiX can be found <a href="https://github.com/kwokcb/QuiltiX/tree/materialxgltf/sample_plugins/materialxgltf">here </a>
+
+Below is a example of loading in the "Damaged Helmet" model from the <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/main/2.0/DamagedHelmet">Khronos glTF sample models</a> repository and converting it to a MaterialX file using the QuiltiX plugin. The textures
+are currently too dark due to lack of color management in the version of OpenUSD used.
+
+| QuiltiX Plug-in| MaterialX View |
+| :-- | :--: |
+| <img src="https://github.com/kwokcb/QuiltiX/blob/materialxgltf/sample_plugins/materialxgltf/DamagedHelmet_Example.png?raw=true" width=100%> | <img src="https://github.com/kwokcb/QuiltiX/blob/materialxgltf/sample_plugins/materialxgltf/DamagedHelmet_Example_MXView.png?raw=true" width=100%> |
+
+<sub>Note that the MaterialX versions must match between QuiltiX and the MaterialXglTF package. The current development version is 1.38.9. Either the appropriate branch of 
+the GitHub repository needs to be built locally or the matching version of the package needs to be installed from the PyPi repository.</sub>
+
+#### Material Examples
 
 A gallery of example conversions can be found **[here](https://kwokcb.github.io/materialxgltf/docs/gallery.html)**
 

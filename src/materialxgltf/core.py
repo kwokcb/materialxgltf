@@ -179,6 +179,19 @@ class GLTF2MtlxReader:
         '''
         return self._options
 
+    def addNodeDefOutputs(self, mx_node):
+
+        # Handle with node outputs are not explicitly specified on
+        # a multioutput node.
+        if mx_node.getType() == MULTI_OUTPUT_TYPE_STRING:
+            mx_node_def = mx_node.getNodeDef()
+            if mx_node_def:
+                for mx_output in mx_node_def.getActiveOutputs():
+                    mx_output_name = mx_output.getName()
+                    if not mx_node.getOutput(mx_output_name):
+                        mx_output_type = mx_output.getType()
+                        mx_node.addOutput(mx_output_name, mx_output_type)
+
     def addMtlxImage(self, materials, nodeName, fileName, nodeCategory, nodeDefId, nodeType, colorspace='') -> mx.Node:
         '''
         Create a MaterialX image lookup.
@@ -210,6 +223,8 @@ class GLTF2MtlxReader:
                     fileInput.setAttribute(colorspaceattr, colorspace)
             else:
                 self.log('-- failed to create file input for name: %s' % fileName)
+
+            self.addNodeDefOutputs(imageNode)
 
         return imageNode
 
@@ -396,6 +411,19 @@ class GLTF2MtlxReader:
 
         return imageNode
 
+    def versionGreaterThan(self, major, minor, patch):
+        return False
+    
+        mx_major, mx_minor, mx_patch = mx.getVersionIntegers()
+        print('-------------- version: ', mx_major, mx_minor, mx_patch, '. vs', major, minor, mx_patch)
+        if mx_major < major:
+            return False
+        if mx_minor < minor:
+            return False
+        if mx_patch < patch:
+            return False
+        return True
+
     def readColorInput(self, materials, colorTexture, color, imageNodeName, nodeCategory, nodeType, nodeDefId,
                         shaderNode, colorInputName, alphaInputName, 
                         gltf_textures, gltf_images, gltf_samplers, colorspace=MTLX_DEFAULT_COLORSPACE):
@@ -456,7 +484,7 @@ class GLTF2MtlxReader:
                     assignedColorTexture = True
 
                 # Connect texture to alpha input on shader
-                if len(alphaInputName):            
+                if len(alphaInputName) and self.versionGreaterThan(1, 38, 10):            
                     alphaInput = shaderNode.addInputFromNodeDef(alphaInputName)
                     if not alphaInput:
                         self.log('Failed to add alpha input:' + alphaInputName)
@@ -573,7 +601,7 @@ class GLTF2MtlxReader:
                 if 'baseColorFactor' in pbrMetallicRoughness:
                     baseColorFactor = pbrMetallicRoughness['baseColorFactor']
                 if baseColorTexture or baseColorFactor:
-                    colorInputName = 'base_color'
+                    colorInputName = 'base_color'                    
                     alphaInputName = 'alpha'
                     if use_unlit:
                         colorInputName = 'emission_color'
@@ -625,21 +653,21 @@ class GLTF2MtlxReader:
                     if addSeparateNode:
                         # Add a separate node to route the channels
                         separateNodeName = doc.createValidChildName('separate_orm')
-                        separateNode = doc.addNode('separate3', separateNodeName, 'multioutput')      
-                        seperateInput = separateNode.addInputFromNodeDef('in')
-                        seperateInput.setType('vector3')
+                        separateNode = doc.addNode('separate3', separateNodeName, MULTI_OUTPUT_TYPE_STRING)      
+                        seperateInput = separateNode.addInputFromNodeDef(MTLX_IN_STRING)
+                        seperateInput.setType(MTLX_VEC3_STRING)
                         seperateInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())                  
                     for i in range(0,3): 
                         input = inputs[i]
                         if input:
-                            input.setType('float') #mx.FLOAT_STRING
+                            input.setType(MTLX_FLOAT_STRING)
                             if addExtractNode:
                                 extractNodeName = doc.createValidChildName('extract_orm')
-                                extractNode = doc.addNode('extract', extractNodeName, 'float')
+                                extractNode = doc.addNode('extract', extractNodeName, MTLX_FLOAT_STRING)
                                 extractNode.addInputsFromNodeDef()
-                                extractNodeInput = extractNode.getInput('in')
-                                extractNodeInput.setType('vector3')    
-                                extractNodeInput.removeAttribute('value')
+                                extractNodeInput = extractNode.getInput(MTLX_IN_STRING)
+                                extractNodeInput.setType(MTLX_VEC3_STRING)    
+                                extractNodeInput.removeAttribute(MTLX_VALUE_STRING)
                                 extractNodeInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())                                
                                 extractNodeInput = extractNode.getInput('index')
                                 extractNodeInput.setValue(i)
@@ -661,7 +689,7 @@ class GLTF2MtlxReader:
             occlusionTexture = None
             if 'occlusionTexture' in material:
                 occlusionTexture = material['occlusionTexture']
-                self.readInput(doc, occlusionTexture, [], 'image_occlusion', MTLX_GLTF_IMAGE, 'float', '',
+                self.readInput(doc, occlusionTexture, [], 'image_occlusion', MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
                         shaderNode, ['occlusion'], textures, images, samplers)
 
             # Parse emissive inputs
@@ -730,7 +758,7 @@ class GLTF2MtlxReader:
                         specularTexture = specularExtension['specularTexture']
                     if specularFactor or specularTexture:
                         self.readInput(doc, specularTexture, [specularFactor], 'image_specular', MTLX_GLTF_IMAGE,
-                                'float', '', shaderNode, ['specular'], textures, images, samplers)
+                                MTLX_FLOAT_STRING, '', shaderNode, ['specular'], textures, images, samplers)
 
                 # Parse transmission extension        
                 if 'KHR_materials_transmission' in extensions:
@@ -753,13 +781,13 @@ class GLTF2MtlxReader:
                             iridescenceTexture = iridescenceExtension['iridescenceTexture']
                         if iridescenceFactor or iridescenceTexture:
                             self.readInput(doc, iridescenceTexture, [iridescenceFactor], 'image_iridescence', MTLX_GLTF_IMAGE,
-                                    'float', '', shaderNode, ['iridescence'], textures, images, samplers)
+                                    MTLX_FLOAT_STRING, '', shaderNode, ['iridescence'], textures, images, samplers)
                         
                         # Parse mapped or unmapped iridescence IOR
                         if 'iridescenceIor' in iridescenceExtension:
                             iridescenceIor = iridescenceExtension['iridescenceIor']
                             self.readInput(doc, None, [iridescenceIor], '', '',
-                                    'float', '', shaderNode, ['iridescence_ior'], textures, images, samplers)
+                                    MTLX_FLOAT_STRING, '', shaderNode, ['iridescence_ior'], textures, images, samplers)
                         
                         # Parse iridescence texture
                         iridescenceThicknessMinimum = iridescenceExtension['iridescenceThicknessMinimum'] if 'iridescenceThicknessMinimum' in iridescenceExtension else None
@@ -775,10 +803,10 @@ class GLTF2MtlxReader:
                                     uri = self.getGLTFTextureUri(texture, images)  
                                 
                                     imageNodeName = doc.createValidChildName("image_iridescence_thickness")                            
-                                    newTexture = self.addMtlxImage(doc, imageNodeName, uri, 'gltf_iridescence_thickness', '', 'float', '')
+                                    newTexture = self.addMtlxImage(doc, imageNodeName, uri, 'gltf_iridescence_thickness', '', MTLX_FLOAT_STRING, '')
                                     if newTexture:
                                         floatInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, newTexture.getName())
-                                        floatInput.removeAttribute('value')
+                                        floatInput.removeAttribute(MTLX_VALUE_STRING)
 
                                         if iridescenceThicknessMinimum:
                                             minInput = newTexture.addInputFromNodeDef("thicknessMin")
@@ -807,7 +835,7 @@ class GLTF2MtlxReader:
                     if 'thicknessTexture' in volumeExtension:
                         thicknessTexture = volumeExtension['thicknessTexture']
                     if thicknessFactor or thicknessTexture:                    
-                        self.readInput(doc, thicknessTexture, [thicknessFactor], 'image_thickness', MTLX_GLTF_IMAGE, 'float', '',
+                        self.readInput(doc, thicknessTexture, [thicknessFactor], 'image_thickness', MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
                                 shaderNode, ['thickness'], textures, images, samplers)
 
                     # Untextured attenuation color
@@ -834,7 +862,7 @@ class GLTF2MtlxReader:
                         clearcoatTexture = clearcoat['clearcoatTexture']
                     if clearcoatFactor or clearcoatTexture:
                         self.readInput(doc, clearcoatTexture, [clearcoatFactor], 'image_clearcoat', 
-                                MTLX_GLTF_IMAGE, 'float', '', shaderNode, ['clearcoat'], 
+                                MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '', shaderNode, ['clearcoat'], 
                                 textures, images, samplers)
                         
                     clearcoatRoughnessFactor = clearcoatRoughnessTexture = None
@@ -845,7 +873,7 @@ class GLTF2MtlxReader:
                     if clearcoatRoughnessFactor or clearcoatRoughnessTexture:
                         self.readInput(doc, clearcoatRoughnessTexture, [clearcoatRoughnessFactor], 
                                 'image_clearcoat_roughness', 
-                                MTLX_GLTF_IMAGE, 'float', '', shaderNode, ['clearcoat_roughness'], 
+                                MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '', shaderNode, ['clearcoat_roughness'], 
                                 textures, images, samplers)
                         
                     if 'clearcoatNormalTexture' in clearcoat:
@@ -874,7 +902,7 @@ class GLTF2MtlxReader:
                     if 'sheenRoughnessTexture' in sheen:
                         sheenRoughnessTexture = sheen['sheenRoughnessTexture']
                     if sheenRoughnessFactor or sheenRoughnessTexture:                    
-                        self.readInput(doc, sheenRoughnessTexture, [sheenRoughnessFactor], 'image_sheen_roughness', MTLX_GLTF_IMAGE, 'float', '',
+                        self.readInput(doc, sheenRoughnessTexture, [sheenRoughnessFactor], 'image_sheen_roughness', MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
                                 shaderNode, ['sheen_roughness'], textures, images, samplers)
 
         return True
@@ -1280,7 +1308,7 @@ class MTLX2GLTFWriter:
         '''
         returnvalue = value
 
-        if type in ['integer', 'matrix33', 'matrix44', 'vector2', 'vector3', 'vector3', 'float', 'color3', 'color4']:
+        if type in ['integer', 'matrix33', 'matrix44', 'vector2', MTLX_VEC3_STRING, MTLX_VEC3_STRING, MTLX_FLOAT_STRING, 'color3', 'color4']:
             splitvalue = value.split(',')
             if len(splitvalue) > 1: 
                 returnvalue = [float(x) for x in splitvalue]
@@ -1348,7 +1376,7 @@ class MTLX2GLTFWriter:
                 else:
                     value = input.getValueString()
                     value = self.stringToScalar(value, inputType)
-                    jsonNode['value'] = value
+                    jsonNode[MTLX_VALUE_STRING] = value
             procs.append(jsonNode)
             procDict[jsonNode['name']] = len(procs) - 1
 
@@ -1416,7 +1444,7 @@ class MTLX2GLTFWriter:
                         inputType = input.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE)
                         value  = input.getValueString()
                         value = self.stringToScalar(value, inputType)    
-                        inputItem['value'] = value                                       
+                        inputItem[MTLX_VALUE_STRING] = value                                       
                 else:
                     connection = input.getAttribute('interfacename')
                     if len(connection) == 0:
@@ -2199,7 +2227,7 @@ class MTLX2GLTFWriter:
             imageNamePaths = [ EMPTY_STRING, EMPTY_STRING, EMPTY_STRING ]
             roughnessInputs = [ 'metallicFactor', 'roughnessFactor', '' ]
 
-            IN_STRING = 'in'
+            IN_STRING = MTLX_IN_STRING
             ormNode= None
             imageNode = None
             extractCategory = 'extract'
