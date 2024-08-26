@@ -19,7 +19,7 @@ are currently too dark due to lack of color management in the version of OpenUSD
 
 | QuiltiX Plug-in| MaterialX View |
 | :-- | :--: |
-| <img src="https://github.com/kwokcb/QuiltiX/blob/materialxgltf/sample_plugins/materialxgltf/DamagedHelmet_Example.png?raw=true" width=100%> | <img src="https://github.com/kwokcb/QuiltiX/blob/materialxgltf/sample_plugins/materialxgltf/DamagedHelmet_Example_MXView.png?raw=true" width=100%> |
+| <img src="https://github.com/kwokcb/QuiltiX/blob/materialxgltf/sample_plugins/materialxgltf/images/DamagedHelmet_Example.png?raw=true" width=100%> | <img src="https://github.com/kwokcb/QuiltiX/blob/materialxgltf/sample_plugins/materialxgltf/images/DamagedHelmet_Example_MXView.png?raw=true" width=100%> |
 
 <sub>Note that the MaterialX versions must match between QuiltiX and the MaterialXglTF package. The current development version is 1.38.9. Either the appropriate branch of 
 the GitHub repository needs to be built locally or the matching version of the package needs to be installed from the PyPi repository.</sub>
