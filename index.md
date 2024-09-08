@@ -34,7 +34,9 @@ These examples can be loaded into different viewers to see the results. The foll
 | :-- | :--: |
 | <img src="https://kwokcb.github.io/materialxgltf/docs/images/bablyon_chessset.png"> | <img src="https://kwokcb.github.io/materialxgltf/docs/images/ThreeJS_editor_chessset.png"> |
 
+## Repository
 
+- GitHub: [materialxgltf](https://github.com/kwokcb/materialxgltf)
 
 
 
