@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['documenttojson_72',['documentToJSON',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a9c9d6ffcb4dcf2ec28c59a165c9b9ec3',1,'materialxgltf::core::MTLX2GLTFWriter']]]
+  ['documenttojson_0',['documentToJSON',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a55ef54fb674586a55dd2a4e1a7f4e1f6',1,'materialxgltf::core::MTLX2GLTFWriter']]]
 ];

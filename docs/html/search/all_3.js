@@ -1,9 +1,17 @@
 var searchData=
 [
-  ['clearlog_7',['clearLog',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a2bca699cfcef39d946c910b07b1d0fad',1,'materialxgltf.core.GLTF2MtlxReader.clearLog()'],['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a42170aa99d43f0c3569708d56a6412e3',1,'materialxgltf.core.MTLX2GLTFWriter.clearLog()']]],
-  ['computemeshmaterials_8',['computeMeshMaterials',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a2e5aed25955cc9a7c51740b366f493f3',1,'materialxgltf::core::GLTF2MtlxReader']]],
-  ['convert_9',['convert',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#adf682c3f403bc589a7d40d20505e7779',1,'materialxgltf.core.GLTF2MtlxReader.convert()'],['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#adbba3a483ca3cebe5d8a244b2319962e',1,'materialxgltf.core.MTLX2GLTFWriter.convert(self, doc)']]],
-  ['copygraphinterfaces_10',['copyGraphInterfaces',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#accda523bc9a20db393b7df12a501b5e6',1,'materialxgltf::core::MTLX2GLTFWriter']]],
+  ['check_20available_20sample_20data_0',['Check Available Sample Data',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md16',1,'']]],
+  ['clearlog_1',['clearLog',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#ad620db54ed08a626b4ff6679c4bfefb8',1,'materialxgltf.core.GLTF2MtlxReader.clearLog()'],['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#abac8fe7ec05bdce7b139d9f3d0213a41',1,'materialxgltf.core.MTLX2GLTFWriter.clearLog()']]],
+  ['command_20line_20utilities_2',['Command Line Utilities',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md10',1,'']]],
+  ['computemeshmaterials_3',['computeMeshMaterials',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a9f1ac872cec8fba18301a71d1adc5905',1,'materialxgltf::core::GLTF2MtlxReader']]],
+  ['contents_4',['Contents',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md5',1,'']]],
+  ['conversion_5',['Conversion',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md11',1,'glTF to MaterialX Conversion'],['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md12',1,'MaterialX to glTF Conversion']]],
+  ['conversion_20from_20materialx_20to_20gltf_6',['Conversion from MaterialX to glTF',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md19',1,'']]],
+  ['convert_7',['convert',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#adf682c3f403bc589a7d40d20505e7779',1,'materialxgltf.core.GLTF2MtlxReader.convert()'],['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#add6d073dad92168a550f3fded340687c',1,'materialxgltf.core.MTLX2GLTFWriter.convert()']]],
+  ['convert_20from_20gltf_20to_20materialx_8',['Convert from glTF to MaterialX',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md17',1,'']]],
+  ['copygraphinterfaces_9',['copyGraphInterfaces',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a382ea199bb58f4f61a304466ccbcb54f',1,'materialxgltf::core::MTLX2GLTFWriter']]],
+  ['core_2epy_10',['core.py',['../core_8py.html',1,'']]],
   ['creatematerialxdoc_11',['createMaterialXDoc',['../classmaterialxgltf_1_1core_1_1_util.html#a5207fc6b028d133fa9b75aa0e86bbf34',1,'materialxgltf::core::Util']]],
-  ['createprimsformaterials_12',['createPrimsForMaterials',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a96b887b48951a09c0fb2c0f6caf856b2',1,'materialxgltf::core::MTLX2GLTFWriter']]]
+  ['createprimsformaterials_12',['createPrimsForMaterials',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a96b887b48951a09c0fb2c0f6caf856b2',1,'materialxgltf::core::MTLX2GLTFWriter']]],
+  ['creating_20primitives_20per_20material_13',['Creating Primitives Per Material',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md21',1,'']]]
 ];

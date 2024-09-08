@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['setoptions_40',['setOptions',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#ab737e1cf78fcf531e2b3ea2e51331c29',1,'materialxgltf.core.GLTF2MtlxReader.setOptions()'],['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ab0de4393a9e04e883c76498c4b4569db',1,'materialxgltf.core.MTLX2GLTFWriter.setOptions()']]],
-  ['skiplibraryelement_41',['skipLibraryElement',['../classmaterialxgltf_1_1core_1_1_util.html#ab1a945afea7749f8f31d5335ee7a4d96',1,'materialxgltf::core::Util']]],
-  ['stringtoscalar_42',['stringToScalar',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a34168384799f210daefc63528f13179d',1,'materialxgltf::core::MTLX2GLTFWriter']]]
+  ['package_0',['Import the package',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md15',1,'']]],
+  ['packagegltf_1',['packageGLTF',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a12ae88b6734c41cfc2f5488f3c57afca',1,'materialxgltf::core::MTLX2GLTFWriter']]],
+  ['packaging_20a_20binary_20file_2',['Packaging A Binary File',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md22',1,'']]],
+  ['per_20material_3',['Creating Primitives Per Material',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md21',1,'']]],
+  ['primitives_20per_20material_4',['Creating Primitives Per Material',['../md__2_users_2bernardkwok_2work_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md21',1,'']]]
 ];
