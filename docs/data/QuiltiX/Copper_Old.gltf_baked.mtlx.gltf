@@ -1,189 +1,67 @@
 {
   "asset": {
+    "generator": "MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf",
     "version": "2.0",
-    "copyright": "Copyright 2022-2023: Bernard Kwok.",
-    "generator": "MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX"
+    "copyright": "Copyright 2022-2025: Bernard Kwok."
   },
-  "accessors": [
+  "scene": 0,
+  "scenes": [
     {
-      "bufferView": 0,
-      "byteOffset": 0,
-      "componentType": 5126,
-      "count": 36228,
-      "type": "VEC3",
-      "max": [
-        1.0168780088424683,
-        2.091491937637329,
-        0.9763060212135315
-      ],
-      "min": [
-        -1.1265790462493896,
-        0.07684300094842911,
-        -1.1052850484848022
-      ]
-    },
-    {
-      "bufferView": 1,
-      "byteOffset": 0,
-      "componentType": 5126,
-      "count": 36228,
-      "type": "VEC3",
-      "max": [
-        0.9999819993972778,
-        0.9999993443489075,
-        0.9999726414680481
-      ],
-      "min": [
-        -0.9999819993972778,
-        -0.9999997615814209,
-        -0.9999726414680481
-      ]
-    },
-    {
-      "bufferView": 2,
-      "byteOffset": 0,
-      "componentType": 5126,
-      "count": 36228,
-      "type": "VEC2",
-      "max": [
-        0.9962999820709229,
-        0.9973000288009644
-      ],
-      "min": [
-        0.002199999988079071,
-        0.004199981689453125
-      ]
-    },
-    {
-      "bufferView": 3,
-      "byteOffset": 0,
-      "componentType": 5125,
-      "count": 212424,
-      "type": "SCALAR",
-      "max": [
-        36227
-      ],
-      "min": [
-        0
-      ]
-    },
-    {
-      "bufferView": 4,
-      "byteOffset": 0,
-      "componentType": 5126,
-      "count": 9140,
-      "type": "VEC3",
-      "max": [
-        0.6733869910240173,
-        1.8961529731750488,
-        0.7821810245513916
-      ],
-      "min": [
-        -0.7826089859008789,
-        0.004230000078678131,
-        -0.763903021812439
-      ]
-    },
-    {
-      "bufferView": 5,
-      "byteOffset": 0,
-      "componentType": 5126,
-      "count": 9140,
-      "type": "VEC3",
-      "max": [
-        1,
-        1,
-        1
-      ],
-      "min": [
-        -1,
-        -1,
-        -1
-      ]
-    },
-    {
-      "bufferView": 6,
-      "byteOffset": 0,
-      "componentType": 5126,
-      "count": 9140,
-      "type": "VEC2",
-      "max": [
-        0.9962000250816345,
-        0.7520999908447266
-      ],
-      "min": [
-        0.0027000000700354576,
-        0.0037999749183654785
-      ]
-    },
-    {
-      "bufferView": 7,
-      "byteOffset": 0,
-      "componentType": 5125,
-      "count": 52368,
-      "type": "SCALAR",
-      "max": [
-        9139
-      ],
-      "min": [
+      "name": "Scene",
+      "nodes": [
         0
       ]
     }
   ],
-  "buffers": [
+  "nodes": [
     {
-      "uri": "shaderball_data.bin",
-      "byteLength": 2510944
+      "mesh": 0,
+      "name": "Sphere"
     }
   ],
-  "bufferViews": [
+  "animations": [
     {
-      "buffer": 0,
-      "byteOffset": 0,
-      "byteLength": 434736,
-      "target": 34962
-    },
-    {
-      "buffer": 0,
-      "byteOffset": 434736,
-      "byteLength": 434736,
-      "target": 34962
-    },
-    {
-      "buffer": 0,
-      "byteOffset": 869472,
-      "byteLength": 289824,
-      "target": 34962
-    },
-    {
-      "buffer": 0,
-      "byteOffset": 1159296,
-      "byteLength": 849696,
-      "target": 34963
-    },
-    {
-      "buffer": 0,
-      "byteOffset": 2008992,
-      "byteLength": 109680,
-      "target": 34962
-    },
-    {
-      "buffer": 0,
-      "byteOffset": 2118672,
-      "byteLength": 109680,
-      "target": 34962
-    },
-    {
-      "buffer": 0,
-      "byteOffset": 2228352,
-      "byteLength": 73120,
-      "target": 34962
-    },
-    {
-      "buffer": 0,
-      "byteOffset": 2301472,
-      "byteLength": 209472,
-      "target": 34963
+      "channels": [
+        {
+          "sampler": 0,
+          "target": {
+            "node": 0,
+            "path": "translation"
+          }
+        },
+        {
+          "sampler": 1,
+          "target": {
+            "node": 0,
+            "path": "rotation"
+          }
+        },
+        {
+          "sampler": 2,
+          "target": {
+            "node": 0,
+            "path": "scale"
+          }
+        }
+      ],
+      "name": "SphereAction",
+      "samplers": [
+        {
+          "input": 5,
+          "interpolation": "STEP",
+          "output": 6
+        },
+        {
+          "input": 5,
+          "interpolation": "STEP",
+          "output": 7
+        },
+        {
+          "input": 5,
+          "interpolation": "STEP",
+          "output": 8
+        }
+      ]
     }
   ],
   "materials": [
@@ -210,55 +88,151 @@
   ],
   "meshes": [
     {
-      "name": "Preview_Mesh",
+      "name": "Sphere",
       "primitives": [
         {
-          "mode": 4,
-          "material": 0,
-          "indices": 3,
           "attributes": {
             "POSITION": 0,
-            "NORMAL": 1,
-            "TEXCOORD_0": 2
-          }
-        }
-      ]
-    },
-    {
-      "name": "Calibration_Mesh",
-      "primitives": [
-        {
-          "mode": 4,
-          "material": 0,
-          "indices": 7,
-          "attributes": {
-            "POSITION": 4,
-            "NORMAL": 5,
-            "TEXCOORD_0": 6
-          }
+            "TEXCOORD_0": 1,
+            "NORMAL": 2,
+            "TANGENT": 3
+          },
+          "indices": 4,
+          "material": 0
         }
       ]
     }
   ],
-  "nodes": [
+  "accessors": [
     {
-      "name": "Preview_Mesh",
-      "mesh": 0
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 559,
+      "max": [
+        0.9999997019767761,
+        1,
+        0.9999993443489075
+      ],
+      "min": [
+        -0.9999990463256836,
+        -1,
+        -1
+      ],
+      "type": "VEC3"
     },
     {
-      "name": "Calibration_Mesh",
-      "mesh": 1
-    }
-  ],
-  "scenes": [
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 559,
+      "type": "VEC2"
+    },
     {
-      "nodes": [
-        0,
-        1
-      ]
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 559,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 559,
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 4,
+      "componentType": 5123,
+      "count": 2880,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 5,
+      "componentType": 5126,
+      "count": 1,
+      "max": [
+        0.041666666666666664
+      ],
+      "min": [
+        0.041666666666666664
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 6,
+      "componentType": 5126,
+      "count": 1,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 7,
+      "componentType": 5126,
+      "count": 1,
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 8,
+      "componentType": 5126,
+      "count": 1,
+      "type": "VEC3"
     }
   ],
-  "scene": 0,
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 6708,
+      "byteOffset": 0,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 4472,
+      "byteOffset": 6708,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 6708,
+      "byteOffset": 11180,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8944,
+      "byteOffset": 17888,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 5760,
+      "byteOffset": 26832,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 4,
+      "byteOffset": 32592
+    },
+    {
+      "buffer": 0,
+      "byteLength": 12,
+      "byteOffset": 32596
+    },
+    {
+      "buffer": 0,
+      "byteLength": 16,
+      "byteOffset": 32608
+    },
+    {
+      "buffer": 0,
+      "byteLength": 12,
+      "byteOffset": 32624
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 32636,
+      "uri": "test_sphere.bin"
+    }
+  ],
   "textures": [
     {
       "name": "NG_baked/base_color_baked",
@@ -283,7 +257,7 @@
     },
     {
       "name": "NG_baked/roughness_baked",
-      "uri": "textures/Copper_Old_roughness_combined.png"
+      "uri": "Copper_Old_roughness_combined.png"
     },
     {
       "name": "NG_baked/gltf_normalmap_vector3_1_0",
