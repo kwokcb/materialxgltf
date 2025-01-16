@@ -66,10 +66,10 @@ The MaterialX material file and the original glTF geometry file are loaded into 
 
 | | | |
 | :--: | :--: | :--: |
-| <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/ABeautifulGame.png" width=100%> Open Chess Set | <img src="./data/RTS_GLTF/SciFiHelmet.gltf_converted.mtlx.png"> Sci Fi Helmet | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/IridescenceLamp.png" width=100%> Iridescence Lamp |
+| <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/ABeautifulGame.png" width=100%> Open Chess Set | <img src="./data/RTS_GLTF/SciFiHelmet.gltf_converted.png"> Sci Fi Helmet | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/IridescenceLamp.png" width=100%> Iridescence Lamp |
 | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/glTF.png" width=100%> glTF logo | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/DamagedHelmet.png" width=100%> Damaged Helmet | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/BoomBoxWithAxes.png" width=100%> BoomBox with Axes |
 | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/flightHelmet.png" width=100%> Flight Helmet | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/VertexColorTest.png" width=100%>  Alpha Blend Test | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/AlphaBlendTest.png" width=100%>  Vertex Color Test | 
-| <img src="./data/RTS_GLTF/MaterialsVariantsShoe.gltf_converted.mtlx.png" width=100%> Material Variant | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/TextureTransformTest.png"> Texture Transform Test | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/UnlitTest.png"> Unlit Shader Test |
+| <img src="./data/RTS_GLTF/MaterialsVariantsShoe.gltf_converted.png" width=100%> Material Variant | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/TextureTransformTest.png"> Texture Transform Test | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/UnlitTest.png"> Unlit Shader Test |
 |  |  |  |
 
 </table>
