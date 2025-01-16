@@ -5,6 +5,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Documentation](#documentation)
+- [Build](#build)
 
 ## Introduction
 
@@ -309,7 +310,17 @@ translation and baking using some convenience functions included with the packag
 Note that they do not need to be used as the core MaterialX distribution provides
 access to the APIs used in this package.
 
-## Author
+## Build
+
+There are a number of build scripts in the utiltities folder provided for convenience
+if users wish to build the repository locally:
+
+- `build.sh` : Install package and build dependents
+- `build_docs` : Build Jupyter notebooks and run Doxygen to build documentation. Note that this will install the `jupyter` package from PyPi. Users can all install development dependencies using `pip install .[dev]` from the root folder.
+- `build_examples` : Build example content. This is WIP.
+- `build_dist` : Build  distribution in a top level `dist` folder.
+
+## Authors
 
 - LinkedIn: <a href="https://www.linkedin.com/in/bernard-kwok/" target="_blank">Bernard Kwok</a>
 - GitHub: [kwokcb](https://github.com/kwokcb)

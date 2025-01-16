@@ -5,6 +5,6 @@ var searchData=
   ['addmtlxtexcoordnode_2',['addMTLXTexCoordNode',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#aa96e7b03ac70b6d749f8241cd899813c',1,'materialxgltf::core::GLTF2MtlxReader']]],
   ['and_20bake_20textures_3',['Translate Shader and Bake Textures',['../md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md24',1,'']]],
   ['assignmaterial_4',['assignMaterial',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a523d3962b5b26f7f1bb38cf0ebd154c6',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['author_5',['Author',['../md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md25',1,'']]],
+  ['authors_5',['Authors',['../md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md26',1,'']]],
   ['available_20sample_20data_6',['Check Available Sample Data',['../md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md17',1,'']]]
 ];

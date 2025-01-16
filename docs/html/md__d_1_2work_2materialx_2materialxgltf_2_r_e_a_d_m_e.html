@@ -108,6 +108,7 @@ Contents</h1>
 <li>Installation</li>
 <li>Usage</li>
 <li>Documentation</li>
+<li>Build</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Introduction</h1>
@@ -333,7 +334,16 @@ Translate Shader and Bake Textures</h2>
 <p>All materials are assumed to use glTF PBR surface shaders. Conversion to this shading model can be performed via MaterialX utilities, which includes texture baking.</p>
 <p>Please refer to the <b><a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">sample Jupyter notebook</a></b> for an example of shader translation and baking using some convenience functions included with the package. Note that they do not need to be used as the core MaterialX distribution provides access to the APIs used in this package.</p>
 <h1><a class="anchor" id="autotoc_md25"></a>
-Author</h1>
+Build</h1>
+<p>There are a number of build scripts in the utiltities folder provided for convenience if users wish to build the repository locally:</p>
+<ul>
+<li><code>build.sh</code> : Install package and build dependents</li>
+<li><code>build_docs</code> : Build Jupyter notebooks and run Doxygen to build documentation. Note that this will install the <code>jupyter</code> package from PyPi. Users can all install development dependencies using <code>pip install .[dev]</code> from the root folder.</li>
+<li><code>build_examples</code> : Build example content. This is WIP.</li>
+<li><code>build_dist</code> : Build distribution in a top level <code>dist</code> folder.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md26"></a>
+Authors</h1>
 <ul>
 <li>LinkedIn: <a href="https://www.linkedin.com/in/bernard-kwok/" target="_blank">Bernard Kwok</a></li>
 <li>GitHub: <a href="https://github.com/kwokcb">kwokcb</a></li>

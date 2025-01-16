@@ -54,7 +54,8 @@ var NAVTREE =
         [ "Packaging A Binary File", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md23", null ],
         [ "Translate Shader and Bake Textures", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md24", null ]
       ] ],
-      [ "Author", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md25", null ]
+      [ "Build", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md25", null ],
+      [ "Authors", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md26", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],

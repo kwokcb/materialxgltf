@@ -372,6 +372,7 @@ code {
 <li><a href="#installation">Installation</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#documentation">Documentation</a></li>
+<li><a href="#build">Build</a></li>
 </ul>
 <h2 id="introduction">Introduction</h2>
 <p>This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1.  The current package is synced with MaterialX release 1.39.</p>
@@ -605,7 +606,16 @@ utilities, which includes texture baking.</p>
 translation and baking using some convenience functions included with the package.<br>
 Note that they do not need to be used as the core MaterialX distribution provides<br>
 access to the APIs used in this package.</p>
-<h2 id="author">Author</h2>
+<h2 id="build">Build</h2>
+<p>There are a number of build scripts in the utiltities folder provided for convenience<br>
+if users wish to build the repository locally:</p>
+<ul>
+<li><code>build.sh</code> : Install package and build dependents</li>
+<li><code>build_docs</code> : Build Jupyter notebooks and run Doxygen to build documentation. Note that this will install the <code>jupyter</code> package from PyPi. Users can all install development dependencies using <code>pip install .[dev]</code> from the root folder.</li>
+<li><code>build_examples</code> : Build example content. This is WIP.</li>
+<li><code>build_dist</code> : Build  distribution in a top level <code>dist</code> folder.</li>
+</ul>
+<h2 id="authors">Authors</h2>
 <ul>
 <li>LinkedIn: <a href="https://www.linkedin.com/in/bernard-kwok/" target="_blank">Bernard Kwok</a></li>
 <li>GitHub: <a href="https://github.com/kwokcb">kwokcb</a></li>
