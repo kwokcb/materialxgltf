@@ -6,8 +6,8 @@ This module contains the core definitions and utilities for MaterialX glTF conve
 '''
 
 # MaterialX support
-import MaterialX as mx
-import MaterialX.PyMaterialXGenShader as mx_gen_shader
+import MaterialX as mx # type: ignore
+import MaterialX.PyMaterialXGenShader as mx_gen_shader # type: ignore
 from MaterialX import PyMaterialXRender as mx_render
 from MaterialX import PyMaterialXRenderGlsl as mx_render_glsl
 from sys import platform
@@ -16,8 +16,8 @@ if platform == 'darwin':
 
 # JSON / glTF support
 import json
-from pygltflib import GLTF2, BufferFormat
-from pygltflib.utils import ImageFormat
+from pygltflib import GLTF2, BufferFormat # type: ignore
+from pygltflib.utils import ImageFormat # type: ignore
 
 # Utilities
 import os, re, copy, math
@@ -30,7 +30,7 @@ from materialxgltf.globals import *
 class Util:
 
     @staticmethod
-    def createMaterialXDoc() -> (mx.Document, list):
+    def createMaterialXDoc() -> tuple[mx.Document, list]:
         '''
         @brief Utility to create a MaterialX document with the default libraries loaded.
         @return The created MaterialX document and the list of loaded library filenames.
@@ -1002,11 +1002,11 @@ class GLTF2MtlxReader:
         meshes = gltfDoc['meshes'] if 'meshes' in gltfDoc else []
         
         if not materials or not meshes:
-            return None
+            return {}
     
         meshNameTemplate = "mesh"
         meshCount = 0
-        materialAssignments = {}
+        materialAssignments : dict = {}
         for mesh in meshes:
             if 'primitives' in mesh:
                 meshName = mesh['name'] if 'name' in mesh else meshNameTemplate + str(meshCount) 
@@ -1059,16 +1059,16 @@ class GLTF2MtlxReader:
 
             # Create a look and assign materials if found
             # TODO: Handle variants
-            #assignments = buildMaterialAssociations(gltfJson)
-            if False: #assignments:
-                look = doc.addLook('look')
-                for assignMaterial in assignments:
-                    matassign = look.addMaterialAssign(MTLX_MATERIAL_PREFIX + assignMaterial)
-                    matassign.setMaterial(MTLX_MATERIAL_PREFIX + assignMaterial)
-                    matassign.setGeom(','.join(assignments[assignMaterial]))
+            #ssignments =  None # buildMaterialAssociations(gltfJson)
+            #if False: #assignments:
+            #    look = doc.addLook('look')
+            #    for assignMaterial in assignments:
+            #        matassign = look.addMaterialAssign(MTLX_MATERIAL_PREFIX + assignMaterial)
+            #        matassign.setMaterial(MTLX_MATERIAL_PREFIX + assignMaterial)
+            #        matassign.setGeom(','.join(assignments[assignMaterial]))
 
-            assignments = {}
-            materialCPVList = {}
+            assignments : dict = {}
+            materialCPVList : dict = {}
             meshes = gltfJson['meshes'] if 'meshes' in gltfJson else []
             nodes = gltfJson['nodes'] if 'nodes' in gltfJson else []
             scenes = gltfJson['scenes'] if 'scenes' in gltfJson else []
@@ -1495,7 +1495,7 @@ class MTLX2GLTFWriter:
 
         return graphOutputs, procDict
 
-    def translateShader(self, shader, destCategory) -> bool:
+    def translateShader(self, shader, destCategory) -> tuple[bool, str]:
         '''
         @brief Translate a MaterialX shader to a different category.
         @param shader: The MaterialX shader to translate.
@@ -1509,13 +1509,13 @@ class MTLX2GLTFWriter:
                 return True, ''
             shaderTranslator.translateShader(shader, MTLX_GLTF_PBR_CATEGORY)
         except mx.Exception as err:
-            return False, err
+            return False, err.__str__()
         except LookupError as err:
-            return False, err
+            return False, err.__str__()
         
         return True, ''
 
-    def bakeTextures(self, doc, hdr, width, height, useGlslBackend, average, writeDocumentPerMaterial, outputFilename) -> None:
+    def bakeTextures(self, doc, hdr, width, height, useGlslBackend, average, writeDocumentPerMaterial, outputFilename) -> bool:
         '''
         @brief Bake all textures in a MaterialX document.
         @param doc: The MaterialX document to bake textures from.
@@ -1633,7 +1633,7 @@ class MTLX2GLTFWriter:
 
         MESH_POSTFIX = '_material_'
         translationX = 2.5
-        translationY = 0
+        translationY = 0.0
 
         meshCopies = []
         meshIndex = len(meshes) - 1 
@@ -1660,7 +1660,7 @@ class MTLX2GLTFWriter:
             materialId = materialId + 1
             translationX = translationX + 2.5
             if materialId % rowCount == 0:
-                translationX = 0
+                translationX = 0.0
                 translationY = translationY + 2.5
 
         meshes.extend(meshCopies)
@@ -1696,7 +1696,7 @@ class MTLX2GLTFWriter:
             self.log('No scenes in gltfJson')
             return
 
-        primPaths = {}
+        primPaths : dict = {}
         for scene in gltfJson['scenes']:
             nodeCount = 0
             meshCount = 0
@@ -1785,14 +1785,15 @@ class MTLX2GLTFWriter:
             if not 'extensions' in texture:
                 texture['extensions'] = {}
             extensions = texture['extensions']    
-            transformExtension = extensions['KHR_texture_transform'] = {}
+            transformExtension : dict = extensions['KHR_texture_transform'] 
+            transformExtension = {}
 
             if offsetInputValue:
                 transformExtension['offset'] = [offsetInputValue[0], offsetInputValue[1]]
             if rotationInputValue:
                 val = float(rotationInputValue)
                 # Note: Rotation in glTF is in radians and degrees in MaterialX
-                transformExtension['rotation'] = val * TO_RADIAN
+                transformExtension['rotation'] =  val * TO_RADIAN
             if scaleInputValue:
                 transformExtension['scale'] = [scaleInputValue[0], scaleInputValue[1]]
             if uvindex:
