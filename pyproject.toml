@@ -23,6 +23,12 @@ dependencies = [
     "materialx>=1.39.2", 
     "pygltflib"
 ]
+[project.optional-dependencies]
+dev = [
+    "jupyter",
+    "pytest",
+    "sphinx"
+]
 [tool.setuptools.packages.find]
 where = ["src"]
 [tool.setuptools.package-data]
