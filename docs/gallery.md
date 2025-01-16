@@ -74,6 +74,6 @@ The MaterialX material file and the original glTF geometry file are loaded into 
 
 </table>
 
-The same files can be loadded into any integration which accepts MaterialX files. Below is the the glTF Sample Model "Boombox with Axes" shown after conversion in the MaterialX "Node Graph" Editor.
+The same files can be loadded into any integration which accepts MaterialX files. Below is the the glTF Sample Model "Damaged Helmt" shown after conversion in the <b><a href="https://kwokcb.github.io/MaterialXLab/javascript/shader_editor/dist/index_out.html" target="_blank">MaterialLab Graph Editor</a></b>
 
-<img src="./images/gltf_to_mtlx_boombox_with_axes.png">
+<img src="./images/GraphEditor_DamagedHelmet.png">
