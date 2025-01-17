@@ -1,6 +1,7 @@
 # materialxgltf
 
 ## Contents
+
 - [Introduction](#Introduction)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -16,7 +17,7 @@ See the [home page](https://kwokcb.github.io/materialxgltf/) for this project.
 Below is an example of converting the "Sci Fi Helmet" asset (found in the **[glTF Sample Model repository](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/SciFiHelmet)**) to MaterialX and previewing.
 <!-- 
 <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" width="80%"> -->
-<img src="https://kwokcb.github.io/materialxgltf/docs/images/SciFiHelmet_graph.png" width="100%">
+<img src="https://kwokcb.github.io/materialxgltf/docs/images/SciFiHelmet_graph.png" alt="SciFiLeHelmet" width="100%">
 
 The functionality found here is equivalent to the C++ module available in
 **[this repository](https://github.com/kwokcb/glTF_MaterialX)**. Note that additional documentation can be found on that site. 
@@ -73,6 +74,7 @@ Querying for help for each command will provide more detailed information:
 ```bash
 python -m materialxgltf gltf2mtlx -h
 ```
+
 ```bash
 usage: gltf2mtlx.py [-h] [--mtlxFileName MTLXFILENAME] [--createAssignments CREATEASSIGNMENTS] [--addAllInputs ADDALLINPUTS] gltfFileName
 
@@ -89,12 +91,14 @@ options:
                         Create material assignments. Default is True
   --addAllInputs ADDALLINPUTS
                         Add all definition inputs to MaterialX shader nodes. Default is False
-```                        
+```
 
 #### MaterialX to glTF Conversion
+
 ```bash
 python -m materialxgltf mtlx2gltf -h
 ```
+
 ```bash
 usage: mtlx2gltf.py [-h] [--gltfFileName GLTFFILENAME] [--gltfGeomFileName GLTFGEOMFILENAME] [--primsPerMaterial PRIMSPERMATERIAL] [--packageBinary PACKAGEBINARY] [--translateShaders TRANSLATESHADERS] [--bakeTextures BAKETEXTURES][--bakeResolution BAKERESOLUTION] [--writeDefaultInputs WRITEDEFAULTINPUTS]
  mtlxFileName
@@ -123,7 +127,6 @@ options:
   --writeDefaultInputs WRITEDEFAULTINPUTS
                         Write default inputs on shader nodes. Default is False
 ```
-
 
 For more detailed information about the workflow this package supports, please refer to this **[documentation](https://kwokcb.github.io/MaterialX_Learn/documents/workflow_gltf.html)**.
 
@@ -161,11 +164,13 @@ A `Jupyter` notebook which performs the same steps is available **[here](https:/
 This or any other notebook can be used if the user wishes to test the package in an interactive environment.
 
 ### Import the package
+
 ```python
 import materialxgltf.core as core
 ```
 
 ### Check Available Sample Data
+
 ```python
 import pkg_resources
 
@@ -173,7 +178,7 @@ directory_name = "data"
 files = pkg_resources.resource_listdir('materialxgltf', directory_name)
 for file in files:
     print('Data file: ', file)
-``` 
+```
 
 ### Convert from glTF to MaterialX
 ```python
@@ -203,6 +208,7 @@ print(result)
 ```
 
 ### Using glTF to MaterialX Options
+
 ```python
 # Set option to write material assignments
 options = core.GLTF2MtlxOptions()
@@ -226,6 +232,7 @@ print(result)
 ```
 
 ### Conversion from MaterialX to glTF
+
 ```python
 materialXFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes.mtlx')
 print('> Load MaterialX document: %s' % materialXFileName)
@@ -281,6 +288,7 @@ else:
 ```
 
 ### Packaging A Binary File
+
 ```python
 gltfFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes_primMaterials.gltf')
 print('> Load glTF geometry file: %s' % gltfGeometryFile)
@@ -312,11 +320,11 @@ access to the APIs used in this package.
 
 ## Build
 
-There are a number of build scripts in the utiltities folder provided for convenience
+There are a number of build scripts in the [utiltities](https://kwokcb.github.io/materialxgltf/utiltities) folder provided for convenience
 if users wish to build the repository locally:
 
 - `build.sh` : Install package and build dependents
-- `build_docs` : Build Jupyter notebooks and run Doxygen to build documentation. Note that this will install the `jupyter` package from PyPi. Users can all install development dependencies using `pip install .[dev]` from the root folder.
+- `build_docs` : Build Jupyter notebooks and run Doxygen to build documentation. Note that this will install the `jupyter` package from PyPi. Users can all install development dependencies using `pip install '.[dev]'` from the root folder.
 - `build_examples` : Build example content. This is WIP.
 - `build_dist` : Build  distribution in a top level `dist` folder.
 
@@ -325,5 +333,3 @@ if users wish to build the repository locally:
 - LinkedIn: <a href="https://www.linkedin.com/in/bernard-kwok/" target="_blank">Bernard Kwok</a>
 - GitHub: [kwokcb](https://github.com/kwokcb)
 - Email: <a href="mailto:kwokcb@gmail.com">kwokcb@gmail.com</a>
-
-
