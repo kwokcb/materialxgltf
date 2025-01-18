@@ -1,8 +1,8 @@
 {
   "asset": {
-    "generator": "MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX",
+    "generator": "MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf",
     "version": "2.0",
-    "copyright": "Copyright 2022-2023: Bernard Kwok."
+    "copyright": "Copyright 2022-2025: Bernard Kwok."
   },
   "scene": 0,
   "scenes": [
@@ -72,20 +72,13 @@
         },
         "KHR_materials_clearcoat": {
           "clearcoatRoughnessFactor": 0.09803920239210129
-        },
-        "KHR_materials_volume": {
-          "attenuationColor": [
-            0.839216,
-            0.890196,
-            0.933333
-          ]
         }
       },
-      "name": "SR_Sapphire_baked",
+      "name": "SR_Sapphire",
       "pbrMetallicRoughness": {
         "baseColorFactor": [
           0.8392159938812256,
-          0.8901960253715515,
+          0.8862749934196472,
           0.9333329796791077,
           1.0
         ],
@@ -243,7 +236,6 @@
   ],
   "extensionsUsed": [
     "KHR_materials_transmission",
-    "KHR_materials_clearcoat",
-    "KHR_materials_volume"
+    "KHR_materials_clearcoat"
   ]
 }

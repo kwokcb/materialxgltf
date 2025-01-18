@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "materialxgltf"
-version = "1.39.0.1"
+version = "1.39.2"
 authors = [
   { name="Bernard Kwok", email="kwokcb@gmail.com" },
 ]
@@ -20,8 +20,14 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "materialx>=1.39", 
+    "materialx>=1.39.2", 
     "pygltflib"
+]
+[project.optional-dependencies]
+dev = [
+    "jupyter",
+    "pytest",
+    "sphinx"
 ]
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -422,11 +422,11 @@ Static Protected Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1002</span>        meshes = gltfDoc[<span class="stringliteral">&#39;meshes&#39;</span>] <span class="keywordflow">if</span> <span class="stringliteral">&#39;meshes&#39;</span> <span class="keywordflow">in</span> gltfDoc <span class="keywordflow">else</span> []</div>
 <div class="line"><span class="lineno"> 1003</span>        </div>
 <div class="line"><span class="lineno"> 1004</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> materials <span class="keywordflow">or</span> <span class="keywordflow">not</span> meshes:</div>
-<div class="line"><span class="lineno"> 1005</span>            <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno"> 1005</span>            <span class="keywordflow">return</span> {}</div>
 <div class="line"><span class="lineno"> 1006</span>    </div>
 <div class="line"><span class="lineno"> 1007</span>        meshNameTemplate = <span class="stringliteral">&quot;mesh&quot;</span></div>
 <div class="line"><span class="lineno"> 1008</span>        meshCount = 0</div>
-<div class="line"><span class="lineno"> 1009</span>        materialAssignments = {}</div>
+<div class="line"><span class="lineno"> 1009</span>        materialAssignments : dict = {}</div>
 <div class="line"><span class="lineno"> 1010</span>        <span class="keywordflow">for</span> mesh <span class="keywordflow">in</span> meshes:</div>
 <div class="line"><span class="lineno"> 1011</span>            <span class="keywordflow">if</span> <span class="stringliteral">&#39;primitives&#39;</span> <span class="keywordflow">in</span> mesh:</div>
 <div class="line"><span class="lineno"> 1012</span>                meshName = mesh[<span class="stringliteral">&#39;name&#39;</span>] <span class="keywordflow">if</span> <span class="stringliteral">&#39;name&#39;</span> <span class="keywordflow">in</span> mesh <span class="keywordflow">else</span> meshNameTemplate + str(meshCount) </div>
@@ -702,16 +702,16 @@ Static Protected Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1059</span> </div>
 <div class="line"><span class="lineno"> 1060</span>            <span class="comment"># Create a look and assign materials if found</span></div>
 <div class="line"><span class="lineno"> 1061</span>            <span class="comment"># TODO: Handle variants</span></div>
-<div class="line"><span class="lineno"> 1062</span>            <span class="comment">#assignments = buildMaterialAssociations(gltfJson)</span></div>
-<div class="line"><span class="lineno"> 1063</span>            <span class="keywordflow">if</span> <span class="keyword">False</span>: <span class="comment">#assignments:</span></div>
-<div class="line"><span class="lineno"> 1064</span>                look = doc.addLook(<span class="stringliteral">&#39;look&#39;</span>)</div>
-<div class="line"><span class="lineno"> 1065</span>                <span class="keywordflow">for</span> assignMaterial <span class="keywordflow">in</span> assignments:</div>
-<div class="line"><span class="lineno"> 1066</span>                    matassign = look.addMaterialAssign(MTLX_MATERIAL_PREFIX + assignMaterial)</div>
-<div class="line"><span class="lineno"> 1067</span>                    matassign.setMaterial(MTLX_MATERIAL_PREFIX + assignMaterial)</div>
-<div class="line"><span class="lineno"> 1068</span>                    matassign.setGeom(<span class="stringliteral">&#39;,&#39;</span>.join(assignments[assignMaterial]))</div>
+<div class="line"><span class="lineno"> 1062</span>            <span class="comment">#ssignments =  None # buildMaterialAssociations(gltfJson)</span></div>
+<div class="line"><span class="lineno"> 1063</span>            <span class="comment">#if False: #assignments:</span></div>
+<div class="line"><span class="lineno"> 1064</span>            <span class="comment">#    look = doc.addLook(&#39;look&#39;)</span></div>
+<div class="line"><span class="lineno"> 1065</span>            <span class="comment">#    for assignMaterial in assignments:</span></div>
+<div class="line"><span class="lineno"> 1066</span>            <span class="comment">#        matassign = look.addMaterialAssign(MTLX_MATERIAL_PREFIX + assignMaterial)</span></div>
+<div class="line"><span class="lineno"> 1067</span>            <span class="comment">#        matassign.setMaterial(MTLX_MATERIAL_PREFIX + assignMaterial)</span></div>
+<div class="line"><span class="lineno"> 1068</span>            <span class="comment">#        matassign.setGeom(&#39;,&#39;.join(assignments[assignMaterial]))</span></div>
 <div class="line"><span class="lineno"> 1069</span> </div>
-<div class="line"><span class="lineno"> 1070</span>            assignments = {}</div>
-<div class="line"><span class="lineno"> 1071</span>            materialCPVList = {}</div>
+<div class="line"><span class="lineno"> 1070</span>            assignments : dict = {}</div>
+<div class="line"><span class="lineno"> 1071</span>            materialCPVList : dict = {}</div>
 <div class="line"><span class="lineno"> 1072</span>            meshes = gltfJson[<span class="stringliteral">&#39;meshes&#39;</span>] <span class="keywordflow">if</span> <span class="stringliteral">&#39;meshes&#39;</span> <span class="keywordflow">in</span> gltfJson <span class="keywordflow">else</span> []</div>
 <div class="line"><span class="lineno"> 1073</span>            nodes = gltfJson[<span class="stringliteral">&#39;nodes&#39;</span>] <span class="keywordflow">if</span> <span class="stringliteral">&#39;nodes&#39;</span> <span class="keywordflow">in</span> gltfJson <span class="keywordflow">else</span> []</div>
 <div class="line"><span class="lineno"> 1074</span>            scenes = gltfJson[<span class="stringliteral">&#39;scenes&#39;</span>] <span class="keywordflow">if</span> <span class="stringliteral">&#39;scenes&#39;</span> <span class="keywordflow">in</span> gltfJson <span class="keywordflow">else</span> []</div>

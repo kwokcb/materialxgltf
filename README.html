@@ -354,7 +354,7 @@ code {
 
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.min.js"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
 </head>
 <body>
   <script>
@@ -372,6 +372,7 @@ code {
 <li><a href="#installation">Installation</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#documentation">Documentation</a></li>
+<li><a href="#build">Build</a></li>
 </ul>
 <h2 id="introduction">Introduction</h2>
 <p>This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1.  The current package is synced with MaterialX release 1.39.</p>
@@ -379,8 +380,8 @@ code {
 <p>Below is an example of converting the &quot;Sci Fi Helmet&quot; asset (found in the <strong><a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/SciFiHelmet">glTF Sample Model repository</a></strong>) to MaterialX and previewing.</p>
 <!-- 
 <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/gltf_import-graphEditor2.png" width="80%"> -->
-<img src="https://kwokcb.github.io/materialxgltf/docs/images/SciFiHelmet_graph.png" width="100%">
-<p>The functionality found here is equivalent to the C++ module available in<br>
+<img src="https://kwokcb.github.io/materialxgltf/docs/images/SciFiHelmet_graph.png" alt="SciFiLeHelmet" width="100%">
+<p>The functionality found here is equivalent to the C++ module available in
 <strong><a href="https://github.com/kwokcb/glTF_MaterialX">this repository</a></strong>. Note that additional documentation can be found on that site.</p>
 <h2 id="installation">Installation</h2>
 <p>The minimum version of Python is assumed to be 3.9 and has been tested up to 3.11.</p>
@@ -462,7 +463,7 @@ options:
 <h2 id="usage">Usage</h2>
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
 <p><model-viewer style='background-color:rgba(0, 0, 0, 1.0); width: 48em; height: 48em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./docs/data/BoomBoxWithAxes_primMaterials.glb' shadow-intensity='0.3' alt='BoomBox With Axes Per Prim Material' poster='./docs/data/BoomBoxWithAxes_primMaterials.png'></model-viewer></p>
-<p>The following shows is a set of progressive examples to convert from a glTF file to MaterialX and then to a new glTF file for &quot;shader ball&quot; preview of<br>
+<p>The following shows is a set of progressive examples to convert from a glTF file to MaterialX and then to a new glTF file for &quot;shader ball&quot; preview of
 extracted materials.</p>
 <p>Note that the sample data is included as part of the package for convenience.</p>
 <p>The sample input file is the &quot;BoomBox with Axes&quot; file from the glTF https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/sitory found <strong><a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/BoomBoxWithAxes/glTF">here</a></strong>.</p>
@@ -598,14 +599,23 @@ print(<span class="hljs-string">'Packaging GLB...'</span>)
     print(<span class="hljs-string">'Failed to package GLB file: %s'</span> % err)
 </div></code></pre>
 <h3 id="translate-shader-and-bake-textures">Translate Shader and Bake Textures</h3>
-<p>All materials are assumed to use glTF PBR surface shaders.<br>
-Conversion to this shading model can be performed via MaterialX<br>
+<p>All materials are assumed to use glTF PBR surface shaders.
+Conversion to this shading model can be performed via MaterialX
 utilities, which includes texture baking.</p>
-<p>Please refer to the <strong><a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">sample Jupyter notebook</a></strong> for an example of shader<br>
-translation and baking using some convenience functions included with the package.<br>
-Note that they do not need to be used as the core MaterialX distribution provides<br>
+<p>Please refer to the <strong><a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">sample Jupyter notebook</a></strong> for an example of shader
+translation and baking using some convenience functions included with the package.
+Note that they do not need to be used as the core MaterialX distribution provides
 access to the APIs used in this package.</p>
-<h2 id="author">Author</h2>
+<h2 id="build">Build</h2>
+<p>There are a number of build scripts in the utiltities folder provided for convenience
+if users wish to build the repository locally:</p>
+<ul>
+<li><code>build.sh</code> : Install package and build dependents</li>
+<li><code>build_docs</code> : Build Jupyter notebooks and run Doxygen to build documentation. Note that this will install the <code>jupyter</code> package from PyPi. Users can all install development dependencies using <code>pip install '.[dev]'</code> from the root folder.</li>
+<li><code>build_examples</code> : Build example content. This is WIP.</li>
+<li><code>build_dist</code> : Build  distribution in a top level <code>dist</code> folder.</li>
+</ul>
+<h2 id="authors">Authors</h2>
 <ul>
 <li>LinkedIn: <a href="https://www.linkedin.com/in/bernard-kwok/" target="_blank">Bernard Kwok</a></li>
 <li>GitHub: <a href="https://github.com/kwokcb">kwokcb</a></li>

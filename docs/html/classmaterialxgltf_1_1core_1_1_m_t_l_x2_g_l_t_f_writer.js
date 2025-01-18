@@ -1,7 +1,7 @@
 var classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer =
 [
     [ "assignMaterial", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a523d3962b5b26f7f1bb38cf0ebd154c6", null ],
-    [ "bakeTextures", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a5d2190619cb07b2f1e61ecba8711cd83", null ],
+    [ "bakeTextures", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a2772b74c5fe57bf16a7df7341405af5a", null ],
     [ "buildPrimPaths", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ac4ed984267a0d1bc69c77e017ac4b44c", null ],
     [ "clearLog", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#abac8fe7ec05bdce7b139d9f3d0213a41", null ],
     [ "convert", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#add6d073dad92168a550f3fded340687c", null ],
@@ -20,7 +20,7 @@ var classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer =
     [ "packageGLTF", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a12ae88b6734c41cfc2f5488f3c57afca", null ],
     [ "setOptions", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ac8d7bd7f58fcfde45f26ac60e355b7c8", null ],
     [ "stringToScalar", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a34168384799f210daefc63528f13179d", null ],
-    [ "translateShader", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a533b7bd3cbb08c85445a4f721198ca79", null ],
+    [ "translateShader", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a759160710f02e8b3c85297b1964aa6f1", null ],
     [ "translateShaders", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ae8a4410a941943d4ebbf2977cfc62d90", null ],
     [ "writeColor3Input", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a08aaa3755103ed158aadcc493a1e334f", null ],
     [ "writeCopyright", "classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ad2cf563ca0f27e58b1788fb9207a593d", null ],
