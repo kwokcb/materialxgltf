@@ -7312,6 +7312,7 @@ a.anchor-link {
                     processEnvironments: true
                 },
                 displayAlign: 'center',
+                messageStyle: 'none',
                 CommonHTML: {
                     linebreaks: {
                     automatic: true
@@ -7563,7 +7564,8 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">materialxgltf.core</span> <span class="k">as</span> <span class="nn">core</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">materialxgltf</span>
+<span class="kn">import</span> <span class="nn">materialxgltf.core</span> <span class="k">as</span> <span class="nn">core</span>
 </pre></div>
 </div>
 </div>
@@ -7621,12 +7623,17 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
 <span class="n">directory_name</span> <span class="o">=</span> <span class="s2">"data"</span>  
 <span class="n">files</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_listdir</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="n">directory_name</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="s1">''</span>
 <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="n">file</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span>
+    <span class="k">if</span> <span class="n">file</span> <span class="o">==</span> <span class="s1">'shaderball.gltf'</span> <span class="ow">or</span> <span class="n">file</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'baked'</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">file_extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">file_extension</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'.mtlx'</span><span class="p">,</span> <span class="s1">'.gltf'</span><span class="p">]:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="n">file</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span>
 
 <span class="n">displaySource</span><span class="p">(</span><span class="s1">'Available data files'</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -7645,21 +7652,10 @@ a.anchor-link {
 <div class="highlight"><pre><span></span>BoomBoxWithAxes.gltf
 BoomBoxWithAxes.mtlx
 BoomBoxWithAxes.mtlx.gltf
-BoomBoxWithAxes_baseColor.png
-BoomBoxWithAxes_baseColor1.png
-BoomBoxWithAxes_emissive.png
-BoomBoxWithAxes_normal.png
-BoomBoxWithAxes_primMaterials.glb
 BoomBoxWithAxes_primMaterials.gltf
-BoomBoxWithAxes_roughnessMetallic.png
 gltf_test_nondefault_pbr.mtlx
-gltf_test_nondefault_pbr.mtlx.glb
 gltf_test_nondefault_pbr.mtlx.gltf
-Marble_3D_gltf_pbr_base_color.png
-shaderball.gltf
-shaderball_data.bin
 standard_surface_marble_solid.mtlx
-standard_surface_marble_solid.mtlx_baked.mtlx
 </pre></div>
 </details>
 </div>
@@ -7687,6 +7683,8 @@ standard_surface_marble_solid.mtlx_baked.mtlx
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pkg_resources</span>
 <span class="kn">import</span> <span class="nn">MaterialX</span> <span class="k">as</span> <span class="nn">mx</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Using ( MaterialX version: </span><span class="si">{</span><span class="n">mx</span><span class="o">.</span><span class="n">getVersionString</span><span class="p">()</span><span class="si">}</span><span class="s1"> materialxgltf version: </span><span class="si">{</span><span class="n">materialxgltf</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1"> )</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="n">gltfFileName</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="s1">'data/BoomBoxWithAxes.gltf'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Converting: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">gltfFileName</span><span class="p">)</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">())</span>
@@ -7719,7 +7717,9 @@ standard_surface_marble_solid.mtlx_baked.mtlx
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Converting: BoomBoxWithAxes.gltf
+<pre>Using ( MaterialX version: 1.39.2 materialxgltf version: 1.39.2 )
+
+Converting: BoomBoxWithAxes.gltf
 - Convert gLTF material to MateriaLX: MAT_M_BoomBox
 - Convert gLTF material to MateriaLX: MAT_M_Coordinates
 </pre>
@@ -8002,7 +8002,7 @@ standard_surface_marble_solid.mtlx_baked.mtlx
 <details open=""><summary><b>Resulting glTF</b></summary>
 <div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">"asset"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2022-2024: Bernard Kwok."</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2022-2025: Bernard Kwok."</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"generator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf"</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span>
 <span class="w">  </span><span class="p">},</span>
@@ -8167,7 +8167,7 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">"asset"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2022-2024: Bernard Kwok."</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2022-2025: Bernard Kwok."</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"generator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf"</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">"accessors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -8615,7 +8615,7 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">"asset"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2022-2024: Bernard Kwok."</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2022-2025: Bernard Kwok."</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"generator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf"</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">"accessors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -9471,7 +9471,7 @@ does not require this package to be used.</p>
 <details open=""><summary><b>Translate and Baked Result to glTF</b></summary>
 <div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">"asset"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2022-2024: Bernard Kwok."</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2022-2025: Bernard Kwok."</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"generator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf"</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span>
 <span class="w">  </span><span class="p">},</span>
@@ -9605,8 +9605,7 @@ options:
 <span class="w">  </span>--createAssignments<span class="w"> </span>CREATEASSIGNMENTS
 <span class="w">                        </span>Create<span class="w"> </span>material<span class="w"> </span>assignments.<span class="w"> </span>Default<span class="w"> </span>is<span class="w"> </span>True
 </pre></div>
-<h3 id="Image-and-Geometry-Pathing">Image and Geometry Pathing<a class="anchor-link" href="#Image-and-Geometry-Pathing">¶</a></h3><p>glTF does not allow for any pathing specifieds on resources such as image and geometry uris. As such the proper pathing
-must be set before packaging to glb files. This is handled during the packaing process which uses the <code>pygltflib</code> Python package.</p>
+<h3 id="Image-and-Geometry-Pathing">Image and Geometry Pathing<a class="anchor-link" href="#Image-and-Geometry-Pathing">¶</a></h3><p>glTF does not allow for any pathing to be specified on resources such as image and geometry uris. As such the proper pathing must be set before packaging to glb files. This is handled during the packaing process which uses the <code>pygltflib</code> Python package.</p>
 <p>By default <code>mtlx2gltf</code>adds search paths (mx.FileSearchPath) to attempt to find the absoluate location of the uri resources, sets the uri and hen performs binary packing. Thus it is possible for instance to specify embedding geometry which is not in the same folder as the root glTF file.</p>
 <p>The examples at the beginning of this document show an example Adobe Substance 3D material which was exported and mapped to a MaterialX material. Then it was converted to glTF with different geometry paths.</p>
 </div>

@@ -34,6 +34,9 @@ where = ["src"]
 [tool.setuptools.package-data]
 "materialxgltf.data" = ["*.*"]
 
+[project.scripts]
+materialxgltf = "materialxgltf.__main__:main"
+
 [project.urls]
 "Homepage" = "https://kwokcb.github.io/materialxgltf/"
 "Issues" = "https://github.com/kwokcb/materialxgltf/issues"

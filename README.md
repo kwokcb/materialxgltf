@@ -321,12 +321,7 @@ access to the APIs used in this package.
 ## Build
 
 There are a number of build scripts in the [utiltities](https://kwokcb.github.io/materialxgltf/utiltities) folder provided for convenience
-if users wish to build the repository locally:
-
-- `build.sh` : Install package and build dependents
-- `build_docs` : Build Jupyter notebooks and run Doxygen to build documentation. Note that this will install the `jupyter` package from PyPi. Users can all install development dependencies using `pip install '.[dev]'` from the root folder.
-- `build_examples` : Build example content. This is WIP.
-- `build_dist` : Build  distribution in a top level `dist` folder.
+if users wish to build the repository locally.
 
 ## Authors
 

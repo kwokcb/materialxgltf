@@ -48,6 +48,13 @@ python ../../../utilities/test_render.py GlamVelvetSofa.gltf_converted.mtlx -m G
 python ../../../utilities/test_render.py MaterialsVariantsShoe.gltf_converted.mtlx -m MaterialsVariantsShoe.gltf
 python ../../../utilities/test_render.py SciFiHelmet.gltf_converted.mtlx -m SciFiHelmet.gltf
 popd
+
+# Build Examples
+#@echo "Convert ambientCG to glTF"
+#pushd .
+# To add
+#popd
+
 pushd .
 cd docs/data/RTS
 echo "Convert from MTLX to glTF: MaterialX Standard Surface Examples..."
