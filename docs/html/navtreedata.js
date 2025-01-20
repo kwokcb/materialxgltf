@@ -26,36 +26,36 @@ var NAVTREE =
 [
   [ "MaterialXglTF", "index.html", [
     [ "Repository", "index.html#autotoc_md4", null ],
-    [ "materialxgltf", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html", [
+    [ "materialxgltf", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html", [
       [ "Documentation", "index.html#autotoc_md1", [
         [ "Sample Integrations", "index.html#autotoc_md2", null ],
         [ "Material Examples", "index.html#autotoc_md3", null ]
       ] ],
-      [ "Contents", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md6", null ],
-      [ "Introduction", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md7", null ],
-      [ "Installation", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md8", [
-        [ "Requirements", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md9", null ]
+      [ "Contents", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md6", null ],
+      [ "Introduction", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md7", null ],
+      [ "Installation", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md8", [
+        [ "Requirements", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md9", null ]
       ] ],
-      [ "Documentation", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md10", [
-        [ "Command Line Utilities", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md11", [
-          [ "glTF to MaterialX Conversion", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md12", null ],
-          [ "MaterialX to glTF Conversion", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md13", null ]
+      [ "Documentation", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md10", [
+        [ "Command Line Utilities", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md11", [
+          [ "glTF to MaterialX Conversion", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md12", null ],
+          [ "MaterialX to glTF Conversion", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md13", null ]
         ] ]
       ] ],
-      [ "Usage", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md14", null ],
-      [ "Interactive Example", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md15", [
-        [ "Import the package", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md16", null ],
-        [ "Check Available Sample Data", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md17", null ],
-        [ "Convert from glTF to MaterialX", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md18", null ],
-        [ "Using glTF to MaterialX Options", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md19", null ],
-        [ "Conversion from MaterialX to glTF", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md20", null ],
-        [ "Embedding Geometry", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md21", null ],
-        [ "Creating Primitives Per Material", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md22", null ],
-        [ "Packaging A Binary File", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md23", null ],
-        [ "Translate Shader and Bake Textures", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md24", null ]
+      [ "Usage", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md14", null ],
+      [ "Interactive Example", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md15", [
+        [ "Import the package", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md16", null ],
+        [ "Check Available Sample Data", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md17", null ],
+        [ "Convert from glTF to MaterialX", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md18", null ],
+        [ "Using glTF to MaterialX Options", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md19", null ],
+        [ "Conversion from MaterialX to glTF", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md20", null ],
+        [ "Embedding Geometry", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md21", null ],
+        [ "Creating Primitives Per Material", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md22", null ],
+        [ "Packaging A Binary File", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md23", null ],
+        [ "Translate Shader and Bake Textures", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md24", null ]
       ] ],
-      [ "Build", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md25", null ],
-      [ "Authors", "md__d_1_2work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md26", null ]
+      [ "Build", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md25", null ],
+      [ "Authors", "md__d_1_2_work_2materialx_2materialxgltf_2_r_e_a_d_m_e.html#autotoc_md26", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],

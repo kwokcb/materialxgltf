@@ -22,6 +22,7 @@
 # In[1]:
 
 
+import materialxgltf
 import materialxgltf.core as core
 
 
@@ -47,12 +48,17 @@ def displaySource(title, string, language='xml', open=True):
 
 
 import pkg_resources
+import os
 
 directory_name = "data"  
 files = pkg_resources.resource_listdir('materialxgltf', directory_name)
 result = ''
 for file in files:
-    result = result + file + '\n'
+    if file == 'shaderball.gltf' or file.find('baked') != -1:
+        continue
+    file_extension = os.path.splitext(file)[1]
+    if file_extension in ['.mtlx', '.gltf']:
+        result = result + file + '\n'
 
 displaySource('Available data files', result, 'text', True)
 
@@ -66,6 +72,8 @@ displaySource('Available data files', result, 'text', True)
 
 import pkg_resources
 import MaterialX as mx
+
+print(f'Using ( MaterialX version: {mx.getVersionString()} materialxgltf version: {materialxgltf.__version__} )\n')
 
 gltfFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes.gltf')
 print('Converting: %s' % mx.FilePath(gltfFileName).getBaseName())
@@ -409,8 +417,7 @@ else:
 # ```
 # ### Image and Geometry Pathing
 # 
-# glTF does not allow for any pathing specifieds on resources such as image and geometry uris. As such the proper pathing
-# must be set before packaging to glb files. This is handled during the packaing process which uses the `pygltflib` Python package.
+# glTF does not allow for any pathing to be specified on resources such as image and geometry uris. As such the proper pathing must be set before packaging to glb files. This is handled during the packaing process which uses the `pygltflib` Python package.
 # 
 # By default `mtlx2gltf`adds search paths (mx.FileSearchPath) to attempt to find the absoluate location of the uri resources, sets the uri and hen performs binary packing. Thus it is possible for instance to specify embedding geometry which is not in the same folder as the root glTF file.
 # 

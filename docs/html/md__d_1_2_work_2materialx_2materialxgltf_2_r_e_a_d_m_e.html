@@ -108,12 +108,13 @@ Contents</h1>
 <li>Installation</li>
 <li>Usage</li>
 <li>Documentation</li>
+<li>Build</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Introduction</h1>
 <p>This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1. The current package is synced with MaterialX release 1.39.</p>
 <p>See the <a href="https://kwokcb.github.io/materialxgltf/">home page</a> for this project.</p>
-<p>Below is an example of converting the "Sci Fi Helmet" asset (found in the <b><a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/SciFiHelmet">glTF Sample Model repository</a></b>) to MaterialX and previewing.  <img src="https://kwokcb.github.io/materialxgltf/docs/images/SciFiHelmet_graph.png" alt="" width="100%" class="inline"/></p>
+<p>Below is an example of converting the "Sci Fi Helmet" asset (found in the <b><a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/SciFiHelmet">glTF Sample Model repository</a></b>) to MaterialX and previewing.  <img src="https://kwokcb.github.io/materialxgltf/docs/images/SciFiHelmet_graph.png" alt="SciFiLeHelmet" width="100%" class="inline"/></p>
 <p>The functionality found here is equivalent to the C++ module available in <b><a href="https://github.com/kwokcb/glTF_MaterialX">this repository</a></b>. Note that additional documentation can be found on that site.</p>
 <h1><a class="anchor" id="autotoc_md8"></a>
 Installation</h1>
@@ -143,7 +144,7 @@ Command Line Utilities</h2>
 <h3><a class="anchor" id="autotoc_md12"></a>
 glTF to MaterialX Conversion</h3>
 <div class="fragment"><div class="line">python -m materialxgltf gltf2mtlx -h</div>
-</div><!-- fragment --> <div class="fragment"><div class="line">usage: gltf2mtlx.py [-h] [--mtlxFileName MTLXFILENAME] [--createAssignments CREATEASSIGNMENTS] [--addAllInputs ADDALLINPUTS] gltfFileName</div>
+</div><!-- fragment --><div class="fragment"><div class="line">usage: gltf2mtlx.py [-h] [--mtlxFileName MTLXFILENAME] [--createAssignments CREATEASSIGNMENTS] [--addAllInputs ADDALLINPUTS] gltfFileName</div>
 <div class="line"> </div>
 <div class="line">Utility to convert a glTF file to MaterialX file</div>
 <div class="line"> </div>
@@ -161,7 +162,7 @@ glTF to MaterialX Conversion</h3>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md13"></a>
 MaterialX to glTF Conversion</h3>
 <div class="fragment"><div class="line">python -m materialxgltf mtlx2gltf -h</div>
-</div><!-- fragment --> <div class="fragment"><div class="line">usage: mtlx2gltf.py [-h] [--gltfFileName GLTFFILENAME] [--gltfGeomFileName GLTFGEOMFILENAME] [--primsPerMaterial PRIMSPERMATERIAL] [--packageBinary PACKAGEBINARY] [--translateShaders TRANSLATESHADERS] [--bakeTextures BAKETEXTURES][--bakeResolution BAKERESOLUTION] [--writeDefaultInputs WRITEDEFAULTINPUTS]</div>
+</div><!-- fragment --><div class="fragment"><div class="line">usage: mtlx2gltf.py [-h] [--gltfFileName GLTFFILENAME] [--gltfGeomFileName GLTFGEOMFILENAME] [--primsPerMaterial PRIMSPERMATERIAL] [--packageBinary PACKAGEBINARY] [--translateShaders TRANSLATESHADERS] [--bakeTextures BAKETEXTURES][--bakeResolution BAKERESOLUTION] [--writeDefaultInputs WRITEDEFAULTINPUTS]</div>
 <div class="line"> mtlxFileName</div>
 <div class="line"> </div>
 <div class="line">Utility to convert a MaterialX file to a glTF file</div>
@@ -333,7 +334,10 @@ Translate Shader and Bake Textures</h2>
 <p>All materials are assumed to use glTF PBR surface shaders. Conversion to this shading model can be performed via MaterialX utilities, which includes texture baking.</p>
 <p>Please refer to the <b><a href="https://kwokcb.github.io/materialxgltf/docs/examples.html">sample Jupyter notebook</a></b> for an example of shader translation and baking using some convenience functions included with the package. Note that they do not need to be used as the core MaterialX distribution provides access to the APIs used in this package.</p>
 <h1><a class="anchor" id="autotoc_md25"></a>
-Author</h1>
+Build</h1>
+<p>There are a number of build scripts in the <a href="https://kwokcb.github.io/materialxgltf/utiltities">utiltities</a> folder provided for convenience if users wish to build the repository locally.</p>
+<h1><a class="anchor" id="autotoc_md26"></a>
+Authors</h1>
 <ul>
 <li>LinkedIn: <a href="https://www.linkedin.com/in/bernard-kwok/" target="_blank">Bernard Kwok</a></li>
 <li>GitHub: <a href="https://github.com/kwokcb">kwokcb</a></li>

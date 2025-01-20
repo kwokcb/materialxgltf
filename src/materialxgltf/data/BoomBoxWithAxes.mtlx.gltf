@@ -1,8 +1,8 @@
 {
   "asset": {
     "version": "2.0",
-    "copyright": "Copyright 2022-2023: Bernard Kwok.",
-    "generator": "MaterialX 1.38 to glTF 2.0 generator. https://github.com/kwokcb/glTF_MaterialX"
+    "copyright": "Copyright 2022-2025: Bernard Kwok.",
+    "generator": "MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf"
   },
   "accessors": [
     {
@@ -296,7 +296,7 @@
       "mesh": 2,
       "translation": [
         2.5,
-        0,
+        0.0,
         0
       ]
     },
@@ -305,7 +305,7 @@
       "mesh": 3,
       "translation": [
         2.5,
-        0,
+        0.0,
         0
       ]
     }
@@ -355,7 +355,7 @@
     },
     {
       "name": "image_orm",
-      "uri": "BoomBoxWithAxes_roughnessMetallic.png"
+      "uri": "D:/Work/materialx/materialxgltf/src/materialxgltf/data/BoomBoxWithAxes_roughnessMetallic.png"
     },
     {
       "name": "image_normal",
