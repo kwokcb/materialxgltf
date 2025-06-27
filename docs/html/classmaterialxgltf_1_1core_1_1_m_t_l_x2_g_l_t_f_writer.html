@@ -590,57 +590,57 @@ Static Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>glTF JSON string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="core_8py_source.html#l02707">2707</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 2707</span>    <span class="keyword">def </span>convert(self, doc):</div>
-<div class="line"><span class="lineno"> 2708</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno"> 2709</span><span class="stringliteral">        @brief Convert MaterialX document to glTF</span></div>
-<div class="line"><span class="lineno"> 2710</span><span class="stringliteral">        @param doc MaterialX document to convert</span></div>
-<div class="line"><span class="lineno"> 2711</span><span class="stringliteral">        @return glTF JSON string</span></div>
-<div class="line"><span class="lineno"> 2712</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno"> 2713</span>        <span class="comment"># Resulting glTF JSON string        </span></div>
-<div class="line"><span class="lineno"> 2714</span>        gltfJson = {}</div>
-<div class="line"><span class="lineno"> 2715</span> </div>
-<div class="line"><span class="lineno"> 2716</span>        <span class="comment"># Check for glTF geometry file inclusion</span></div>
-<div class="line"><span class="lineno"> 2717</span>        gltfGeometryFile = self._options[<span class="stringliteral">&#39;geometryFile&#39;</span>]</div>
-<div class="line"><span class="lineno"> 2718</span>        <span class="keywordflow">if</span> len(gltfGeometryFile):</div>
-<div class="line"><span class="lineno"> 2719</span>            print(<span class="stringliteral">&#39;- glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><span class="lineno"> 2720</span>            <span class="keywordflow">if</span> os.path.exists(gltfGeometryFile):</div>
-<div class="line"><span class="lineno"> 2721</span>                gltfFile = open(gltfGeometryFile, <span class="stringliteral">&#39;r&#39;</span>)</div>
-<div class="line"><span class="lineno"> 2722</span>                <span class="keywordflow">if</span> gltfFile:</div>
-<div class="line"><span class="lineno"> 2723</span>                    gltfJson = json.load(gltfFile)</div>
-<div class="line"><span class="lineno"> 2724</span>                <span class="keywordflow">if</span> self._options[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
-<div class="line"><span class="lineno"> 2725</span>                    print(<span class="stringliteral">&#39;- Embedding glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><span class="lineno"> 2726</span>                self.log(<span class="stringliteral">&#39;- Embedding glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><span class="lineno"> 2727</span> </div>
-<div class="line"><span class="lineno"> 2728</span>                <span class="comment"># If no materials, add a default material</span></div>
-<div class="line"><span class="lineno"> 2729</span>                <span class="keywordflow">for</span> mesh <span class="keywordflow">in</span> gltfJson[<span class="stringliteral">&#39;meshes&#39;</span>]:</div>
-<div class="line"><span class="lineno"> 2730</span>                    <span class="keywordflow">for</span> primitive <span class="keywordflow">in</span> mesh[<span class="stringliteral">&#39;primitives&#39;</span>]:</div>
-<div class="line"><span class="lineno"> 2731</span>                        <span class="keywordflow">if</span> <span class="stringliteral">&#39;material&#39;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> primitive:</div>
-<div class="line"><span class="lineno"> 2732</span>                            primitive[<span class="stringliteral">&#39;material&#39;</span>] = 0</div>
-<div class="line"><span class="lineno"> 2733</span>            <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno"> 2734</span>                <span class="keywordflow">if</span> self._options[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
-<div class="line"><span class="lineno"> 2735</span>                    print(<span class="stringliteral">&#39;- glTF geometry file not found:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><span class="lineno"> 2736</span>                self.log(<span class="stringliteral">&#39;- glTF geometry file not found:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><span class="lineno"> 2737</span> </div>
-<div class="line"><span class="lineno"> 2738</span>        <span class="comment"># Clear and convert materials</span></div>
-<div class="line"><span class="lineno"> 2739</span>        resetMaterials = <span class="keyword">True</span></div>
-<div class="line"><span class="lineno"> 2740</span>        self.materialX2glTF(doc, gltfJson, resetMaterials)</div>
-<div class="line"><span class="lineno"> 2741</span>        </div>
-<div class="line"><span class="lineno"> 2742</span>        <span class="comment"># If geometry specified, create new primitives for each material</span></div>
-<div class="line"><span class="lineno"> 2743</span>        materialCount = len(gltfJson[<span class="stringliteral">&#39;materials&#39;</span>]) <span class="keywordflow">if</span> <span class="stringliteral">&#39;materials&#39;</span> <span class="keywordflow">in</span> gltfJson <span class="keywordflow">else</span> 0</div>
-<div class="line"><span class="lineno"> 2744</span>        <span class="keywordflow">if</span> self._options[<span class="stringliteral">&#39;primsPerMaterial&#39;</span>] <span class="keywordflow">and</span> (materialCount &gt; 0):</div>
-<div class="line"><span class="lineno"> 2745</span>            <span class="keywordflow">if</span> self._options[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
-<div class="line"><span class="lineno"> 2746</span>                print(<span class="stringliteral">&#39;- Generating a new primitive for each of %d materials&#39;</span> % materialCount)</div>
-<div class="line"><span class="lineno"> 2747</span>            <span class="comment"># Compute sqrt of materialCount</span></div>
-<div class="line"><span class="lineno"> 2748</span>            rowCount = int(math.sqrt(materialCount))</div>
-<div class="line"><span class="lineno"> 2749</span>            self.createPrimsForMaterials(gltfJson, rowCount)</div>
-<div class="line"><span class="lineno"> 2750</span> </div>
-<div class="line"><span class="lineno"> 2751</span>        <span class="comment"># Get resulting glTF JSON string</span></div>
-<div class="line"><span class="lineno"> 2752</span>        gltfString = json.dumps(gltfJson, indent=2)</div>
-<div class="line"><span class="lineno"> 2753</span>        self.log(<span class="stringliteral">&#39;- Output glTF with new MaterialX materials&#39;</span> + str(gltfString))</div>
-<div class="line"><span class="lineno"> 2754</span> </div>
-<div class="line"><span class="lineno"> 2755</span>        <span class="keywordflow">return</span> gltfString</div>
-<div class="line"><span class="lineno"> 2756</span>    </div>
+<p class="definition">Definition at line <a class="el" href="core_8py_source.html#l02708">2708</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 2708</span>    <span class="keyword">def </span>convert(self, doc):</div>
+<div class="line"><span class="lineno"> 2709</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno"> 2710</span><span class="stringliteral">        @brief Convert MaterialX document to glTF</span></div>
+<div class="line"><span class="lineno"> 2711</span><span class="stringliteral">        @param doc MaterialX document to convert</span></div>
+<div class="line"><span class="lineno"> 2712</span><span class="stringliteral">        @return glTF JSON string</span></div>
+<div class="line"><span class="lineno"> 2713</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno"> 2714</span>        <span class="comment"># Resulting glTF JSON string        </span></div>
+<div class="line"><span class="lineno"> 2715</span>        gltfJson = {}</div>
+<div class="line"><span class="lineno"> 2716</span> </div>
+<div class="line"><span class="lineno"> 2717</span>        <span class="comment"># Check for glTF geometry file inclusion</span></div>
+<div class="line"><span class="lineno"> 2718</span>        gltfGeometryFile = self._options[<span class="stringliteral">&#39;geometryFile&#39;</span>]</div>
+<div class="line"><span class="lineno"> 2719</span>        <span class="keywordflow">if</span> len(gltfGeometryFile):</div>
+<div class="line"><span class="lineno"> 2720</span>            print(<span class="stringliteral">&#39;- glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><span class="lineno"> 2721</span>            <span class="keywordflow">if</span> os.path.exists(gltfGeometryFile):</div>
+<div class="line"><span class="lineno"> 2722</span>                gltfFile = open(gltfGeometryFile, <span class="stringliteral">&#39;r&#39;</span>)</div>
+<div class="line"><span class="lineno"> 2723</span>                <span class="keywordflow">if</span> gltfFile:</div>
+<div class="line"><span class="lineno"> 2724</span>                    gltfJson = json.load(gltfFile)</div>
+<div class="line"><span class="lineno"> 2725</span>                <span class="keywordflow">if</span> self._options[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
+<div class="line"><span class="lineno"> 2726</span>                    print(<span class="stringliteral">&#39;- Embedding glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><span class="lineno"> 2727</span>                self.log(<span class="stringliteral">&#39;- Embedding glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><span class="lineno"> 2728</span> </div>
+<div class="line"><span class="lineno"> 2729</span>                <span class="comment"># If no materials, add a default material</span></div>
+<div class="line"><span class="lineno"> 2730</span>                <span class="keywordflow">for</span> mesh <span class="keywordflow">in</span> gltfJson[<span class="stringliteral">&#39;meshes&#39;</span>]:</div>
+<div class="line"><span class="lineno"> 2731</span>                    <span class="keywordflow">for</span> primitive <span class="keywordflow">in</span> mesh[<span class="stringliteral">&#39;primitives&#39;</span>]:</div>
+<div class="line"><span class="lineno"> 2732</span>                        <span class="keywordflow">if</span> <span class="stringliteral">&#39;material&#39;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> primitive:</div>
+<div class="line"><span class="lineno"> 2733</span>                            primitive[<span class="stringliteral">&#39;material&#39;</span>] = 0</div>
+<div class="line"><span class="lineno"> 2734</span>            <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno"> 2735</span>                <span class="keywordflow">if</span> self._options[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
+<div class="line"><span class="lineno"> 2736</span>                    print(<span class="stringliteral">&#39;- glTF geometry file not found:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><span class="lineno"> 2737</span>                self.log(<span class="stringliteral">&#39;- glTF geometry file not found:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><span class="lineno"> 2738</span> </div>
+<div class="line"><span class="lineno"> 2739</span>        <span class="comment"># Clear and convert materials</span></div>
+<div class="line"><span class="lineno"> 2740</span>        resetMaterials = <span class="keyword">True</span></div>
+<div class="line"><span class="lineno"> 2741</span>        self.materialX2glTF(doc, gltfJson, resetMaterials)</div>
+<div class="line"><span class="lineno"> 2742</span>        </div>
+<div class="line"><span class="lineno"> 2743</span>        <span class="comment"># If geometry specified, create new primitives for each material</span></div>
+<div class="line"><span class="lineno"> 2744</span>        materialCount = len(gltfJson[<span class="stringliteral">&#39;materials&#39;</span>]) <span class="keywordflow">if</span> <span class="stringliteral">&#39;materials&#39;</span> <span class="keywordflow">in</span> gltfJson <span class="keywordflow">else</span> 0</div>
+<div class="line"><span class="lineno"> 2745</span>        <span class="keywordflow">if</span> self._options[<span class="stringliteral">&#39;primsPerMaterial&#39;</span>] <span class="keywordflow">and</span> (materialCount &gt; 0):</div>
+<div class="line"><span class="lineno"> 2746</span>            <span class="keywordflow">if</span> self._options[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
+<div class="line"><span class="lineno"> 2747</span>                print(<span class="stringliteral">&#39;- Generating a new primitive for each of %d materials&#39;</span> % materialCount)</div>
+<div class="line"><span class="lineno"> 2748</span>            <span class="comment"># Compute sqrt of materialCount</span></div>
+<div class="line"><span class="lineno"> 2749</span>            rowCount = int(math.sqrt(materialCount))</div>
+<div class="line"><span class="lineno"> 2750</span>            self.createPrimsForMaterials(gltfJson, rowCount)</div>
+<div class="line"><span class="lineno"> 2751</span> </div>
+<div class="line"><span class="lineno"> 2752</span>        <span class="comment"># Get resulting glTF JSON string</span></div>
+<div class="line"><span class="lineno"> 2753</span>        gltfString = json.dumps(gltfJson, indent=2)</div>
+<div class="line"><span class="lineno"> 2754</span>        self.log(<span class="stringliteral">&#39;- Output glTF with new MaterialX materials&#39;</span> + str(gltfString))</div>
+<div class="line"><span class="lineno"> 2755</span> </div>
+<div class="line"><span class="lineno"> 2756</span>        <span class="keywordflow">return</span> gltfString</div>
+<div class="line"><span class="lineno"> 2757</span>    </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2184,33 +2184,34 @@ Static Protected Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 2650</span>        <span class="comment"># Embed images</span></div>
 <div class="line"><span class="lineno"> 2651</span>        <span class="keywordflow">if</span> len(gltf.images):</div>
 <div class="line"><span class="lineno"> 2652</span>            <span class="keywordflow">for</span> im <span class="keywordflow">in</span> gltf.images:</div>
-<div class="line"><span class="lineno"> 2653</span>                searchPath = self._options[<span class="stringliteral">&#39;searchPath&#39;</span>]</div>
-<div class="line"><span class="lineno"> 2654</span>                path = searchPath.find(im.uri)</div>
+<div class="line"><span class="lineno"> 2653</span>                self.log(<span class="stringliteral">&#39;- Embedding image: &#39;</span> + im.uri)</div>
+<div class="line"><span class="lineno"> 2654</span>                searchPath = self._options[<span class="stringliteral">&#39;searchPath&#39;</span>]</div>
 <div class="line"><span class="lineno"> 2655</span>                path = searchPath.find(im.uri)</div>
-<div class="line"><span class="lineno"> 2656</span>                <span class="keywordflow">if</span> path:</div>
-<div class="line"><span class="lineno"> 2657</span>                    im.uri = path.asString(mx.FormatPosix)                    </div>
-<div class="line"><span class="lineno"> 2658</span>                    self.log(<span class="stringliteral">&#39;- Remapped buffer URI to: &#39;</span> + im.uri) </div>
-<div class="line"><span class="lineno"> 2659</span>                images.append(im.uri)</div>
-<div class="line"><span class="lineno"> 2660</span>            gltf.convert_images(ImageFormat.DATAURI)</div>
-<div class="line"><span class="lineno"> 2661</span> </div>
-<div class="line"><span class="lineno"> 2662</span>        <span class="comment"># Embed buffer references.</span></div>
-<div class="line"><span class="lineno"> 2663</span>        <span class="comment"># If the input file is not in the same folder as the current working directory,</span></div>
-<div class="line"><span class="lineno"> 2664</span>        <span class="comment"># then modify the buffer uri to be an absolute path.</span></div>
-<div class="line"><span class="lineno"> 2665</span>        <span class="keywordflow">if</span> len(gltf.buffers):</div>
-<div class="line"><span class="lineno"> 2666</span>            absinputFile = os.path.abspath(inputFile)</div>
-<div class="line"><span class="lineno"> 2667</span>            parentFolder = os.path.dirname(absinputFile)</div>
-<div class="line"><span class="lineno"> 2668</span>            <span class="keywordflow">for</span> buf <span class="keywordflow">in</span> gltf.buffers:</div>
-<div class="line"><span class="lineno"> 2669</span>                searchPath = self._options[<span class="stringliteral">&#39;searchPath&#39;</span>]</div>
-<div class="line"><span class="lineno"> 2670</span>                path = searchPath.find(buf.uri)</div>
-<div class="line"><span class="lineno"> 2671</span>                <span class="keywordflow">if</span> path:</div>
-<div class="line"><span class="lineno"> 2672</span>                    buf.uri = path.asString(mx.FormatPosix)                    </div>
-<div class="line"><span class="lineno"> 2673</span>                    self.log(<span class="stringliteral">&#39;- Remapped buffer URI to: &#39;</span> + buf.uri) </div>
-<div class="line"><span class="lineno"> 2674</span>                buffers.append(buf.uri)</div>
-<div class="line"><span class="lineno"> 2675</span>        gltfb.convert_buffers(BufferFormat.BINARYBLOB)            </div>
-<div class="line"><span class="lineno"> 2676</span> </div>
-<div class="line"><span class="lineno"> 2677</span>        saved = gltf.save(outputFile)</div>
-<div class="line"><span class="lineno"> 2678</span>        <span class="keywordflow">return</span> saved, images, buffers</div>
-<div class="line"><span class="lineno"> 2679</span> </div>
+<div class="line"><span class="lineno"> 2656</span>                path = searchPath.find(im.uri)</div>
+<div class="line"><span class="lineno"> 2657</span>                <span class="keywordflow">if</span> path:</div>
+<div class="line"><span class="lineno"> 2658</span>                    im.uri = path.asString(mx.FormatPosix)                    </div>
+<div class="line"><span class="lineno"> 2659</span>                    self.log(<span class="stringliteral">&#39;- Remapped buffer URI to: &#39;</span> + im.uri) </div>
+<div class="line"><span class="lineno"> 2660</span>                images.append(im.uri)</div>
+<div class="line"><span class="lineno"> 2661</span>            gltf.convert_images(ImageFormat.DATAURI)</div>
+<div class="line"><span class="lineno"> 2662</span> </div>
+<div class="line"><span class="lineno"> 2663</span>        <span class="comment"># Embed buffer references.</span></div>
+<div class="line"><span class="lineno"> 2664</span>        <span class="comment"># If the input file is not in the same folder as the current working directory,</span></div>
+<div class="line"><span class="lineno"> 2665</span>        <span class="comment"># then modify the buffer uri to be an absolute path.</span></div>
+<div class="line"><span class="lineno"> 2666</span>        <span class="keywordflow">if</span> len(gltf.buffers):</div>
+<div class="line"><span class="lineno"> 2667</span>            absinputFile = os.path.abspath(inputFile)</div>
+<div class="line"><span class="lineno"> 2668</span>            parentFolder = os.path.dirname(absinputFile)</div>
+<div class="line"><span class="lineno"> 2669</span>            <span class="keywordflow">for</span> buf <span class="keywordflow">in</span> gltf.buffers:</div>
+<div class="line"><span class="lineno"> 2670</span>                searchPath = self._options[<span class="stringliteral">&#39;searchPath&#39;</span>]</div>
+<div class="line"><span class="lineno"> 2671</span>                path = searchPath.find(buf.uri)</div>
+<div class="line"><span class="lineno"> 2672</span>                <span class="keywordflow">if</span> path:</div>
+<div class="line"><span class="lineno"> 2673</span>                    buf.uri = path.asString(mx.FormatPosix)                    </div>
+<div class="line"><span class="lineno"> 2674</span>                    self.log(<span class="stringliteral">&#39;- Remapped buffer URI to: &#39;</span> + buf.uri) </div>
+<div class="line"><span class="lineno"> 2675</span>                buffers.append(buf.uri)</div>
+<div class="line"><span class="lineno"> 2676</span>        gltfb.convert_buffers(BufferFormat.BINARYBLOB)            </div>
+<div class="line"><span class="lineno"> 2677</span> </div>
+<div class="line"><span class="lineno"> 2678</span>        saved = gltf.save(outputFile)</div>
+<div class="line"><span class="lineno"> 2679</span>        <span class="keywordflow">return</span> saved, images, buffers</div>
+<div class="line"><span class="lineno"> 2680</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2396,34 +2397,34 @@ Static Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Number of shaders translated </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="core_8py_source.html#l02680">2680</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 2680</span>    <span class="keyword">def </span>translateShaders(self, doc):</div>
-<div class="line"><span class="lineno"> 2681</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno"> 2682</span><span class="stringliteral">        @brief Translate shaders to gltf pbr </span></div>
-<div class="line"><span class="lineno"> 2683</span><span class="stringliteral">        @param doc MaterialX document to examine</span></div>
-<div class="line"><span class="lineno"> 2684</span><span class="stringliteral">        @return Number of shaders translated</span></div>
-<div class="line"><span class="lineno"> 2685</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno"> 2686</span>        shadersTranslated = 0</div>
-<div class="line"><span class="lineno"> 2687</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> doc:</div>
-<div class="line"><span class="lineno"> 2688</span>            <span class="keywordflow">return</span> shadersTranslated</div>
-<div class="line"><span class="lineno"> 2689</span> </div>
-<div class="line"><span class="lineno"> 2690</span>        materialNodes = doc.getMaterialNodes()</div>
-<div class="line"><span class="lineno"> 2691</span>        <span class="keywordflow">for</span> material <span class="keywordflow">in</span> materialNodes:</div>
-<div class="line"><span class="lineno"> 2692</span>            shaderNodes = mx.getShaderNodes(material)</div>
-<div class="line"><span class="lineno"> 2693</span>            <span class="keywordflow">for</span> shaderNode <span class="keywordflow">in</span> shaderNodes:</div>
-<div class="line"><span class="lineno"> 2694</span>                category = shaderNode.getCategory()</div>
-<div class="line"><span class="lineno"> 2695</span>                path = shaderNode.getNamePath()</div>
-<div class="line"><span class="lineno"> 2696</span>                <span class="keywordflow">if</span> category != MTLX_GLTF_PBR_CATEGORY <span class="keywordflow">and</span> category != MTLX_UNLIT_CATEGORY_STRING:</div>
-<div class="line"><span class="lineno"> 2697</span>                    status, error = self.translateShader(shaderNode, MTLX_GLTF_PBR_CATEGORY)</div>
-<div class="line"><span class="lineno"> 2698</span>                    <span class="keywordflow">if</span> <span class="keywordflow">not</span> status:</div>
-<div class="line"><span class="lineno"> 2699</span>                        self.log(<span class="stringliteral">&#39;Failed to translate shader:&#39;</span> + shaderNode.getNamePath() + </div>
-<div class="line"><span class="lineno"> 2700</span>                            <span class="stringliteral">&#39; of type &#39;</span> + shaderNode.getCategory())</div>
-<div class="line"><span class="lineno"> 2701</span>                        <span class="comment"># + &#39;\nError: &#39; + error.error)</span></div>
-<div class="line"><span class="lineno"> 2702</span>                    <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno"> 2703</span>                        shadersTranslated = shadersTranslated + 1</div>
-<div class="line"><span class="lineno"> 2704</span>        </div>
-<div class="line"><span class="lineno"> 2705</span>        <span class="keywordflow">return</span> shadersTranslated</div>
-<div class="line"><span class="lineno"> 2706</span> </div>
+<p class="definition">Definition at line <a class="el" href="core_8py_source.html#l02681">2681</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 2681</span>    <span class="keyword">def </span>translateShaders(self, doc):</div>
+<div class="line"><span class="lineno"> 2682</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno"> 2683</span><span class="stringliteral">        @brief Translate shaders to gltf pbr </span></div>
+<div class="line"><span class="lineno"> 2684</span><span class="stringliteral">        @param doc MaterialX document to examine</span></div>
+<div class="line"><span class="lineno"> 2685</span><span class="stringliteral">        @return Number of shaders translated</span></div>
+<div class="line"><span class="lineno"> 2686</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno"> 2687</span>        shadersTranslated = 0</div>
+<div class="line"><span class="lineno"> 2688</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> doc:</div>
+<div class="line"><span class="lineno"> 2689</span>            <span class="keywordflow">return</span> shadersTranslated</div>
+<div class="line"><span class="lineno"> 2690</span> </div>
+<div class="line"><span class="lineno"> 2691</span>        materialNodes = doc.getMaterialNodes()</div>
+<div class="line"><span class="lineno"> 2692</span>        <span class="keywordflow">for</span> material <span class="keywordflow">in</span> materialNodes:</div>
+<div class="line"><span class="lineno"> 2693</span>            shaderNodes = mx.getShaderNodes(material)</div>
+<div class="line"><span class="lineno"> 2694</span>            <span class="keywordflow">for</span> shaderNode <span class="keywordflow">in</span> shaderNodes:</div>
+<div class="line"><span class="lineno"> 2695</span>                category = shaderNode.getCategory()</div>
+<div class="line"><span class="lineno"> 2696</span>                path = shaderNode.getNamePath()</div>
+<div class="line"><span class="lineno"> 2697</span>                <span class="keywordflow">if</span> category != MTLX_GLTF_PBR_CATEGORY <span class="keywordflow">and</span> category != MTLX_UNLIT_CATEGORY_STRING:</div>
+<div class="line"><span class="lineno"> 2698</span>                    status, error = self.translateShader(shaderNode, MTLX_GLTF_PBR_CATEGORY)</div>
+<div class="line"><span class="lineno"> 2699</span>                    <span class="keywordflow">if</span> <span class="keywordflow">not</span> status:</div>
+<div class="line"><span class="lineno"> 2700</span>                        self.log(<span class="stringliteral">&#39;Failed to translate shader:&#39;</span> + shaderNode.getNamePath() + </div>
+<div class="line"><span class="lineno"> 2701</span>                            <span class="stringliteral">&#39; of type &#39;</span> + shaderNode.getCategory())</div>
+<div class="line"><span class="lineno"> 2702</span>                        <span class="comment"># + &#39;\nError: &#39; + error.error)</span></div>
+<div class="line"><span class="lineno"> 2703</span>                    <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno"> 2704</span>                        shadersTranslated = shadersTranslated + 1</div>
+<div class="line"><span class="lineno"> 2705</span>        </div>
+<div class="line"><span class="lineno"> 2706</span>        <span class="keywordflow">return</span> shadersTranslated</div>
+<div class="line"><span class="lineno"> 2707</span> </div>
 </div><!-- fragment -->
 </div>
 </div>

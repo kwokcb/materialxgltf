@@ -2650,6 +2650,7 @@ class MTLX2GLTFWriter:
         # Embed images
         if len(gltf.images):
             for im in gltf.images:
+                self.log('- Embedding image: ' + im.uri)
                 searchPath = self._options['searchPath']
                 path = searchPath.find(im.uri)
                 path = searchPath.find(im.uri)
