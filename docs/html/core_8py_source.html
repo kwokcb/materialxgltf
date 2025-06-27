@@ -2846,114 +2846,115 @@ $(function(){initNavTree('core_8py_source.html',''); initResizable(true); });
 <div class="line"><a id="l02650" name="l02650"></a><span class="lineno"> 2650</span>        <span class="comment"># Embed images</span></div>
 <div class="line"><a id="l02651" name="l02651"></a><span class="lineno"> 2651</span>        <span class="keywordflow">if</span> len(gltf.images):</div>
 <div class="line"><a id="l02652" name="l02652"></a><span class="lineno"> 2652</span>            <span class="keywordflow">for</span> im <span class="keywordflow">in</span> gltf.images:</div>
-<div class="line"><a id="l02653" name="l02653"></a><span class="lineno"> 2653</span>                searchPath = self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;searchPath&#39;</span>]</div>
-<div class="line"><a id="l02654" name="l02654"></a><span class="lineno"> 2654</span>                path = searchPath.find(im.uri)</div>
+<div class="line"><a id="l02653" name="l02653"></a><span class="lineno"> 2653</span>                self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- Embedding image: &#39;</span> + im.uri)</div>
+<div class="line"><a id="l02654" name="l02654"></a><span class="lineno"> 2654</span>                searchPath = self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;searchPath&#39;</span>]</div>
 <div class="line"><a id="l02655" name="l02655"></a><span class="lineno"> 2655</span>                path = searchPath.find(im.uri)</div>
-<div class="line"><a id="l02656" name="l02656"></a><span class="lineno"> 2656</span>                <span class="keywordflow">if</span> path:</div>
-<div class="line"><a id="l02657" name="l02657"></a><span class="lineno"> 2657</span>                    im.uri = path.asString(mx.FormatPosix)                    </div>
-<div class="line"><a id="l02658" name="l02658"></a><span class="lineno"> 2658</span>                    self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- Remapped buffer URI to: &#39;</span> + im.uri) </div>
-<div class="line"><a id="l02659" name="l02659"></a><span class="lineno"> 2659</span>                images.append(im.uri)</div>
-<div class="line"><a id="l02660" name="l02660"></a><span class="lineno"> 2660</span>            gltf.convert_images(ImageFormat.DATAURI)</div>
-<div class="line"><a id="l02661" name="l02661"></a><span class="lineno"> 2661</span> </div>
-<div class="line"><a id="l02662" name="l02662"></a><span class="lineno"> 2662</span>        <span class="comment"># Embed buffer references.</span></div>
-<div class="line"><a id="l02663" name="l02663"></a><span class="lineno"> 2663</span>        <span class="comment"># If the input file is not in the same folder as the current working directory,</span></div>
-<div class="line"><a id="l02664" name="l02664"></a><span class="lineno"> 2664</span>        <span class="comment"># then modify the buffer uri to be an absolute path.</span></div>
-<div class="line"><a id="l02665" name="l02665"></a><span class="lineno"> 2665</span>        <span class="keywordflow">if</span> len(gltf.buffers):</div>
-<div class="line"><a id="l02666" name="l02666"></a><span class="lineno"> 2666</span>            absinputFile = os.path.abspath(inputFile)</div>
-<div class="line"><a id="l02667" name="l02667"></a><span class="lineno"> 2667</span>            parentFolder = os.path.dirname(absinputFile)</div>
-<div class="line"><a id="l02668" name="l02668"></a><span class="lineno"> 2668</span>            <span class="keywordflow">for</span> buf <span class="keywordflow">in</span> gltf.buffers:</div>
-<div class="line"><a id="l02669" name="l02669"></a><span class="lineno"> 2669</span>                searchPath = self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;searchPath&#39;</span>]</div>
-<div class="line"><a id="l02670" name="l02670"></a><span class="lineno"> 2670</span>                path = searchPath.find(buf.uri)</div>
-<div class="line"><a id="l02671" name="l02671"></a><span class="lineno"> 2671</span>                <span class="keywordflow">if</span> path:</div>
-<div class="line"><a id="l02672" name="l02672"></a><span class="lineno"> 2672</span>                    buf.uri = path.asString(mx.FormatPosix)                    </div>
-<div class="line"><a id="l02673" name="l02673"></a><span class="lineno"> 2673</span>                    self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- Remapped buffer URI to: &#39;</span> + buf.uri) </div>
-<div class="line"><a id="l02674" name="l02674"></a><span class="lineno"> 2674</span>                buffers.append(buf.uri)</div>
-<div class="line"><a id="l02675" name="l02675"></a><span class="lineno"> 2675</span>        gltfb.convert_buffers(BufferFormat.BINARYBLOB)            </div>
-<div class="line"><a id="l02676" name="l02676"></a><span class="lineno"> 2676</span> </div>
-<div class="line"><a id="l02677" name="l02677"></a><span class="lineno"> 2677</span>        saved = gltf.save(outputFile)</div>
-<div class="line"><a id="l02678" name="l02678"></a><span class="lineno"> 2678</span>        <span class="keywordflow">return</span> saved, images, buffers</div>
-<div class="line"><a id="l02679" name="l02679"></a><span class="lineno"> 2679</span> </div>
+<div class="line"><a id="l02656" name="l02656"></a><span class="lineno"> 2656</span>                path = searchPath.find(im.uri)</div>
+<div class="line"><a id="l02657" name="l02657"></a><span class="lineno"> 2657</span>                <span class="keywordflow">if</span> path:</div>
+<div class="line"><a id="l02658" name="l02658"></a><span class="lineno"> 2658</span>                    im.uri = path.asString(mx.FormatPosix)                    </div>
+<div class="line"><a id="l02659" name="l02659"></a><span class="lineno"> 2659</span>                    self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- Remapped buffer URI to: &#39;</span> + im.uri) </div>
+<div class="line"><a id="l02660" name="l02660"></a><span class="lineno"> 2660</span>                images.append(im.uri)</div>
+<div class="line"><a id="l02661" name="l02661"></a><span class="lineno"> 2661</span>            gltf.convert_images(ImageFormat.DATAURI)</div>
+<div class="line"><a id="l02662" name="l02662"></a><span class="lineno"> 2662</span> </div>
+<div class="line"><a id="l02663" name="l02663"></a><span class="lineno"> 2663</span>        <span class="comment"># Embed buffer references.</span></div>
+<div class="line"><a id="l02664" name="l02664"></a><span class="lineno"> 2664</span>        <span class="comment"># If the input file is not in the same folder as the current working directory,</span></div>
+<div class="line"><a id="l02665" name="l02665"></a><span class="lineno"> 2665</span>        <span class="comment"># then modify the buffer uri to be an absolute path.</span></div>
+<div class="line"><a id="l02666" name="l02666"></a><span class="lineno"> 2666</span>        <span class="keywordflow">if</span> len(gltf.buffers):</div>
+<div class="line"><a id="l02667" name="l02667"></a><span class="lineno"> 2667</span>            absinputFile = os.path.abspath(inputFile)</div>
+<div class="line"><a id="l02668" name="l02668"></a><span class="lineno"> 2668</span>            parentFolder = os.path.dirname(absinputFile)</div>
+<div class="line"><a id="l02669" name="l02669"></a><span class="lineno"> 2669</span>            <span class="keywordflow">for</span> buf <span class="keywordflow">in</span> gltf.buffers:</div>
+<div class="line"><a id="l02670" name="l02670"></a><span class="lineno"> 2670</span>                searchPath = self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;searchPath&#39;</span>]</div>
+<div class="line"><a id="l02671" name="l02671"></a><span class="lineno"> 2671</span>                path = searchPath.find(buf.uri)</div>
+<div class="line"><a id="l02672" name="l02672"></a><span class="lineno"> 2672</span>                <span class="keywordflow">if</span> path:</div>
+<div class="line"><a id="l02673" name="l02673"></a><span class="lineno"> 2673</span>                    buf.uri = path.asString(mx.FormatPosix)                    </div>
+<div class="line"><a id="l02674" name="l02674"></a><span class="lineno"> 2674</span>                    self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- Remapped buffer URI to: &#39;</span> + buf.uri) </div>
+<div class="line"><a id="l02675" name="l02675"></a><span class="lineno"> 2675</span>                buffers.append(buf.uri)</div>
+<div class="line"><a id="l02676" name="l02676"></a><span class="lineno"> 2676</span>        gltfb.convert_buffers(BufferFormat.BINARYBLOB)            </div>
+<div class="line"><a id="l02677" name="l02677"></a><span class="lineno"> 2677</span> </div>
+<div class="line"><a id="l02678" name="l02678"></a><span class="lineno"> 2678</span>        saved = gltf.save(outputFile)</div>
+<div class="line"><a id="l02679" name="l02679"></a><span class="lineno"> 2679</span>        <span class="keywordflow">return</span> saved, images, buffers</div>
+<div class="line"><a id="l02680" name="l02680"></a><span class="lineno"> 2680</span> </div>
 </div>
-<div class="foldopen" id="foldopen02680" data-start="" data-end="">
-<div class="line"><a id="l02680" name="l02680"></a><span class="lineno"><a class="line" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ae8a4410a941943d4ebbf2977cfc62d90"> 2680</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ae8a4410a941943d4ebbf2977cfc62d90">translateShaders</a>(self, doc):</div>
-<div class="line"><a id="l02681" name="l02681"></a><span class="lineno"> 2681</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l02682" name="l02682"></a><span class="lineno"> 2682</span><span class="stringliteral">        @brief Translate shaders to gltf pbr </span></div>
-<div class="line"><a id="l02683" name="l02683"></a><span class="lineno"> 2683</span><span class="stringliteral">        @param doc MaterialX document to examine</span></div>
-<div class="line"><a id="l02684" name="l02684"></a><span class="lineno"> 2684</span><span class="stringliteral">        @return Number of shaders translated</span></div>
-<div class="line"><a id="l02685" name="l02685"></a><span class="lineno"> 2685</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l02686" name="l02686"></a><span class="lineno"> 2686</span>        shadersTranslated = 0</div>
-<div class="line"><a id="l02687" name="l02687"></a><span class="lineno"> 2687</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> doc:</div>
-<div class="line"><a id="l02688" name="l02688"></a><span class="lineno"> 2688</span>            <span class="keywordflow">return</span> shadersTranslated</div>
-<div class="line"><a id="l02689" name="l02689"></a><span class="lineno"> 2689</span> </div>
-<div class="line"><a id="l02690" name="l02690"></a><span class="lineno"> 2690</span>        materialNodes = doc.getMaterialNodes()</div>
-<div class="line"><a id="l02691" name="l02691"></a><span class="lineno"> 2691</span>        <span class="keywordflow">for</span> material <span class="keywordflow">in</span> materialNodes:</div>
-<div class="line"><a id="l02692" name="l02692"></a><span class="lineno"> 2692</span>            shaderNodes = mx.getShaderNodes(material)</div>
-<div class="line"><a id="l02693" name="l02693"></a><span class="lineno"> 2693</span>            <span class="keywordflow">for</span> shaderNode <span class="keywordflow">in</span> shaderNodes:</div>
-<div class="line"><a id="l02694" name="l02694"></a><span class="lineno"> 2694</span>                category = shaderNode.getCategory()</div>
-<div class="line"><a id="l02695" name="l02695"></a><span class="lineno"> 2695</span>                path = shaderNode.getNamePath()</div>
-<div class="line"><a id="l02696" name="l02696"></a><span class="lineno"> 2696</span>                <span class="keywordflow">if</span> category != MTLX_GLTF_PBR_CATEGORY <span class="keywordflow">and</span> category != MTLX_UNLIT_CATEGORY_STRING:</div>
-<div class="line"><a id="l02697" name="l02697"></a><span class="lineno"> 2697</span>                    status, error = self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a759160710f02e8b3c85297b1964aa6f1">translateShader</a>(shaderNode, MTLX_GLTF_PBR_CATEGORY)</div>
-<div class="line"><a id="l02698" name="l02698"></a><span class="lineno"> 2698</span>                    <span class="keywordflow">if</span> <span class="keywordflow">not</span> status:</div>
-<div class="line"><a id="l02699" name="l02699"></a><span class="lineno"> 2699</span>                        self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;Failed to translate shader:&#39;</span> + shaderNode.getNamePath() + </div>
-<div class="line"><a id="l02700" name="l02700"></a><span class="lineno"> 2700</span>                            <span class="stringliteral">&#39; of type &#39;</span> + shaderNode.getCategory())</div>
-<div class="line"><a id="l02701" name="l02701"></a><span class="lineno"> 2701</span>                        <span class="comment"># + &#39;\nError: &#39; + error.error)</span></div>
-<div class="line"><a id="l02702" name="l02702"></a><span class="lineno"> 2702</span>                    <span class="keywordflow">else</span>:</div>
-<div class="line"><a id="l02703" name="l02703"></a><span class="lineno"> 2703</span>                        shadersTranslated = shadersTranslated + 1</div>
-<div class="line"><a id="l02704" name="l02704"></a><span class="lineno"> 2704</span>        </div>
-<div class="line"><a id="l02705" name="l02705"></a><span class="lineno"> 2705</span>        <span class="keywordflow">return</span> shadersTranslated</div>
-<div class="line"><a id="l02706" name="l02706"></a><span class="lineno"> 2706</span> </div>
+<div class="foldopen" id="foldopen02681" data-start="" data-end="">
+<div class="line"><a id="l02681" name="l02681"></a><span class="lineno"><a class="line" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ae8a4410a941943d4ebbf2977cfc62d90"> 2681</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ae8a4410a941943d4ebbf2977cfc62d90">translateShaders</a>(self, doc):</div>
+<div class="line"><a id="l02682" name="l02682"></a><span class="lineno"> 2682</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l02683" name="l02683"></a><span class="lineno"> 2683</span><span class="stringliteral">        @brief Translate shaders to gltf pbr </span></div>
+<div class="line"><a id="l02684" name="l02684"></a><span class="lineno"> 2684</span><span class="stringliteral">        @param doc MaterialX document to examine</span></div>
+<div class="line"><a id="l02685" name="l02685"></a><span class="lineno"> 2685</span><span class="stringliteral">        @return Number of shaders translated</span></div>
+<div class="line"><a id="l02686" name="l02686"></a><span class="lineno"> 2686</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l02687" name="l02687"></a><span class="lineno"> 2687</span>        shadersTranslated = 0</div>
+<div class="line"><a id="l02688" name="l02688"></a><span class="lineno"> 2688</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> doc:</div>
+<div class="line"><a id="l02689" name="l02689"></a><span class="lineno"> 2689</span>            <span class="keywordflow">return</span> shadersTranslated</div>
+<div class="line"><a id="l02690" name="l02690"></a><span class="lineno"> 2690</span> </div>
+<div class="line"><a id="l02691" name="l02691"></a><span class="lineno"> 2691</span>        materialNodes = doc.getMaterialNodes()</div>
+<div class="line"><a id="l02692" name="l02692"></a><span class="lineno"> 2692</span>        <span class="keywordflow">for</span> material <span class="keywordflow">in</span> materialNodes:</div>
+<div class="line"><a id="l02693" name="l02693"></a><span class="lineno"> 2693</span>            shaderNodes = mx.getShaderNodes(material)</div>
+<div class="line"><a id="l02694" name="l02694"></a><span class="lineno"> 2694</span>            <span class="keywordflow">for</span> shaderNode <span class="keywordflow">in</span> shaderNodes:</div>
+<div class="line"><a id="l02695" name="l02695"></a><span class="lineno"> 2695</span>                category = shaderNode.getCategory()</div>
+<div class="line"><a id="l02696" name="l02696"></a><span class="lineno"> 2696</span>                path = shaderNode.getNamePath()</div>
+<div class="line"><a id="l02697" name="l02697"></a><span class="lineno"> 2697</span>                <span class="keywordflow">if</span> category != MTLX_GLTF_PBR_CATEGORY <span class="keywordflow">and</span> category != MTLX_UNLIT_CATEGORY_STRING:</div>
+<div class="line"><a id="l02698" name="l02698"></a><span class="lineno"> 2698</span>                    status, error = self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a759160710f02e8b3c85297b1964aa6f1">translateShader</a>(shaderNode, MTLX_GLTF_PBR_CATEGORY)</div>
+<div class="line"><a id="l02699" name="l02699"></a><span class="lineno"> 2699</span>                    <span class="keywordflow">if</span> <span class="keywordflow">not</span> status:</div>
+<div class="line"><a id="l02700" name="l02700"></a><span class="lineno"> 2700</span>                        self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;Failed to translate shader:&#39;</span> + shaderNode.getNamePath() + </div>
+<div class="line"><a id="l02701" name="l02701"></a><span class="lineno"> 2701</span>                            <span class="stringliteral">&#39; of type &#39;</span> + shaderNode.getCategory())</div>
+<div class="line"><a id="l02702" name="l02702"></a><span class="lineno"> 2702</span>                        <span class="comment"># + &#39;\nError: &#39; + error.error)</span></div>
+<div class="line"><a id="l02703" name="l02703"></a><span class="lineno"> 2703</span>                    <span class="keywordflow">else</span>:</div>
+<div class="line"><a id="l02704" name="l02704"></a><span class="lineno"> 2704</span>                        shadersTranslated = shadersTranslated + 1</div>
+<div class="line"><a id="l02705" name="l02705"></a><span class="lineno"> 2705</span>        </div>
+<div class="line"><a id="l02706" name="l02706"></a><span class="lineno"> 2706</span>        <span class="keywordflow">return</span> shadersTranslated</div>
+<div class="line"><a id="l02707" name="l02707"></a><span class="lineno"> 2707</span> </div>
 </div>
-<div class="foldopen" id="foldopen02707" data-start="" data-end="">
-<div class="line"><a id="l02707" name="l02707"></a><span class="lineno"><a class="line" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#add6d073dad92168a550f3fded340687c"> 2707</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#add6d073dad92168a550f3fded340687c">convert</a>(self, doc):</div>
-<div class="line"><a id="l02708" name="l02708"></a><span class="lineno"> 2708</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l02709" name="l02709"></a><span class="lineno"> 2709</span><span class="stringliteral">        @brief Convert MaterialX document to glTF</span></div>
-<div class="line"><a id="l02710" name="l02710"></a><span class="lineno"> 2710</span><span class="stringliteral">        @param doc MaterialX document to convert</span></div>
-<div class="line"><a id="l02711" name="l02711"></a><span class="lineno"> 2711</span><span class="stringliteral">        @return glTF JSON string</span></div>
-<div class="line"><a id="l02712" name="l02712"></a><span class="lineno"> 2712</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l02713" name="l02713"></a><span class="lineno"> 2713</span>        <span class="comment"># Resulting glTF JSON string        </span></div>
-<div class="line"><a id="l02714" name="l02714"></a><span class="lineno"> 2714</span>        gltfJson = {}</div>
-<div class="line"><a id="l02715" name="l02715"></a><span class="lineno"> 2715</span> </div>
-<div class="line"><a id="l02716" name="l02716"></a><span class="lineno"> 2716</span>        <span class="comment"># Check for glTF geometry file inclusion</span></div>
-<div class="line"><a id="l02717" name="l02717"></a><span class="lineno"> 2717</span>        gltfGeometryFile = self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;geometryFile&#39;</span>]</div>
-<div class="line"><a id="l02718" name="l02718"></a><span class="lineno"> 2718</span>        <span class="keywordflow">if</span> len(gltfGeometryFile):</div>
-<div class="line"><a id="l02719" name="l02719"></a><span class="lineno"> 2719</span>            print(<span class="stringliteral">&#39;- glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><a id="l02720" name="l02720"></a><span class="lineno"> 2720</span>            <span class="keywordflow">if</span> os.path.exists(gltfGeometryFile):</div>
-<div class="line"><a id="l02721" name="l02721"></a><span class="lineno"> 2721</span>                gltfFile = open(gltfGeometryFile, <span class="stringliteral">&#39;r&#39;</span>)</div>
-<div class="line"><a id="l02722" name="l02722"></a><span class="lineno"> 2722</span>                <span class="keywordflow">if</span> gltfFile:</div>
-<div class="line"><a id="l02723" name="l02723"></a><span class="lineno"> 2723</span>                    gltfJson = json.load(gltfFile)</div>
-<div class="line"><a id="l02724" name="l02724"></a><span class="lineno"> 2724</span>                <span class="keywordflow">if</span> self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
-<div class="line"><a id="l02725" name="l02725"></a><span class="lineno"> 2725</span>                    print(<span class="stringliteral">&#39;- Embedding glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><a id="l02726" name="l02726"></a><span class="lineno"> 2726</span>                self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- Embedding glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><a id="l02727" name="l02727"></a><span class="lineno"> 2727</span> </div>
-<div class="line"><a id="l02728" name="l02728"></a><span class="lineno"> 2728</span>                <span class="comment"># If no materials, add a default material</span></div>
-<div class="line"><a id="l02729" name="l02729"></a><span class="lineno"> 2729</span>                <span class="keywordflow">for</span> mesh <span class="keywordflow">in</span> gltfJson[<span class="stringliteral">&#39;meshes&#39;</span>]:</div>
-<div class="line"><a id="l02730" name="l02730"></a><span class="lineno"> 2730</span>                    <span class="keywordflow">for</span> primitive <span class="keywordflow">in</span> mesh[<span class="stringliteral">&#39;primitives&#39;</span>]:</div>
-<div class="line"><a id="l02731" name="l02731"></a><span class="lineno"> 2731</span>                        <span class="keywordflow">if</span> <span class="stringliteral">&#39;material&#39;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> primitive:</div>
-<div class="line"><a id="l02732" name="l02732"></a><span class="lineno"> 2732</span>                            primitive[<span class="stringliteral">&#39;material&#39;</span>] = 0</div>
-<div class="line"><a id="l02733" name="l02733"></a><span class="lineno"> 2733</span>            <span class="keywordflow">else</span>:</div>
-<div class="line"><a id="l02734" name="l02734"></a><span class="lineno"> 2734</span>                <span class="keywordflow">if</span> self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
-<div class="line"><a id="l02735" name="l02735"></a><span class="lineno"> 2735</span>                    print(<span class="stringliteral">&#39;- glTF geometry file not found:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><a id="l02736" name="l02736"></a><span class="lineno"> 2736</span>                self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- glTF geometry file not found:&#39;</span> + gltfGeometryFile)</div>
-<div class="line"><a id="l02737" name="l02737"></a><span class="lineno"> 2737</span> </div>
-<div class="line"><a id="l02738" name="l02738"></a><span class="lineno"> 2738</span>        <span class="comment"># Clear and convert materials</span></div>
-<div class="line"><a id="l02739" name="l02739"></a><span class="lineno"> 2739</span>        resetMaterials = <span class="keyword">True</span></div>
-<div class="line"><a id="l02740" name="l02740"></a><span class="lineno"> 2740</span>        self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#aa42930edb2c5ffc8a5fe7f01e92f8b16">materialX2glTF</a>(doc, gltfJson, resetMaterials)</div>
-<div class="line"><a id="l02741" name="l02741"></a><span class="lineno"> 2741</span>        </div>
-<div class="line"><a id="l02742" name="l02742"></a><span class="lineno"> 2742</span>        <span class="comment"># If geometry specified, create new primitives for each material</span></div>
-<div class="line"><a id="l02743" name="l02743"></a><span class="lineno"> 2743</span>        materialCount = len(gltfJson[<span class="stringliteral">&#39;materials&#39;</span>]) <span class="keywordflow">if</span> <span class="stringliteral">&#39;materials&#39;</span> <span class="keywordflow">in</span> gltfJson <span class="keywordflow">else</span> 0</div>
-<div class="line"><a id="l02744" name="l02744"></a><span class="lineno"> 2744</span>        <span class="keywordflow">if</span> self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;primsPerMaterial&#39;</span>] <span class="keywordflow">and</span> (materialCount &gt; 0):</div>
-<div class="line"><a id="l02745" name="l02745"></a><span class="lineno"> 2745</span>            <span class="keywordflow">if</span> self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
-<div class="line"><a id="l02746" name="l02746"></a><span class="lineno"> 2746</span>                print(<span class="stringliteral">&#39;- Generating a new primitive for each of %d materials&#39;</span> % materialCount)</div>
-<div class="line"><a id="l02747" name="l02747"></a><span class="lineno"> 2747</span>            <span class="comment"># Compute sqrt of materialCount</span></div>
-<div class="line"><a id="l02748" name="l02748"></a><span class="lineno"> 2748</span>            rowCount = int(math.sqrt(materialCount))</div>
-<div class="line"><a id="l02749" name="l02749"></a><span class="lineno"> 2749</span>            self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a96b887b48951a09c0fb2c0f6caf856b2">createPrimsForMaterials</a>(gltfJson, rowCount)</div>
-<div class="line"><a id="l02750" name="l02750"></a><span class="lineno"> 2750</span> </div>
-<div class="line"><a id="l02751" name="l02751"></a><span class="lineno"> 2751</span>        <span class="comment"># Get resulting glTF JSON string</span></div>
-<div class="line"><a id="l02752" name="l02752"></a><span class="lineno"> 2752</span>        gltfString = json.dumps(gltfJson, indent=2)</div>
-<div class="line"><a id="l02753" name="l02753"></a><span class="lineno"> 2753</span>        self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- Output glTF with new MaterialX materials&#39;</span> + str(gltfString))</div>
-<div class="line"><a id="l02754" name="l02754"></a><span class="lineno"> 2754</span> </div>
-<div class="line"><a id="l02755" name="l02755"></a><span class="lineno"> 2755</span>        <span class="keywordflow">return</span> gltfString</div>
-<div class="line"><a id="l02756" name="l02756"></a><span class="lineno"> 2756</span>    </div>
+<div class="foldopen" id="foldopen02708" data-start="" data-end="">
+<div class="line"><a id="l02708" name="l02708"></a><span class="lineno"><a class="line" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#add6d073dad92168a550f3fded340687c"> 2708</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#add6d073dad92168a550f3fded340687c">convert</a>(self, doc):</div>
+<div class="line"><a id="l02709" name="l02709"></a><span class="lineno"> 2709</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l02710" name="l02710"></a><span class="lineno"> 2710</span><span class="stringliteral">        @brief Convert MaterialX document to glTF</span></div>
+<div class="line"><a id="l02711" name="l02711"></a><span class="lineno"> 2711</span><span class="stringliteral">        @param doc MaterialX document to convert</span></div>
+<div class="line"><a id="l02712" name="l02712"></a><span class="lineno"> 2712</span><span class="stringliteral">        @return glTF JSON string</span></div>
+<div class="line"><a id="l02713" name="l02713"></a><span class="lineno"> 2713</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l02714" name="l02714"></a><span class="lineno"> 2714</span>        <span class="comment"># Resulting glTF JSON string        </span></div>
+<div class="line"><a id="l02715" name="l02715"></a><span class="lineno"> 2715</span>        gltfJson = {}</div>
+<div class="line"><a id="l02716" name="l02716"></a><span class="lineno"> 2716</span> </div>
+<div class="line"><a id="l02717" name="l02717"></a><span class="lineno"> 2717</span>        <span class="comment"># Check for glTF geometry file inclusion</span></div>
+<div class="line"><a id="l02718" name="l02718"></a><span class="lineno"> 2718</span>        gltfGeometryFile = self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;geometryFile&#39;</span>]</div>
+<div class="line"><a id="l02719" name="l02719"></a><span class="lineno"> 2719</span>        <span class="keywordflow">if</span> len(gltfGeometryFile):</div>
+<div class="line"><a id="l02720" name="l02720"></a><span class="lineno"> 2720</span>            print(<span class="stringliteral">&#39;- glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><a id="l02721" name="l02721"></a><span class="lineno"> 2721</span>            <span class="keywordflow">if</span> os.path.exists(gltfGeometryFile):</div>
+<div class="line"><a id="l02722" name="l02722"></a><span class="lineno"> 2722</span>                gltfFile = open(gltfGeometryFile, <span class="stringliteral">&#39;r&#39;</span>)</div>
+<div class="line"><a id="l02723" name="l02723"></a><span class="lineno"> 2723</span>                <span class="keywordflow">if</span> gltfFile:</div>
+<div class="line"><a id="l02724" name="l02724"></a><span class="lineno"> 2724</span>                    gltfJson = json.load(gltfFile)</div>
+<div class="line"><a id="l02725" name="l02725"></a><span class="lineno"> 2725</span>                <span class="keywordflow">if</span> self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
+<div class="line"><a id="l02726" name="l02726"></a><span class="lineno"> 2726</span>                    print(<span class="stringliteral">&#39;- Embedding glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><a id="l02727" name="l02727"></a><span class="lineno"> 2727</span>                self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- Embedding glTF geometry file:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><a id="l02728" name="l02728"></a><span class="lineno"> 2728</span> </div>
+<div class="line"><a id="l02729" name="l02729"></a><span class="lineno"> 2729</span>                <span class="comment"># If no materials, add a default material</span></div>
+<div class="line"><a id="l02730" name="l02730"></a><span class="lineno"> 2730</span>                <span class="keywordflow">for</span> mesh <span class="keywordflow">in</span> gltfJson[<span class="stringliteral">&#39;meshes&#39;</span>]:</div>
+<div class="line"><a id="l02731" name="l02731"></a><span class="lineno"> 2731</span>                    <span class="keywordflow">for</span> primitive <span class="keywordflow">in</span> mesh[<span class="stringliteral">&#39;primitives&#39;</span>]:</div>
+<div class="line"><a id="l02732" name="l02732"></a><span class="lineno"> 2732</span>                        <span class="keywordflow">if</span> <span class="stringliteral">&#39;material&#39;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> primitive:</div>
+<div class="line"><a id="l02733" name="l02733"></a><span class="lineno"> 2733</span>                            primitive[<span class="stringliteral">&#39;material&#39;</span>] = 0</div>
+<div class="line"><a id="l02734" name="l02734"></a><span class="lineno"> 2734</span>            <span class="keywordflow">else</span>:</div>
+<div class="line"><a id="l02735" name="l02735"></a><span class="lineno"> 2735</span>                <span class="keywordflow">if</span> self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
+<div class="line"><a id="l02736" name="l02736"></a><span class="lineno"> 2736</span>                    print(<span class="stringliteral">&#39;- glTF geometry file not found:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><a id="l02737" name="l02737"></a><span class="lineno"> 2737</span>                self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- glTF geometry file not found:&#39;</span> + gltfGeometryFile)</div>
+<div class="line"><a id="l02738" name="l02738"></a><span class="lineno"> 2738</span> </div>
+<div class="line"><a id="l02739" name="l02739"></a><span class="lineno"> 2739</span>        <span class="comment"># Clear and convert materials</span></div>
+<div class="line"><a id="l02740" name="l02740"></a><span class="lineno"> 2740</span>        resetMaterials = <span class="keyword">True</span></div>
+<div class="line"><a id="l02741" name="l02741"></a><span class="lineno"> 2741</span>        self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#aa42930edb2c5ffc8a5fe7f01e92f8b16">materialX2glTF</a>(doc, gltfJson, resetMaterials)</div>
+<div class="line"><a id="l02742" name="l02742"></a><span class="lineno"> 2742</span>        </div>
+<div class="line"><a id="l02743" name="l02743"></a><span class="lineno"> 2743</span>        <span class="comment"># If geometry specified, create new primitives for each material</span></div>
+<div class="line"><a id="l02744" name="l02744"></a><span class="lineno"> 2744</span>        materialCount = len(gltfJson[<span class="stringliteral">&#39;materials&#39;</span>]) <span class="keywordflow">if</span> <span class="stringliteral">&#39;materials&#39;</span> <span class="keywordflow">in</span> gltfJson <span class="keywordflow">else</span> 0</div>
+<div class="line"><a id="l02745" name="l02745"></a><span class="lineno"> 2745</span>        <span class="keywordflow">if</span> self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;primsPerMaterial&#39;</span>] <span class="keywordflow">and</span> (materialCount &gt; 0):</div>
+<div class="line"><a id="l02746" name="l02746"></a><span class="lineno"> 2746</span>            <span class="keywordflow">if</span> self.<a class="code hl_variable" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a01f02dd5eab510b3c62b9ade53cc3e80">_options</a>[<span class="stringliteral">&#39;debugOutput&#39;</span>]:</div>
+<div class="line"><a id="l02747" name="l02747"></a><span class="lineno"> 2747</span>                print(<span class="stringliteral">&#39;- Generating a new primitive for each of %d materials&#39;</span> % materialCount)</div>
+<div class="line"><a id="l02748" name="l02748"></a><span class="lineno"> 2748</span>            <span class="comment"># Compute sqrt of materialCount</span></div>
+<div class="line"><a id="l02749" name="l02749"></a><span class="lineno"> 2749</span>            rowCount = int(math.sqrt(materialCount))</div>
+<div class="line"><a id="l02750" name="l02750"></a><span class="lineno"> 2750</span>            self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a96b887b48951a09c0fb2c0f6caf856b2">createPrimsForMaterials</a>(gltfJson, rowCount)</div>
+<div class="line"><a id="l02751" name="l02751"></a><span class="lineno"> 2751</span> </div>
+<div class="line"><a id="l02752" name="l02752"></a><span class="lineno"> 2752</span>        <span class="comment"># Get resulting glTF JSON string</span></div>
+<div class="line"><a id="l02753" name="l02753"></a><span class="lineno"> 2753</span>        gltfString = json.dumps(gltfJson, indent=2)</div>
+<div class="line"><a id="l02754" name="l02754"></a><span class="lineno"> 2754</span>        self.<a class="code hl_function" href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a6297f08401012845e9d536bf224c39dc">log</a>(<span class="stringliteral">&#39;- Output glTF with new MaterialX materials&#39;</span> + str(gltfString))</div>
+<div class="line"><a id="l02755" name="l02755"></a><span class="lineno"> 2755</span> </div>
+<div class="line"><a id="l02756" name="l02756"></a><span class="lineno"> 2756</span>        <span class="keywordflow">return</span> gltfString</div>
+<div class="line"><a id="l02757" name="l02757"></a><span class="lineno"> 2757</span>    </div>
 </div>
 </div>
 <div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_options_html"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_options.html">materialxgltf.core.GLTF2MtlxOptions</a></div><div class="ttdoc">Class to hold options for glTF to MaterialX conversion.</div><div class="ttdef"><b>Definition</b> <a href="#l00121">core.py:121</a></div></div>
@@ -3007,8 +3008,8 @@ $(function(){initNavTree('core_8py_source.html',''); initResizable(true); });
 <div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer_html_ac8d7bd7f58fcfde45f26ac60e355b7c8"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ac8d7bd7f58fcfde45f26ac60e355b7c8">materialxgltf.core.MTLX2GLTFWriter.setOptions</a></div><div class="ttdeci">setOptions(self, options)</div><div class="ttdoc">Set options.</div><div class="ttdef"><b>Definition</b> <a href="#l01174">core.py:1174</a></div></div>
 <div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer_html_ad2cf563ca0f27e58b1788fb9207a593d"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ad2cf563ca0f27e58b1788fb9207a593d">materialxgltf.core.MTLX2GLTFWriter.writeCopyright</a></div><div class="ttdeci">writeCopyright(self, doc, gltfJson)</div><div class="ttdoc">Write a glTF document copyright information.</div><div class="ttdef"><b>Definition</b> <a href="#l01945">core.py:1945</a></div></div>
 <div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer_html_ada5b108ce998e7059ec927e48aaf5f94"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ada5b108ce998e7059ec927e48aaf5f94">materialxgltf.core.MTLX2GLTFWriter.writeFloatInput</a></div><div class="ttdeci">writeFloatInput(self, pbrNode, inputName, gltfTextureName, gltfValueName, material, textures, images, samplers, remapper=None)</div><div class="ttdoc">Write a float input from a MaterialX pbr node to a glTF material entry.</div><div class="ttdef"><b>Definition</b> <a href="#l01849">core.py:1849</a></div></div>
-<div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer_html_add6d073dad92168a550f3fded340687c"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#add6d073dad92168a550f3fded340687c">materialxgltf.core.MTLX2GLTFWriter.convert</a></div><div class="ttdeci">convert(self, doc)</div><div class="ttdoc">Convert MaterialX document to glTF.</div><div class="ttdef"><b>Definition</b> <a href="#l02707">core.py:2707</a></div></div>
-<div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer_html_ae8a4410a941943d4ebbf2977cfc62d90"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ae8a4410a941943d4ebbf2977cfc62d90">materialxgltf.core.MTLX2GLTFWriter.translateShaders</a></div><div class="ttdeci">translateShaders(self, doc)</div><div class="ttdoc">Translate shaders to gltf pbr.</div><div class="ttdef"><b>Definition</b> <a href="#l02680">core.py:2680</a></div></div>
+<div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer_html_add6d073dad92168a550f3fded340687c"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#add6d073dad92168a550f3fded340687c">materialxgltf.core.MTLX2GLTFWriter.convert</a></div><div class="ttdeci">convert(self, doc)</div><div class="ttdoc">Convert MaterialX document to glTF.</div><div class="ttdef"><b>Definition</b> <a href="#l02708">core.py:2708</a></div></div>
+<div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer_html_ae8a4410a941943d4ebbf2977cfc62d90"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ae8a4410a941943d4ebbf2977cfc62d90">materialxgltf.core.MTLX2GLTFWriter.translateShaders</a></div><div class="ttdeci">translateShaders(self, doc)</div><div class="ttdoc">Translate shaders to gltf pbr.</div><div class="ttdef"><b>Definition</b> <a href="#l02681">core.py:2681</a></div></div>
 <div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_util_html"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_util.html">materialxgltf.core.Util</a></div><div class="ttdoc">Basic I/O Utilities.</div><div class="ttdef"><b>Definition</b> <a href="#l00030">core.py:30</a></div></div>
 <div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_util_html_a4a8d3050b303e1e86b2fbfeffc228f58"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_util.html#a4a8d3050b303e1e86b2fbfeffc228f58">materialxgltf.core.Util.writeMaterialXDoc</a></div><div class="ttdeci">writeMaterialXDoc(doc, filename, predicate=skipLibraryElement)</div><div class="ttdoc">Utility to write a MaterialX document to a file.</div><div class="ttdef"><b>Definition</b> <a href="#l00056">core.py:56</a></div></div>
 <div class="ttc" id="aclassmaterialxgltf_1_1core_1_1_util_html_a6119243ace20244234f017c3c58c22dd"><div class="ttname"><a href="classmaterialxgltf_1_1core_1_1_util.html#a6119243ace20244234f017c3c58c22dd">materialxgltf.core.Util.writeMaterialXDocString</a></div><div class="ttdeci">writeMaterialXDocString(doc, predicate=skipLibraryElement)</div><div class="ttdoc">Utility to write a MaterialX document to string.</div><div class="ttdef"><b>Definition</b> <a href="#l00071">core.py:71</a></div></div>

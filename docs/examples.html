@@ -7564,8 +7564,8 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">materialxgltf</span>
-<span class="kn">import</span> <span class="nn">materialxgltf.core</span> <span class="k">as</span> <span class="nn">core</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">materialxgltf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">materialxgltf.core</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">core</span>
 </pre></div>
 </div>
 </div>
@@ -7590,9 +7590,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display_markdown</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display_markdown</span>
 
-<span class="k">def</span> <span class="nf">displaySource</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s1">'xml'</span><span class="p">,</span> <span class="nb">open</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">displaySource</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s1">'xml'</span><span class="p">,</span> <span class="nb">open</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">text</span> <span class="o">=</span> <span class="s1">'&lt;details '</span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="p">(</span><span class="s1">' open'</span> <span class="k">if</span> <span class="nb">open</span> <span class="k">else</span> <span class="s1">''</span><span class="p">)</span> 
     <span class="n">text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="s1">'&gt;&lt;summary&gt;&lt;b&gt;'</span> <span class="o">+</span> <span class="n">title</span> <span class="o">+</span> <span class="s1">'&lt;/b&gt;&lt;/summary&gt;</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="s1">'```'</span> <span class="o">+</span> <span class="n">language</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="n">string</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">```</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="s1">'&lt;/details&gt;</span><span class="se">\n</span><span class="s1">'</span> 
@@ -7622,8 +7622,8 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pkg_resources</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="n">directory_name</span> <span class="o">=</span> <span class="s2">"data"</span>  
 <span class="n">files</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_listdir</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="n">directory_name</span><span class="p">)</span>
@@ -7652,10 +7652,10 @@ a.anchor-link {
 <div class="highlight"><pre><span></span>BoomBoxWithAxes.gltf
 BoomBoxWithAxes.mtlx
 BoomBoxWithAxes.mtlx.gltf
-BoomBoxWithAxes_primMaterials.gltf
 gltf_test_nondefault_pbr.mtlx
 gltf_test_nondefault_pbr.mtlx.gltf
 standard_surface_marble_solid.mtlx
+standard_surface_marble_solid.mtlx.gltf
 </pre></div>
 </details>
 </div>
@@ -7681,8 +7681,8 @@ standard_surface_marble_solid.mtlx
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pkg_resources</span>
-<span class="kn">import</span> <span class="nn">MaterialX</span> <span class="k">as</span> <span class="nn">mx</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">MaterialX</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mx</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Using ( MaterialX version: </span><span class="si">{</span><span class="n">mx</span><span class="o">.</span><span class="n">getVersionString</span><span class="p">()</span><span class="si">}</span><span class="s1"> materialxgltf version: </span><span class="si">{</span><span class="n">materialxgltf</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1"> )</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 
@@ -7717,7 +7717,7 @@ standard_surface_marble_solid.mtlx
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Using ( MaterialX version: 1.39.2 materialxgltf version: 1.39.2 )
+<pre>Using ( MaterialX version: 1.39.3 materialxgltf version: 1.39.2 )
 
 Converting: BoomBoxWithAxes.gltf
 - Convert gLTF material to MateriaLX: MAT_M_BoomBox
@@ -9059,14 +9059,7 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <details open=""><summary><b>Packaging Log</b></summary>
 <div class="highlight"><pre><span></span>Packaging GLB...
 - Load glTF geometry file: shaderBall.gltf
-- Save GLB file:BoomBoxWithAxes_primMaterials.glb. Status: True
-  - Embedded image: BoomBoxWithAxes_baseColor.png
-  - Embedded image: BoomBoxWithAxes_roughnessMetallic.png
-  - Embedded image: BoomBoxWithAxes_normal.png
-  - Embedded image: BoomBoxWithAxes_emissive.png
-  - Embedded image: BoomBoxWithAxes_baseColor1.png
-  - Embedded buffer: shaderball_data.bin
-Packaging completed.
+- Failed to package GLB file: [Errno 2] No such file or directory: 'C:\\Users\\home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\materialxgltf\\data\\BoomBoxWithAxes_primMaterials.gltf'
 </pre></div>
 </details>
 </div>
@@ -9290,7 +9283,7 @@ does not require this package to be used.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="n">materialXFileName</span> <span class="o">=</span> <span class="n">materialXFileName</span> <span class="o">+</span> <span class="s1">'_baked.mtlx'</span>
 <span class="n">bakeResolution</span> <span class="o">=</span> <span class="mi">256</span>
