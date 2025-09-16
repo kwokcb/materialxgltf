@@ -10,7 +10,7 @@
 
 ## Introduction
 
-This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1.  The current package is synced with MaterialX release 1.39
+This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1.  The current package is synced with MaterialX release 1.39.4
 
 See the [home page](https://kwokcb.github.io/materialxgltf/) for this project.
 
