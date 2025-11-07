@@ -67,8 +67,24 @@
   "materials": [
     {
       "extensions": {
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            0.9882349967956543,
+            0.992156982421875,
+            0.9960780143737793
+          ]
+        },
+        "KHR_materials_emissive_strength": {
+          "emissiveStrength": 0.0
+        },
+        "KHR_materials_ior": {
+          "ior": 1.0
+        },
         "KHR_materials_clearcoat": {
           "clearcoatRoughnessFactor": 0.09803920239210129
+        },
+        "KHR_materials_volume": {
+          "thicknessFactor": 1.0
         }
       },
       "name": "SR_Aluminum",
@@ -80,7 +96,12 @@
           1.0
         ],
         "roughnessFactor": 0.0
-      }
+      },
+      "emissiveFactor": [
+        1.0,
+        1.0,
+        1.0
+      ]
     }
   ],
   "meshes": [
@@ -231,6 +252,10 @@
     }
   ],
   "extensionsUsed": [
-    "KHR_materials_clearcoat"
+    "KHR_materials_specular",
+    "KHR_materials_emissive_strength",
+    "KHR_materials_ior",
+    "KHR_materials_clearcoat",
+    "KHR_materials_volume"
   ]
 }
