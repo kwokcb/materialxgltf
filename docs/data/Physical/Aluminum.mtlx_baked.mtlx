@@ -3,7 +3,16 @@
   <gltf_pbr name="SR_Aluminum" type="surfaceshader">
     <input name="base_color" type="color3" value="0.960784, 0.960784, 0.964706" colorspace="srgb_texture" />
     <input name="roughness" type="float" value="0" />
+    <input name="specular_color" type="color3" value="0.988235, 0.992157, 0.996078" colorspace="srgb_texture" />
+    <input name="ior" type="float" value="1" />
+    <input name="thickness" type="float" value="1" />
+    <input name="attenuation_distance" type="float" value="0" />
     <input name="clearcoat_roughness" type="float" value="0.0980392" />
+    <input name="emissive" type="color3" value="1, 1, 1" colorspace="srgb_texture" />
+    <input name="emissive_strength" type="float" value="0" />
+    <input name="normal" type="vector3" value="1, 0, 0" />
+    <input name="tangent" type="vector3" value="0, 0, 1" />
+    <input name="alpha_mode" type="integer" value="" />
   </gltf_pbr>
   <surfacematerial name="Aluminum" type="material">
     <input name="surfaceshader" type="surfaceshader" nodename="SR_Aluminum" />

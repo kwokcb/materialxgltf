@@ -3,3 +3,4 @@ dist/
 src/materialxgltf.egg-info/
 build/
 .venv/
+.vs/
