@@ -1095,7 +1095,8 @@ class GLTF2MtlxReader:
                         geomcolor = doc.addNode('geomcolor', EMPTY_STRING, 'color4')
                         geomcolorInput.setNodeName(geomcolor.getName())
 
-            # Create a look and material assignments
+            # Create a look and material assignments.
+            assign_xform = self._options['assignXform'] if 'assignXform' in self._options else False
             if self._options['createAssignments'] and len(assignments) > 0:
                 comment = doc.addChildOfCategory('comment')
                 comment.setDocString(' Generated material assignments ')
@@ -1103,7 +1104,19 @@ class GLTF2MtlxReader:
                 for assignMaterial in assignments:
                     matassign = look.addMaterialAssign(assignMaterial)
                     matassign.setMaterial(assignMaterial)
-                    matassign.setGeom(','.join(assignments[assignMaterial]))
+                    if assign_xform:
+                        # remove last path = mesh geometry path
+                        geoms = assignments[assignMaterial]
+                        xformedGeom = []
+                        for geom in geoms:
+                            pathParts = geom.split('/')
+                            if len(pathParts) > 1:
+                                xformedGeom.append('/'.join(pathParts[:-1]))
+                            else:
+                                xformedGeom.append(geom)
+                        matassign.setGeom(','.join(xformedGeom))
+                    else:                        
+                        matassign.setGeom(','.join(assignments[assignMaterial]))
 
             return doc
         

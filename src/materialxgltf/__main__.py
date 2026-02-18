@@ -23,9 +23,10 @@ def main() -> int:
         return 1
     
     # Build the command
+    python_exec = sys.executable
     cmd = ' '.join(cmdArgs)
     packageLocation = os.path.dirname(__file__)
-    cmd = 'python ' + packageLocation + '/' + cmd
+    cmd = python_exec + ' ' + packageLocation + '/' + cmd
 
     # Run the command
     return subprocess.call(cmd, shell=True)
