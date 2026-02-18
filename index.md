@@ -12,10 +12,7 @@ The package can be downloaded fro PyPi **[here](https://pypi.org/project/materia
 
 #### Sample Integrations
 
-
-
-
-A working version of a plug-in for QuiltiX can be found <a href="https://github.com/kwokcb/QuiltiX/tree/materialxgltf/sample_plugins/materialxgltf">here </a>
+Information about the plug-in for QuiltiX can be found <a href="https://kwokcb.github.io/MaterialXLab/plugins/QuiltiX/documents/index.html" target="_blank">a on the MaterialXLabs site</a>
 
 Below is a example of loading in the "Damaged Helmet" model from the <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/main/2.0/DamagedHelmet">Khronos glTF sample models</a> repository and converting it to a MaterialX file using the QuiltiX plugin. The textures
 are currently too dark due to lack of color management in the version of OpenUSD used.

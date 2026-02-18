@@ -125,6 +125,7 @@ class GLTF2MtlxOptions(dict):
         - 'addAllInputs' : Add all inputs from the node definition. Default is False. 
         - 'createAssignments' : Create MaterialX assignments for each glTF primitive. Default is False.
         - 'debugOutput' : Print debug output. Default is False.
+        - 'assignXform' : Assign materials to transform nodes instead of shape nodes. Default is False.
     '''
     def __init__(self, *args, **kwargs):
         '''
@@ -135,13 +136,26 @@ class GLTF2MtlxOptions(dict):
         self['createAssignments'] = False
         self['addAllInputs'] = False
         self['debugOutput'] = True
+        self['assignXform'] = False
 
 class GLTF2MtlxReader:
+    """
+    @class GLTF2MtlxReader
+    @brief Class to read glTF and convert to MaterialX.
+    @var _log
+    @brief Log string for storing conversion status and error messages.
+    @details This string accumulates log entries during the glTF to MaterialX conversion process.
+    It can be cleared with clearLog() and retrieved with getLog().
+    @var _options
+    @brief Options for the glTF to MaterialX conversion process.
+    @details This is an instance of GLTF2MtlxOptions that holds various options for controlling the conversion process, such as whether to add all inputs from node definitions, whether to create material assignments, and whether to print debug output.
+    """
     '''
     Class to read glTF and convert to MaterialX.    
     '''
     # Log string
     _log = ''
+    
     # Conversion options
     _options = GLTF2MtlxOptions()    
 
