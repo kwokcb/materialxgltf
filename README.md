@@ -85,12 +85,15 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  --mtlxFileName MTLXFILENAME
-                        Name of MaterialX output file. If not specified the glTF name with "_tomtlx.mtlx" suffix will be used
-  --createAssignments CREATEASSIGNMENTS
+  -fn MTLXFILENAME, --mtlxFileName MTLXFILENAME
+                        Name of MaterialX output file. If not specified the glTF name with "_converted.mtlx" suffix
+                        will be used
+  -ca CREATEASSIGNMENTS, --createAssignments CREATEASSIGNMENTS
                         Create material assignments. Default is True
-  --addAllInputs ADDALLINPUTS
+  -ai ADDALLINPUTS, --addAllInputs ADDALLINPUTS
                         Add all definition inputs to MaterialX shader nodes. Default is False
+  -ax ASSIGNXFORM, --assignXform ASSIGNXFORM
+                        Assign to transforms vs shapes. Default is False
 ```
 
 #### MaterialX to glTF Conversion

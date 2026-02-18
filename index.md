@@ -12,6 +12,9 @@ The package can be downloaded fro PyPi **[here](https://pypi.org/project/materia
 
 #### Sample Integrations
 
+
+
+
 A working version of a plug-in for QuiltiX can be found <a href="https://github.com/kwokcb/QuiltiX/tree/materialxgltf/sample_plugins/materialxgltf">here </a>
 
 Below is a example of loading in the "Damaged Helmet" model from the <a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/main/2.0/DamagedHelmet">Khronos glTF sample models</a> repository and converting it to a MaterialX file using the QuiltiX plugin. The textures
@@ -19,7 +22,7 @@ are currently too dark due to lack of color management in the version of OpenUSD
 
 | QuiltiX Plug-in| MaterialX View |
 | :-- | :--: |
-| <img src="https://raw.githubusercontent.com/kwokcb/MaterialXLab/refs/heads/main/plugins/QuiltiX/documents/images/DamagedHelmet_Example.png?token=GHSAT0AAAAAADCJUDFEE6UTWWJ3VH3QZXRK2IOLTUA" width=100%> | <img src="https://raw.githubusercontent.com/kwokcb/MaterialXLab/refs/heads/main/plugins/QuiltiX/documents/images/DamagedHelmet_Example_MXView.png?token=GHSAT0AAAAAADCJUDFEP2LDJLUW3VKCU2O62IOLUCA" width=100%> |
+| <img src="https://raw.githubusercontent.com/kwokcb/MaterialXLab/refs/heads/main/plugins/QuiltiX/documents/images/DamagedHelmet_Example.png?token=GHSAT0AAAAAADCJUDFFVEZVVX73FJE4IM7I2MV57BA" width=100%> | <img src="https://raw.githubusercontent.com/kwokcb/MaterialXLab/refs/heads/main/plugins/QuiltiX/documents/images/DamagedHelmet_Example_MXView.png?token=GHSAT0AAAAAADCJUDFFIM4ZCNYZYESYZWGS2MV6AEA" width=100%> |
 
 <sub>Note that the MaterialX versions must match between QuiltiX and the MaterialXglTF package. 
 Either the appropriate branch of the GitHub repository needs to be built locally or the matching version of the package needs to be installed from the PyPi repository.

@@ -20,7 +20,7 @@ from pygltflib import GLTF2, BufferFormat # type: ignore
 from pygltflib.utils import ImageFormat # type: ignore
 
 # Utilities
-import os, re, copy, math
+import os, re, copy, math, datetime
 
 from materialxgltf.globals import *
 
@@ -1966,8 +1966,9 @@ class MTLX2GLTFWriter:
             asset = gltfJson['asset']
         else:
             asset = gltfJson['asset'] = {}
-        asset['copyright'] = 'Copyright 2022-2025: Bernard Kwok.'
-        asset['generator'] = 'MaterialX ' + doc.getVersionString() + ' to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf'
+        current_year = datetime.datetime.now().year
+        asset['copyright'] = f'Copyright 2022-{current_year}: Bernard Kwok.'
+        asset['generator'] = f'MaterialX {doc.getVersionString()} to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf'
         asset['version'] = '2.0'
 
     def materialX2glTF(self, doc, gltfJson, resetMaterials):
