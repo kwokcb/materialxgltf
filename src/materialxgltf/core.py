@@ -529,6 +529,24 @@ class GLTF2MtlxReader:
                     # Force this to be interepret as float vs integer
                     alphaInput.setValue(float(color[3]))
 
+    def readAsset(self, doc, gltfDoc):
+        if 'asset' in gltfDoc:
+            asset = gltfDoc['asset']
+            gltf_version = asset['version']
+        else:
+            gltf_version = '2.0'
+        current_year = datetime.datetime.now().year
+        doc_string = f' Copyright 2022-{current_year}: Bernard Kwok.'
+        doc_string += f' gltTF {gltf_version} to MTLX {doc.getVersionString()} generator (https://github.com/kwokcb/materialxgltf).'
+        if 'asset' in gltfDoc:        
+            if 'copyright' in asset:
+                doc_string += ' glTF copyright: ' + asset['copyright'] + '.'
+            if 'generator' in asset:
+                doc_string += ' glTF generator: ' + asset['generator'] + '.'
+            if 'version' in asset:
+                doc_string += ' glTF version: ' + asset['version'] + '.'
+        doc.setDocString(doc_string)
+    
     def glTF2MaterialX(self, doc, gltfDoc) -> bool:
         '''
         @brief Convert glTF document to a MaterialX document.
@@ -551,6 +569,8 @@ class GLTF2MtlxReader:
         alphaModeMap['OPAQUE'] = 0
         alphaModeMap['MASK'] = 1
         alphaModeMap['BLEND'] = 2
+
+        self.readAsset(doc, gltfDoc)
 
         for material in materials:
 
