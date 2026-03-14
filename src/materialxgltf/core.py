@@ -919,6 +919,24 @@ class GLTF2MtlxReader:
                         self.readInput(doc, sheenRoughnessTexture, [sheenRoughnessFactor], 'image_sheen_roughness', MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
                                 shaderNode, ['sheen_roughness'], textures, images, samplers)
 
+                # Parse anisotropy
+                if 'KHR_materials_anisotropy' in extensions:
+                    anisotropy = extensions['KHR_materials_anisotropy']
+
+                    anisotropyFactor = anisotropyTexture = None
+                    if 'anisotropyStrength' in anisotropy:
+                        anisotropyStrength = anisotropy['anisotropyStrength']
+                    if 'anisotropyTexture' in anisotropy:
+                        anisotropyTexture = anisotropy['anisotropyTexture']
+                    if 'anisotropyStrength' or 'anisotropyTexture':
+                       self.readInput(doc, anisotropyTexture, [anisotropyStrength], 'image_anisotropy_strength', 
+                                MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
+                                shaderNode, ['anisotropy_strength'], textures, images, samplers) 
+                if 'anisotropyRotation' in anisotropy:
+                    anisotropyRotation = anisotropy['anisotropyRotation']
+                    self.readInput(doc, None, [anisotropyRotation], '', '', '', '',
+                                shaderNode, ['anisotropy_rotation'], textures, images, samplers)
+
         return True
 
     def computeMeshMaterials(self, materialMeshList, materialCPVList, cnode, path, nodeCount, meshCount, meshes, nodes, materials):
