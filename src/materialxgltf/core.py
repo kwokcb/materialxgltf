@@ -2336,8 +2336,11 @@ class MTLX2GLTFWriter:
             metallicFilename = mx.FilePath(filenames[0])
             roughnessFilename = mx.FilePath(filenames[1])
             occlusionFilename = mx.FilePath(filenames[2])
+            origMetallicFilename = metallicFilename
             metallicFilename = self._options['searchPath'].find(metallicFilename)
+            origRoughnessFilename = roughnessFilename
             roughnessFilename = self._options['searchPath'].find(roughnessFilename)
+            origOcclusionFilename = occlusionFilename
             occlusionFilename = self._options['searchPath'].find(occlusionFilename)            
 
             # if metallic and roughness match but occlusion differs, Then export 2 textures if found
@@ -2345,9 +2348,9 @@ class MTLX2GLTFWriter:
                 if roughnessFilename == occlusionFilename:
                     # All 3 are the same:
                     if not roughnessFilename.isEmpty():
-                        print('- Append single ORM texture', roughnessFilename.asString())
+                        print('- Append single ORM texture', origRoughnessFilename.asString())
                         texture = {}
-                        self.initialize_gtlf_texture(texture, imageNamePaths[0], roughnessFilename.asString(mx.FormatPosix), images)
+                        self.initialize_gtlf_texture(texture, imageNamePaths[0], origRoughnessFilename.asString(mx.FormatPosix), images)
                         self.writeImageProperties(texture, samplers, imageNode)
                         textures.append(texture)
 
@@ -2356,9 +2359,9 @@ class MTLX2GLTFWriter:
                 else:
                     # Metallic and roughness are the same
                     if not metallicFilename.isEmpty():
-                        print('- Append single metallic-roughness texture', metallicFilename.asString())
+                        print('- Append single metallic-roughness texture', origMetallicFilename.asString())
                         texture = {}
-                        self.initialize_gtlf_texture(texture, imageNamePaths[0], metallicFilename.asString(mx.FormatPosix), images)
+                        self.initialize_gtlf_texture(texture, imageNamePaths[0], origMetallicFilename.asString(mx.FormatPosix), images)
                         self.writeImageProperties(texture, samplers, imageNode)
                         textures.append(texture)
 
@@ -2367,9 +2370,9 @@ class MTLX2GLTFWriter:
 
                     # Append separate occlusion texture
                     if not occlusionFilename.isEmpty():
-                        print('- Append single occlusion texture', metallicFilename.asString())
+                        print('- Append single occlusion texture', origOcclusionFilename.asString())
                         texture = {}
-                        self.initialize_gtlf_texture(texture, imageNamePaths[2], occlusionFilename.asString(mx.FormatPosix), images)
+                        self.initialize_gtlf_texture(texture, imageNamePaths[2], origOcclusionFilename.asString(mx.FormatPosix), images)
                         self.writeImageProperties(texture, samplers, imageNode)
                         textures.append(texture)
 
@@ -2382,7 +2385,7 @@ class MTLX2GLTFWriter:
                 handler = mx_render.ImageHandler.create(loader)
                 handler.setSearchPath(self._options['searchPath'])
                 if handler:
-                    ormFilename = roughnessFilename if metallicFilename.isEmpty() else metallicFilename
+                    ormFilename = origRoughnessFilename if metallicFilename.isEmpty() else origMetallicFilename
 
                 imageWidth = 0
                 imageHeight = 0
