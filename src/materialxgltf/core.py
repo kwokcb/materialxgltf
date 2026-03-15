@@ -2579,14 +2579,14 @@ class MTLX2GLTFWriter:
                     outputExtension['thicknessTexture']['index'] = len(textures) - 1     
                 else:
                     thicknessValue = thicknessInput.getValue() 
-                    if thicknessValue:
+                    if thicknessValue > 0.0:
                         outputExtension['thicknessFactor'] = thicknessValue
 
             # Parse attenuation and attenuation distance
             attenuationInput = pbrNode.getInput('attenuation_color')
             if attenuationInput:
                 attenuationValue = attenuationInput.getValue() 
-                if attenuationValue:
+                if attenuationValue and (attenuationValue[0] > 0.0 or attenuationValue[1] > 0.0 or attenuationValue[2] > 0.0):
                     inputType = attenuationInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE)
                     outputExtension['attenuationColor'] = self.stringToScalar(attenuationInput.getValueString(), inputType)
             attenuationInput = pbrNode.getInput('attenuation_distance')
@@ -2681,6 +2681,42 @@ class MTLX2GLTFWriter:
                         thicknessValue = thickessInput.getValue() if thickessInput else None
                         if thicknessValue:
                             outputExtension['iridescenceThicknessMaximum'] = thicknessValue
+
+            # Handle anisotropy
+            #
+            anisotropy_strength_input = pbrNode.getInput('anisotropy_strength')
+            if anisotropy_strength_input:
+                outputExtension = {}
+                anisotropy_strength_texture = anisotropy_strength_input.getConnectedNode()
+                if anisotropy_strength_texture:
+                    fileInput = anisotropy_strength_texture.getInput(mx.Implementation.FILE_ATTRIBUTE)
+                    filename = EMPTY_STRING
+                    if fileInput and fileInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE) == mx.FILENAME_TYPE_STRING:
+                        filename = fileInput.getResolvedValueString() 
+                    if len(filename) > 0:
+                        texture = {}
+                        self.initialize_gtlf_texture(texture, anisotropy_strength_texture.getNamePath(), filename, images)
+                        self.writeImageProperties(texture, samplers, anisotropy_strength_texture)
+                        textures.append(texture)
+
+                        outputExtension['anisotropyTexture']  = {}
+                        outputExtension['anisotropyTexture']['index'] = len(textures) - 1
+                        outputExtension['anisotropyStrength'] = 1.0 
+                else:
+                    anisotropy_strength_value = anisotropy_strength_input.getValue()
+                    if anisotropy_strength_value > 0:
+                        outputExtension['anisotropyStrength'] = anisotropy_strength_value 
+            anisotropy_rotation = pbrNode.getInput('anisotropy_rotation')
+            if anisotropy_rotation:
+                rotationValue = anisotropy_rotation.getValue()
+                if rotationValue:
+                    outputExtension['anisotropyRotation'] = rotationValue
+
+            if len(outputExtension) > 0: 
+                extensionName = 'KHR_materials_anisotropy'
+                if  extensionName not in extensionsUsed:
+                    extensionsUsed.append(extensionName)             
+                extensions[extensionName] = outputExtension
 
             if len(material['extensions']) == 0:
                 del material['extensions']
