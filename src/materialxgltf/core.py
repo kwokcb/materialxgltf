@@ -529,6 +529,24 @@ class GLTF2MtlxReader:
                     # Force this to be interepret as float vs integer
                     alphaInput.setValue(float(color[3]))
 
+    def readAsset(self, doc, gltfDoc):
+        if 'asset' in gltfDoc:
+            asset = gltfDoc['asset']
+            gltf_version = asset['version']
+        else:
+            gltf_version = '2.0'
+        current_year = datetime.datetime.now().year
+        doc_string = f' Copyright 2022-{current_year}: Bernard Kwok.'
+        doc_string += f' gltTF {gltf_version} to MTLX {doc.getVersionString()} generator (https://github.com/kwokcb/materialxgltf).'
+        if 'asset' in gltfDoc:        
+            if 'copyright' in asset:
+                doc_string += ' glTF copyright: ' + asset['copyright'] + '.'
+            if 'generator' in asset:
+                doc_string += ' glTF generator: ' + asset['generator'] + '.'
+            if 'version' in asset:
+                doc_string += ' glTF version: ' + asset['version'] + '.'
+        doc.setDocString(doc_string)
+    
     def glTF2MaterialX(self, doc, gltfDoc) -> bool:
         '''
         @brief Convert glTF document to a MaterialX document.
@@ -551,6 +569,8 @@ class GLTF2MtlxReader:
         alphaModeMap['OPAQUE'] = 0
         alphaModeMap['MASK'] = 1
         alphaModeMap['BLEND'] = 2
+
+        self.readAsset(doc, gltfDoc)
 
         for material in materials:
 
@@ -918,6 +938,24 @@ class GLTF2MtlxReader:
                     if sheenRoughnessFactor or sheenRoughnessTexture:                    
                         self.readInput(doc, sheenRoughnessTexture, [sheenRoughnessFactor], 'image_sheen_roughness', MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
                                 shaderNode, ['sheen_roughness'], textures, images, samplers)
+
+                # Parse anisotropy
+                if 'KHR_materials_anisotropy' in extensions:
+                    anisotropy = extensions['KHR_materials_anisotropy']
+
+                    anisotropyFactor = anisotropyTexture = None
+                    if 'anisotropyStrength' in anisotropy:
+                        anisotropyStrength = anisotropy['anisotropyStrength']
+                    if 'anisotropyTexture' in anisotropy:
+                        anisotropyTexture = anisotropy['anisotropyTexture']
+                    if 'anisotropyStrength' or 'anisotropyTexture':
+                       self.readInput(doc, anisotropyTexture, [anisotropyStrength], 'image_anisotropy_strength', 
+                                MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
+                                shaderNode, ['anisotropy_strength'], textures, images, samplers) 
+                if 'anisotropyRotation' in anisotropy:
+                    anisotropyRotation = anisotropy['anisotropyRotation']
+                    self.readInput(doc, None, [anisotropyRotation], '', '', '', '',
+                                shaderNode, ['anisotropy_rotation'], textures, images, samplers)
 
         return True
 
@@ -2298,8 +2336,11 @@ class MTLX2GLTFWriter:
             metallicFilename = mx.FilePath(filenames[0])
             roughnessFilename = mx.FilePath(filenames[1])
             occlusionFilename = mx.FilePath(filenames[2])
+            origMetallicFilename = metallicFilename
             metallicFilename = self._options['searchPath'].find(metallicFilename)
+            origRoughnessFilename = roughnessFilename
             roughnessFilename = self._options['searchPath'].find(roughnessFilename)
+            origOcclusionFilename = occlusionFilename
             occlusionFilename = self._options['searchPath'].find(occlusionFilename)            
 
             # if metallic and roughness match but occlusion differs, Then export 2 textures if found
@@ -2307,9 +2348,9 @@ class MTLX2GLTFWriter:
                 if roughnessFilename == occlusionFilename:
                     # All 3 are the same:
                     if not roughnessFilename.isEmpty():
-                        print('- Append single ORM texture', roughnessFilename.asString())
+                        print('- Append single ORM texture', origRoughnessFilename.asString())
                         texture = {}
-                        self.initialize_gtlf_texture(texture, imageNamePaths[0], roughnessFilename.asString(mx.FormatPosix), images)
+                        self.initialize_gtlf_texture(texture, imageNamePaths[0], origRoughnessFilename.asString(mx.FormatPosix), images)
                         self.writeImageProperties(texture, samplers, imageNode)
                         textures.append(texture)
 
@@ -2318,9 +2359,9 @@ class MTLX2GLTFWriter:
                 else:
                     # Metallic and roughness are the same
                     if not metallicFilename.isEmpty():
-                        print('- Append single metallic-roughness texture', metallicFilename.asString())
+                        print('- Append single metallic-roughness texture', origMetallicFilename.asString())
                         texture = {}
-                        self.initialize_gtlf_texture(texture, imageNamePaths[0], metallicFilename.asString(mx.FormatPosix), images)
+                        self.initialize_gtlf_texture(texture, imageNamePaths[0], origMetallicFilename.asString(mx.FormatPosix), images)
                         self.writeImageProperties(texture, samplers, imageNode)
                         textures.append(texture)
 
@@ -2329,9 +2370,9 @@ class MTLX2GLTFWriter:
 
                     # Append separate occlusion texture
                     if not occlusionFilename.isEmpty():
-                        print('- Append single occlusion texture', metallicFilename.asString())
+                        print('- Append single occlusion texture', origOcclusionFilename.asString())
                         texture = {}
-                        self.initialize_gtlf_texture(texture, imageNamePaths[2], occlusionFilename.asString(mx.FormatPosix), images)
+                        self.initialize_gtlf_texture(texture, imageNamePaths[2], origOcclusionFilename.asString(mx.FormatPosix), images)
                         self.writeImageProperties(texture, samplers, imageNode)
                         textures.append(texture)
 
@@ -2344,7 +2385,7 @@ class MTLX2GLTFWriter:
                 handler = mx_render.ImageHandler.create(loader)
                 handler.setSearchPath(self._options['searchPath'])
                 if handler:
-                    ormFilename = roughnessFilename if metallicFilename.isEmpty() else metallicFilename
+                    ormFilename = origRoughnessFilename if metallicFilename.isEmpty() else origMetallicFilename
 
                 imageWidth = 0
                 imageHeight = 0
@@ -2541,14 +2582,14 @@ class MTLX2GLTFWriter:
                     outputExtension['thicknessTexture']['index'] = len(textures) - 1     
                 else:
                     thicknessValue = thicknessInput.getValue() 
-                    if thicknessValue:
+                    if thicknessValue > 0.0:
                         outputExtension['thicknessFactor'] = thicknessValue
 
             # Parse attenuation and attenuation distance
             attenuationInput = pbrNode.getInput('attenuation_color')
             if attenuationInput:
                 attenuationValue = attenuationInput.getValue() 
-                if attenuationValue:
+                if attenuationValue and (attenuationValue[0] > 0.0 or attenuationValue[1] > 0.0 or attenuationValue[2] > 0.0):
                     inputType = attenuationInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE)
                     outputExtension['attenuationColor'] = self.stringToScalar(attenuationInput.getValueString(), inputType)
             attenuationInput = pbrNode.getInput('attenuation_distance')
@@ -2643,6 +2684,42 @@ class MTLX2GLTFWriter:
                         thicknessValue = thickessInput.getValue() if thickessInput else None
                         if thicknessValue:
                             outputExtension['iridescenceThicknessMaximum'] = thicknessValue
+
+            # Handle anisotropy
+            #
+            anisotropy_strength_input = pbrNode.getInput('anisotropy_strength')
+            if anisotropy_strength_input:
+                outputExtension = {}
+                anisotropy_strength_texture = anisotropy_strength_input.getConnectedNode()
+                if anisotropy_strength_texture:
+                    fileInput = anisotropy_strength_texture.getInput(mx.Implementation.FILE_ATTRIBUTE)
+                    filename = EMPTY_STRING
+                    if fileInput and fileInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE) == mx.FILENAME_TYPE_STRING:
+                        filename = fileInput.getResolvedValueString() 
+                    if len(filename) > 0:
+                        texture = {}
+                        self.initialize_gtlf_texture(texture, anisotropy_strength_texture.getNamePath(), filename, images)
+                        self.writeImageProperties(texture, samplers, anisotropy_strength_texture)
+                        textures.append(texture)
+
+                        outputExtension['anisotropyTexture']  = {}
+                        outputExtension['anisotropyTexture']['index'] = len(textures) - 1
+                        outputExtension['anisotropyStrength'] = 1.0 
+                else:
+                    anisotropy_strength_value = anisotropy_strength_input.getValue()
+                    if anisotropy_strength_value > 0:
+                        outputExtension['anisotropyStrength'] = anisotropy_strength_value 
+            anisotropy_rotation = pbrNode.getInput('anisotropy_rotation')
+            if anisotropy_rotation:
+                rotationValue = anisotropy_rotation.getValue()
+                if rotationValue:
+                    outputExtension['anisotropyRotation'] = rotationValue
+
+            if len(outputExtension) > 0: 
+                extensionName = 'KHR_materials_anisotropy'
+                if  extensionName not in extensionsUsed:
+                    extensionsUsed.append(extensionName)             
+                extensions[extensionName] = outputExtension
 
             if len(material['extensions']) == 0:
                 del material['extensions']
