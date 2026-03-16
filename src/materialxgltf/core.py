@@ -952,10 +952,11 @@ class GLTF2MtlxReader:
                        self.readInput(doc, anisotropyTexture, [anisotropyStrength], 'image_anisotropy_strength', 
                                 MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
                                 shaderNode, ['anisotropy_strength'], textures, images, samplers) 
-                if 'anisotropyRotation' in anisotropy:
-                    anisotropyRotation = anisotropy['anisotropyRotation']
-                    self.readInput(doc, None, [anisotropyRotation], '', '', '', '',
-                                shaderNode, ['anisotropy_rotation'], textures, images, samplers)
+
+                    if 'anisotropyRotation' in anisotropy:
+                        anisotropyRotation = anisotropy['anisotropyRotation']
+                        self.readInput(doc, None, [anisotropyRotation], '', '', '', '',
+                                    shaderNode, ['anisotropy_rotation'], textures, images, samplers)
 
         return True
 
@@ -994,7 +995,7 @@ class GLTF2MtlxReader:
                 if 'name' in cmesh:
                     meshName = cmesh['name']
                 else:
-                    meshName = self.GLTF_DEFAULT_MESH_PREFIX + str(meshCount)
+                    meshName = GLTF_DEFAULT_MESH_PREFIX + str(meshCount)
                     meshCount = meshCount + 1
                 path = path + '/' + mx.createValidName(meshName)
 
@@ -1627,7 +1628,7 @@ class MTLX2GLTFWriter:
         if 'name' in cnode:
             cnodeName = cnode['name']
         else:    
-            cnodeName =  self.GLTF_DEFAULT_NODE_PREFIX + str(nodeCount)
+            cnodeName =  GLTF_DEFAULT_NODE_PREFIX + str(nodeCount)
             nodeCount = nodeCount + 1
         path = path + '/' + ( mx.createValidName(cnodeName) )
 
@@ -1642,7 +1643,7 @@ class MTLX2GLTFWriter:
                 if 'name' in cmesh:
                     meshName = cmesh['name']
                 else:
-                    meshName = self.GLTF_DEFAULT_MESH_PREFIX + str(meshCount)
+                    meshName = GLTF_DEFAULT_MESH_PREFIX + str(meshCount)
                     meshCount = meshCount + 1
                 path = path + '/' + mx.createValidName(meshName)
 
@@ -1655,7 +1656,7 @@ class MTLX2GLTFWriter:
 
                         primpath = path
                         if len(primitives) > 1:
-                            primpath = + '/' + self.GLTF_DEFAULT_PRIMITIVE_PREFIX + str(primitiveIndex)
+                            primpath += '/' + GLTF_DEFAULT_PRIMITIVE_PREFIX + str(primitiveIndex)
                         primPaths[primpath] = primitive
                         
                         primitiveIndex = primitiveIndex + 1
