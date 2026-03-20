@@ -395,6 +395,7 @@ class GLTF2MtlxReader:
         @return The created image node if mapped, otherwise None.
         '''
         imageNode = None
+        #print('**** readInput. texture:', texture, ' values:', values, ' imageNodeName:', imageNodeName, ' nodeCategory:', nodeCategory, ' nodeType:', nodeType, ' nodeDefId:', nodeDefId, ' inputNames:', inputNames)
 
         # Create and set mapped input
         if texture:
@@ -405,11 +406,14 @@ class GLTF2MtlxReader:
             imageNode = self.addMtlxImage(materials, imageNodeName, uri, nodeCategory, nodeDefId,                                   
                                         nodeType, EMPTY_STRING)
             if imageNode:
+                #print('Crated image node:' + imageNode.getName() + ' for texture:' + uri)
                 self.readGLTFImageProperties(imageNode, texture, gltf_samplers)
 
                 for inputName in inputNames:
+                    #print('>>>> Adding input from node def:' + inputName)
                     input = shaderNode.addInputFromNodeDef(inputName)
                     if input:
+                        #print('>>>> Setting input value from image node:' + imageNode.getName())
                         input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
                         input.removeAttribute(MTLX_VALUE_ATTRIBUTE)
 
@@ -423,6 +427,7 @@ class GLTF2MtlxReader:
                     if input:
                         input.setValue(float(value))
 
+        #print('**** done readInput. imageNode:', imageNode.getName() if imageNode else None )
         return imageNode
 
     def versionGreaterThan(self, major, minor, patch):
@@ -463,14 +468,6 @@ class GLTF2MtlxReader:
         assignedColorTexture = False 
         assignedAlphaTexture = False 
 
-        # Check to see if all inputs shoudl be added
-        addAllInputs = self._options['addAllInputs']
-        if addAllInputs:
-            shaderNode.addInputsFromNodeDef()
-            shaderNode.removeChild('tangent')
-            shaderNode.removeChild('normal')
-            shaderNode.removeChild('clearcoat_normal')
-            shaderNode.removeChild('attenuation_distance')
 
         # Try to assign a texture (image node)
         if colorTexture:
@@ -601,11 +598,16 @@ class GLTF2MtlxReader:
             shaderNode = doc.addNode(shaderCategory, shaderName, mx.SURFACE_SHADER_TYPE_STRING)
             shaderNode.setAttribute(mx.InterfaceElement.NODE_DEF_ATTRIBUTE, nodedefString)
 
+            # Add in all inputs. Inputs which are consider to be invalid without value or
+            # connection are removed. They will be added back in later if found in the glTF material description.
             addInputsFromNodeDef = self._options['addAllInputs']
             if addInputsFromNodeDef:
                 shaderNode.addInputsFromNodeDef()
-            shaderNode.removeChild('tangent')
-            shaderNode.removeChild('normal')
+                if not use_unlit:
+                    shaderNode.removeChild('tangent')
+                    shaderNode.removeChild('normal')
+                    shaderNode.removeChild('clearcoat_normal')
+                    shaderNode.removeChild('attenuation_distance')
 
             # Create a surface material for the shader node
             comment = doc.addChildOfCategory('comment')
@@ -714,7 +716,9 @@ class GLTF2MtlxReader:
             # Parse normal input
             # ------------------
             if 'normalTexture' in material:
-                normalTexture = material['normalTexture']      
+                normalTexture = material['normalTexture']
+                #if not shaderNode.getInput('normal'):
+                #    shaderNode.addInputFromNodeDef('normal')   
                 self.readInput(doc, normalTexture, [], 'image_normal', MTLX_GLTF_NORMALMAP_IMAGE, MTLX_VEC3_STRING, '',
                         shaderNode, ['normal'], textures, images, samplers)
 
@@ -943,18 +947,39 @@ class GLTF2MtlxReader:
                 if 'KHR_materials_anisotropy' in extensions:
                     anisotropy = extensions['KHR_materials_anisotropy']
 
+                    imageNode = None
                     anisotropyFactor = anisotropyTexture = None
                     if 'anisotropyStrength' in anisotropy:
                         anisotropyStrength = anisotropy['anisotropyStrength']
                     if 'anisotropyTexture' in anisotropy:
                         anisotropyTexture = anisotropy['anisotropyTexture']
-                    if 'anisotropyStrength' or 'anisotropyTexture':
-                       self.readInput(doc, anisotropyTexture, [anisotropyStrength], 'image_anisotropy_strength', 
-                                MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
-                                shaderNode, ['anisotropy_strength'], textures, images, samplers) 
-
                     if 'anisotropyRotation' in anisotropy:
                         anisotropyRotation = anisotropy['anisotropyRotation']
+
+                    imageNode = self.readInput(doc, anisotropyTexture, [anisotropyStrength], 'image_anisotropy_strength', 
+                                    MTLX_GLTF_ANISOTROPY_IMAGE, MTLX_MULTIOUTPUT_STRING, '',
+                                    shaderNode, ['anisotropy_strength'], textures, images, samplers) 
+                    if imageNode: 
+
+                        strength_input = imageNode.addInputFromNodeDef('anisotropy_strength')
+                        if strength_input:
+                            if anisotropyStrength is not None:
+                                strength_input.setValue(float(anisotropyStrength))
+                            else:
+                                strength_input.setValue(1.0)
+                        shaderNode.getInput('anisotropy_strength').setOutputString('anisotropy_strength_out')                        
+
+                        rotationInput = imageNode.addInputFromNodeDef('anisotropy_rotation')
+                        if anisotropyRotation is not None:
+                            rotationInput.setValue(float(anisotropyRotation))
+                        else:
+                            rotationInput.setValue(0.0)
+                        shaderRotationInput = shaderNode.addInputFromNodeDef('anisotropy_rotation')
+                        shaderRotationInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
+                        shaderRotationInput.setOutputString('anisotropy_rotation_out')
+                        shaderRotationInput.removeAttribute(MTLX_VALUE_STRING)
+                            
+                    else:
                         self.readInput(doc, None, [anisotropyRotation], '', '', '', '',
                                     shaderNode, ['anisotropy_rotation'], textures, images, samplers)
 
@@ -983,6 +1008,7 @@ class GLTF2MtlxReader:
             cnodeName =  GLTF_DEFAULT_NODE_PREFIX + str(nodeCount)
             nodeCount = nodeCount + 1
         path = path + '/' + ( mx.createValidName(cnodeName) )
+        #print('Node path:' + path)
 
         # Check if this node is associated with a mesh
         if 'mesh' in cnode:
@@ -995,9 +1021,11 @@ class GLTF2MtlxReader:
                 if 'name' in cmesh:
                     meshName = cmesh['name']
                 else:
+                    #print('------- NO NAME FOR MESH %d' % meshIndex)
                     meshName = GLTF_DEFAULT_MESH_PREFIX + str(meshCount)
                     meshCount = meshCount + 1
-                path = path + '/' + mx.createValidName(meshName)
+                #path = path + '/' + mx.createValidName(meshName)
+                #print("mesh path: ", path)
 
                 if 'primitives' in cmesh:
                     primitives = cmesh['primitives']
@@ -1020,9 +1048,12 @@ class GLTF2MtlxReader:
                                 materialMeshList[materialName] = []
                             if len(primitives) == 1:
                                 materialMeshList[materialName].append(path)
+                                #print('>> Assigning material %s to mesh %s' % (materialName, path))
                                 #materialMeshList[materialName].append(path + '/' + GLTF_DEFAULT_PRIMITIVE_PREFIX + str(primitiveIndex))
                             else:
-                                materialMeshList[materialName].append(path + '/' + GLTF_DEFAULT_PRIMITIVE_PREFIX + str(primitiveIndex))
+                                #print('Assigning material %s to mesh %s. prim %s' % (materialName, path, primitiveIndex))
+                                materialMeshList[materialName].append(path)
+                                #materialMeshList[materialName].append(path + '/' + GLTF_DEFAULT_PRIMITIVE_PREFIX + str(primitiveIndex))
 
                             if 'attributes' in primitive:
                                 attributes = primitive['attributes']
@@ -1150,6 +1181,7 @@ class GLTF2MtlxReader:
 
             # Create a look and material assignments.
             assign_xform = self._options['assignXform'] if 'assignXform' in self._options else False
+            assign_xform = False
             if self._options['createAssignments'] and len(assignments) > 0:
                 comment = doc.addChildOfCategory('comment')
                 comment.setDocString(' Generated material assignments ')
@@ -2705,16 +2737,30 @@ class MTLX2GLTFWriter:
 
                         outputExtension['anisotropyTexture']  = {}
                         outputExtension['anisotropyTexture']['index'] = len(textures) - 1
-                        outputExtension['anisotropyStrength'] = 1.0 
+
+                        # Set strength multiplier
+                        strengthInput = anisotropy_strength_texture.getInput('anisotropy_strength')
+                        if strengthInput:
+                            outputExtension['anisotropyStrength'] = strengthInput.getValue()
+                        else:
+                            outputExtension['anisotropyStrength'] = 1.0 
+
+                        # Set additional rotation
+                        rotationInput = anisotropy_strength_texture.getInput('anisotropy_rotation')
+                        if rotationInput:
+                            outputExtension['anisotropyRotation'] = rotationInput.getValue()
                 else:
+                    # Set absolute strength.
                     anisotropy_strength_value = anisotropy_strength_input.getValue()
                     if anisotropy_strength_value > 0:
                         outputExtension['anisotropyStrength'] = anisotropy_strength_value 
-            anisotropy_rotation = pbrNode.getInput('anisotropy_rotation')
-            if anisotropy_rotation:
-                rotationValue = anisotropy_rotation.getValue()
-                if rotationValue:
-                    outputExtension['anisotropyRotation'] = rotationValue
+                    
+                    # Set absolute rotation
+                    anisotropy_rotation = pbrNode.getInput('anisotropy_rotation')
+                    if anisotropy_rotation:
+                        rotationValue = anisotropy_rotation.getValue()
+                        if rotationValue:
+                            outputExtension['anisotropyRotation'] = rotationValue
 
             if len(outputExtension) > 0: 
                 extensionName = 'KHR_materials_anisotropy'

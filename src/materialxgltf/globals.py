@@ -25,6 +25,7 @@ MULTI_OUTPUT_TYPE_STRING = 'multioutput'
 MTLX_GLTF_IMAGE = 'gltf_image'
 MTLX_GLTF_COLOR_IMAGE = 'gltf_colorimage'
 MTLX_GLTF_NORMALMAP_IMAGE = 'gltf_normalmap'
+MTLX_GLTF_ANISOTROPY_IMAGE = 'gltf_anisotropy_image'
 MTLX_DEFAULT_COLORSPACE = 'srgb_texture'
 # mx.PortElement.NODE_NAME_ATTRIBUTE is not exposed
 MTLX_INTERFACEINPUT_NAME_ATTRIBUTE = 'interfacename'
@@ -34,6 +35,7 @@ MTLX_COLOR_SPACE_ATTRIBUTE = 'colorspace' # mx.Element.COLOR_SPACE_ATTRIBUTE is 
 MTLX_VEC3_STRING = 'vector3'
 MTLX_IN_STRING = 'in'
 MTLX_FLOAT_STRING = 'float'
+MTLX_MULTIOUTPUT_STRING = 'multioutput'
 MTLX_VALUE_STRING = 'value'
 EMPTY_STRING = ''
 MTLX_VALUE_ATTRIBUTE = 'value' # mx.AttributeDef.MTLX_VALUE_ATTRIBUTE is not exposed
