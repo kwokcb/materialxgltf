@@ -11,8 +11,8 @@
     <input name="clearcoat" type="float" value="0.25" />
     <input name="clearcoat_roughness" type="float" value="0.15" />
     <input name="clearcoat_normal" type="vector3" nodename="image_clearcoat_normal" />
-    <input name="anisotropy_strength" type="float" nodename="image_anisotropy_strength" />
-    <input name="anisotropy_rotation" type="float" value="0" />
+    <input name="anisotropy_strength" type="float" nodename="image_anisotropy_strength" output="anisotropy_strength_out" />
+    <input name="anisotropy_rotation" type="float" nodename="image_anisotropy_strength" output="anisotropy_rotation_out" />
   </gltf_pbr>
   <!-- Generated material: MAT_Lamp_Metal -->
   <surfacematerial name="MAT_Lamp_Metal" type="material">
@@ -51,10 +51,13 @@
     <input name="file" type="filename" value="AnisotropyBarnLamp_normalbump.png" />
     <input name="filtertype" type="string" value="cubic" />
   </gltf_normalmap>
-  <gltf_image name="image_anisotropy_strength" type="float">
+  <gltf_anisotropy_image name="image_anisotropy_strength" type="multioutput">
     <input name="file" type="filename" value="AnisotropyBarnLamp_anisotropy.png" />
+    <output name="anisotropy_strength_out" type="float" />
+    <output name="anisotropy_rotation_out" type="float" />
     <input name="filtertype" type="string" value="cubic" />
-  </gltf_image>
+    <input name="anisotropy_rotation" type="float" value="0" />
+  </gltf_anisotropy_image>
   <!-- Generated shader: Lamp_Filament -->
   <gltf_pbr name="Lamp_Filament" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" value="0.09, 0.09, 0.09" colorspace="srgb_texture" />
@@ -63,7 +66,6 @@
     <input name="roughness" type="float" value="0.7" />
     <input name="emissive" type="color3" value="1, 0.5, 0.25" colorspace="srgb_texture" />
     <input name="emissive_strength" type="float" value="25" />
-    <input name="anisotropy_rotation" type="float" value="0" />
   </gltf_pbr>
   <!-- Generated material: MAT_Lamp_Filament -->
   <surfacematerial name="MAT_Lamp_Filament" type="material">
@@ -76,7 +78,6 @@
     <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
     <input name="transmission" type="float" value="1" />
     <input name="thickness" type="float" value="0.01" />
-    <input name="anisotropy_rotation" type="float" value="0" />
   </gltf_pbr>
   <!-- Generated material: MAT_Lamp_Glass -->
   <surfacematerial name="MAT_Lamp_Glass" type="material">

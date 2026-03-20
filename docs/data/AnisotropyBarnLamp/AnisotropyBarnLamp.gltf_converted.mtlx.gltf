@@ -243,7 +243,8 @@
           "anisotropyTexture": {
             "index": 8
           },
-          "anisotropyStrength": 1.0
+          "anisotropyStrength": 1.0,
+          "anisotropyRotation": 0.0
         }
       },
       "name": "Lamp_Metal",
