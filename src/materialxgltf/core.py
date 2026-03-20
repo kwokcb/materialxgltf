@@ -2726,16 +2726,30 @@ class MTLX2GLTFWriter:
 
                         outputExtension['anisotropyTexture']  = {}
                         outputExtension['anisotropyTexture']['index'] = len(textures) - 1
-                        outputExtension['anisotropyStrength'] = 1.0 
+
+                        # Set strength multiplier
+                        strengthInput = anisotropy_strength_texture.getInput('anisotropy_strength')
+                        if strengthInput:
+                            outputExtension['anisotropyStrength'] = strengthInput.getValue()
+                        else:
+                            outputExtension['anisotropyStrength'] = 1.0 
+
+                        # Set additional rotation
+                        rotationInput = anisotropy_strength_texture.getInput('anisotropy_rotation')
+                        if rotationInput:
+                            outputExtension['anisotropyRotation'] = rotationInput.getValue()
                 else:
+                    # Set absolute strength.
                     anisotropy_strength_value = anisotropy_strength_input.getValue()
                     if anisotropy_strength_value > 0:
                         outputExtension['anisotropyStrength'] = anisotropy_strength_value 
-            anisotropy_rotation = pbrNode.getInput('anisotropy_rotation')
-            if anisotropy_rotation:
-                rotationValue = anisotropy_rotation.getValue()
-                if rotationValue:
-                    outputExtension['anisotropyRotation'] = rotationValue
+                    
+                    # Set absolute rotation
+                    anisotropy_rotation = pbrNode.getInput('anisotropy_rotation')
+                    if anisotropy_rotation:
+                        rotationValue = anisotropy_rotation.getValue()
+                        if rotationValue:
+                            outputExtension['anisotropyRotation'] = rotationValue
 
             if len(outputExtension) > 0: 
                 extensionName = 'KHR_materials_anisotropy'
