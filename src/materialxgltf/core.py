@@ -953,24 +953,35 @@ class GLTF2MtlxReader:
                         anisotropyStrength = anisotropy['anisotropyStrength']
                     if 'anisotropyTexture' in anisotropy:
                         anisotropyTexture = anisotropy['anisotropyTexture']
-                    if 'anisotropyStrength' or 'anisotropyTexture':
-                       imageNode = self.readInput(doc, anisotropyTexture, [anisotropyStrength], 'image_anisotropy_strength', 
-                                        MTLX_GLTF_ANISOTROPY_IMAGE, MTLX_MULTIOUTPUT_STRING, '',
-                                        shaderNode, ['anisotropy_strength'], textures, images, samplers) 
-                       shaderNode.getInput('anisotropy_strength').setOutputString('anisotropy_strength_out')
-
                     if 'anisotropyRotation' in anisotropy:
                         anisotropyRotation = anisotropy['anisotropyRotation']
-                        if not imageNode:
-                            self.readInput(doc, None, [anisotropyRotation], '', '', '', '',
-                                        shaderNode, ['anisotropy_rotation'], textures, images, samplers)
-                        else:
-                            rotationInput = imageNode.addInputFromNodeDef('anisotropy_rotation')
+
+                    imageNode = self.readInput(doc, anisotropyTexture, [anisotropyStrength], 'image_anisotropy_strength', 
+                                    MTLX_GLTF_ANISOTROPY_IMAGE, MTLX_MULTIOUTPUT_STRING, '',
+                                    shaderNode, ['anisotropy_strength'], textures, images, samplers) 
+                    if imageNode: 
+
+                        strength_input = imageNode.addInputFromNodeDef('anisotropy_strength')
+                        if strength_input:
+                            if anisotropyStrength is not None:
+                                strength_input.setValue(float(anisotropyStrength))
+                            else:
+                                strength_input.setValue(1.0)
+                        shaderNode.getInput('anisotropy_strength').setOutputString('anisotropy_strength_out')                        
+
+                        rotationInput = imageNode.addInputFromNodeDef('anisotropy_rotation')
+                        if anisotropyRotation is not None:
                             rotationInput.setValue(float(anisotropyRotation))
-                            shaderRotationInput = shaderNode.addInputFromNodeDef('anisotropy_rotation')
-                            shaderRotationInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
-                            shaderRotationInput.setOutputString('anisotropy_rotation_out')
-                            shaderRotationInput.removeAttribute(MTLX_VALUE_STRING)
+                        else:
+                            rotationInput.setValue(0.0)
+                        shaderRotationInput = shaderNode.addInputFromNodeDef('anisotropy_rotation')
+                        shaderRotationInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
+                        shaderRotationInput.setOutputString('anisotropy_rotation_out')
+                        shaderRotationInput.removeAttribute(MTLX_VALUE_STRING)
+                            
+                    else:
+                        self.readInput(doc, None, [anisotropyRotation], '', '', '', '',
+                                    shaderNode, ['anisotropy_rotation'], textures, images, samplers)
 
         return True
 
