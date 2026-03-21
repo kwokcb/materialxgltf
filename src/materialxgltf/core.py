@@ -726,6 +726,7 @@ class GLTF2MtlxReader:
             # ---------------------
             occlusionTexture = None
             if 'occlusionTexture' in material:
+                # TODO support occlusion strength.
                 occlusionTexture = material['occlusionTexture']
                 self.readInput(doc, occlusionTexture, [], 'image_occlusion', MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
                         shaderNode, ['occlusion'], textures, images, samplers)
@@ -873,6 +874,10 @@ class GLTF2MtlxReader:
                     if 'thicknessTexture' in volumeExtension:
                         thicknessTexture = volumeExtension['thicknessTexture']
                     if thicknessFactor or thicknessTexture:                    
+                        # TODO: Handle thicknessFactor modulating thicknessTexture
+                        # Currently it's either 1 or the other. Best to 
+                        # add a gltf_thickness_image node definitions which
+                        # combines the thickness texture and factor into a single node. 
                         self.readInput(doc, thicknessTexture, [thicknessFactor], 'image_thickness', MTLX_GLTF_IMAGE, MTLX_FLOAT_STRING, '',
                                 shaderNode, ['thickness'], textures, images, samplers)
 
@@ -2409,6 +2414,7 @@ class MTLX2GLTFWriter:
                         self.writeImageProperties(texture, samplers, imageNode)
                         textures.append(texture)
 
+                        # TODO support occlusion strength.
                         material['occlusionTexture']  = {}
                         material['occlusionTexture']['index'] = len(textures) - 1                    
 
@@ -2600,7 +2606,7 @@ class MTLX2GLTFWriter:
             if thicknessInput:
 
                 thicknessNode = thicknessInput.getConnectedNode()
-                thicknessFileName = EMPTY_STRING
+                thicknessFileName = mx.EMPTY_STRING
                 if thicknessNode:
                     fileInput = thicknessNode.getInput(mx.Implementation.FILE_ATTRIBUTE)
                     if fileInput and fileInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE) == mx.FILENAME_TYPE_STRING:
@@ -2613,10 +2619,12 @@ class MTLX2GLTFWriter:
 
                     outputExtension['thicknessTexture']  = {}
                     outputExtension['thicknessTexture']['index'] = len(textures) - 1     
-                else:
-                    thicknessValue = thicknessInput.getValue() 
-                    if thicknessValue > 0.0:
-                        outputExtension['thicknessFactor'] = thicknessValue
+                
+                # TODO: Update gltf MTLX definitions
+                # to support a thicknessFactor separate from the texture                #  
+                thicknessValue = thicknessInput.getValue() 
+                if thicknessValue > 0.0:
+                    outputExtension['thicknessFactor'] = thicknessValue
 
             # Parse attenuation and attenuation distance
             attenuationInput = pbrNode.getInput('attenuation_color')
