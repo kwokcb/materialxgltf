@@ -20,7 +20,11 @@ from pygltflib import GLTF2, BufferFormat # type: ignore
 from pygltflib.utils import ImageFormat # type: ignore
 
 # Utilities
-import os, re, copy, math, datetime
+import os
+import copy
+import math
+import datetime
+import zipfile
 
 from materialxgltf.globals import *
 
@@ -66,7 +70,39 @@ class Util:
 
         if filename:
             mx.writeToXmlFile(doc, filename, writeOptions)
-    
+
+    @staticmethod
+    def writeMaterialXZip(doc, mtlx_filename, zip_filename, image_references, predicate=skipLibraryElement):
+        '''
+        @brief Utility to write a MaterialX document and its referenced images to a zip file.
+        @param doc The MaterialX document to write.
+        @paraam mtlx_filename The name of the MaterialX file to write within the zip file.
+        @param zip_filename The name of the zip file to write to.
+        @param image_references The list of image file references to include in the zip file.
+        @param predicate A predicate function to determine if an element should be written. Default is to skip library elements.
+        '''
+        mtlx_str = Util.writeMaterialXDocString(doc, predicate)
+        Util.writeMaterialXStringZip(mtlx_str, mtlx_filename, zip_filename, image_references)
+
+    @staticmethod
+    def writeMaterialXStringZip(mtlx_str, mtlx_filename, zip_filename, image_references, predicate=skipLibraryElement):
+        '''
+        @brief Utility to write a MaterialX document and its referenced images to a zip file.
+        @param mtlx_str The MaterialX document string to write.
+        @paraam mtlx_filename The name of the MaterialX file to write within the zip file.
+        @param zip_filename The name of the zip file to write to.
+        @param image_references The list of image file references to include in the zip file.
+        @param predicate A predicate function to determine if an element should be written. Default is to skip library elements.
+        '''
+        with zipfile.ZipFile(zip_filename, "w") as zipf:
+            # Write MaterialX file
+            zipf.writestr(mtlx_filename, mtlx_str)
+            # Write texture files
+            for path in image_references:
+                zipf.write(path, os.path.basename(path))
+        zipf.close( )
+
+
     @staticmethod
     def writeMaterialXDocString(doc, predicate=skipLibraryElement):
         '''
@@ -155,7 +191,26 @@ class GLTF2MtlxReader:
     '''
     # Log string
     _log = ''
+
+    # Current MaterialX document
+    _doc = None
+    # List of images referenced by materialx doc
+    _image_references = []
+
+    def getDocument(self):
+        '''
+        @brief Get the converted MaterialX document.
+        @return The converted MaterialX document.
+        '''
+        return self._doc
     
+    def getImageReferences(self):
+        '''
+        @brief Get the list of image file references found during conversion.
+        @return The list of image file references found during conversion.
+        '''
+        return self._image_references
+
     # Conversion options
     _options = GLTF2MtlxOptions()    
 
@@ -230,13 +285,16 @@ class GLTF2MtlxReader:
                     
             fileInput = imageNode.addInputFromNodeDef(mx.Implementation.FILE_ATTRIBUTE)
             if fileInput:
-                fileInput.setValue(fileName, mx.FILENAME_TYPE_STRING)                    
+                fileInput.setValue(fileName, mx.FILENAME_TYPE_STRING)    
+                if self._options['debugOutput']:
+                    print('-- Convert file reference: %s' % fileName)
+                self._image_references.append(fileName)                
 
                 if len(colorspace):
                     colorspaceattr = MTLX_COLOR_SPACE_ATTRIBUTE 
                     fileInput.setAttribute(colorspaceattr, colorspace)
             else:
-                self.log('-- failed to create file input for name: %s' % fileName)
+                self.log('-- Failed to create file input for name: %s' % fileName)
 
             self.addNodeDefOutputs(imageNode)
 
@@ -1134,6 +1192,9 @@ class GLTF2MtlxReader:
             return None
 
         gltfJson = None
+        
+        # Clear current document
+        self._doc = None
 
         self.log('Read glTF file:' + gltfFileName)
         gltfFile = open(gltfFileName, 'r')
@@ -1143,8 +1204,8 @@ class GLTF2MtlxReader:
             gltfString = json.dumps(gltfJson, indent=2)
             self.log('GLTF JSON' + gltfString)
         if gltfJson:
-            doc, libFiles = Util.createMaterialXDoc()
-            self.glTF2MaterialX(doc, gltfJson)
+            self._doc, libFiles = Util.createMaterialXDoc()
+            self.glTF2MaterialX(self._doc, gltfJson)
 
             # Create a look and assign materials if found
             # TODO: Handle variants
@@ -1173,7 +1234,7 @@ class GLTF2MtlxReader:
 
             # Add a CPV node if any assigned geometry has a color stream.
             for materialName in materialCPVList:
-                materialNode = doc.getNode(materialName)
+                materialNode = self._doc.getNode(materialName)
                 shaderInput = materialNode.getInput('surfaceshader') if materialNode else None
                 shaderNode = shaderInput.getConnectedNode() if shaderInput else None
                 baseColorInput = shaderNode.getInput('base_color') if shaderNode else None
@@ -1181,16 +1242,16 @@ class GLTF2MtlxReader:
                 if baseColorNode:
                     geomcolorInput = baseColorNode.addInputFromNodeDef('geomcolor')
                     if geomcolorInput:
-                        geomcolor = doc.addNode('geomcolor', EMPTY_STRING, 'color4')
+                        geomcolor = self._doc.addNode('geomcolor', EMPTY_STRING, 'color4')
                         geomcolorInput.setNodeName(geomcolor.getName())
 
             # Create a look and material assignments.
             assign_xform = self._options['assignXform'] if 'assignXform' in self._options else False
             assign_xform = False
             if self._options['createAssignments'] and len(assignments) > 0:
-                comment = doc.addChildOfCategory('comment')
+                comment = self._doc.addChildOfCategory('comment')
                 comment.setDocString(' Generated material assignments ')
-                look = doc.addLook('look')
+                look = self._doc.addLook('look')
                 for assignMaterial in assignments:
                     matassign = look.addMaterialAssign(assignMaterial)
                     matassign.setMaterial(assignMaterial)
@@ -1208,7 +1269,7 @@ class GLTF2MtlxReader:
                     else:                        
                         matassign.setGeom(','.join(assignments[assignMaterial]))
 
-            return doc
+            return self._doc
         
 ##########################################################################################################################
 # MaterialX to glTF conversion classes

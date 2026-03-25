@@ -5,33 +5,39 @@ Utility and command line interface to convert from a glTF file to a MaterialX fi
 import os
 import argparse
 
-#import MaterialX as mx
-#from materialxgltf.core import *
 from core import *
 
-def gltf2Mtlx(gltfFileName, mtlxFileName, options=GLTF2MtlxOptions()):
+def gltf2Mtlx(gltf_file, mtlx_file, options=GLTF2MtlxOptions(), zip=False):
     '''
     @brief Utility to convert a glTF file to MaterialX file
 
     @param gltfFileName Path to glTF file to convert
     @param mtlxFileName Path to MaterialX file to write
     @param options Options for conversion
+    @param zip Write document to zip with image references vs just the document.    
     '''
     status = True
     err = ''
 
     gltf2MtlxReader = GLTF2MtlxReader()
     gltf2MtlxReader.setOptions(options)
-    doc = gltf2MtlxReader.convert(gltfFileName)
+    doc = gltf2MtlxReader.convert(gltf_file)
     if not doc:
         status = False
         err = 'Error converting glTF file to MaterialX file'
     else:
         status, err = doc.validate()
         if not status:
-            print('Validation error: ', err)
-        #print(mx.writeToXmlString(doc))
-        Util.writeMaterialXDoc(doc, mtlxFileName)
+            print('Validation error(s): ', err)
+
+        if options['zip']:
+            image_references = gltf2MtlxReader.getImageReferences()
+            zip_path = mtlx_file.replace('.mtlx', '.zip')
+            Util.writeMaterialXZip(doc, mtlx_file, zip_path, image_references)
+            print('Saved gltf file: %s to MaterialX zip file: %s. Status: %s.' % (gltf_file, zip_path, status))
+        else:
+            Util.writeMaterialXDoc(doc, mtlx_file)
+            print('Saved gltf file: %s to MaterialX file: %s. Status: %s.' % (gltf_file, mtlx_file, status))
 
     return status, err
 
@@ -45,6 +51,7 @@ def main():
     parser.add_argument('-ca', '--createAssignments', dest='createAssignments', type=mx.stringToBoolean, default=True, help='Create material assignments. Default is True')
     parser.add_argument('-ai','--addAllInputs', dest='addAllInputs', type=mx.stringToBoolean, default=False, help='Add all definition inputs to MaterialX shader nodes. Default is False')
     parser.add_argument('-ax', '--assignXform', dest='assignXform', type=mx.stringToBoolean, default=False, help='Assign to transforms vs shapes. Default is False'   )
+    parser.add_argument('-z', '--zip', dest='zip', type=mx.stringToBoolean, default=False, help='Write a zip file containing the MaterialX file and all referenced texture files. Default is False')
 
     opts = parser.parse_args()
 
@@ -55,19 +62,17 @@ def main():
         exit(-1)    
 
     # Set up MTLX file name
-    mtlxFilePath = gltfFileName + '_converted.mtlx'
+    mtlx_path = gltfFileName + '_converted.mtlx'
     if opts.mtlxFileName:
-        mtlxFilePath = opts.mtlxFileName 
+        mtlx_path = opts.mtlxFileName 
 
     # Perform conversion
     options = GLTF2MtlxOptions()
     options['createAssignments'] = opts.createAssignments    
     options['addAllInputs'] = opts.addAllInputs
     options['assignXform'] = opts.assignXform
-    converted, err = gltf2Mtlx(gltfFileName, mtlxFilePath, options)
-    print('Converted glTF file %s to MaterialX file: %s. Status: %s.' % (gltfFileName, mtlxFilePath, converted))
-    if not converted:
-        print('- Error: ', err)
+    options['zip'] = opts.zip
+    converted, err = gltf2Mtlx(gltfFileName, mtlx_path, options)
 
 if __name__ == "__main__":
     main()
