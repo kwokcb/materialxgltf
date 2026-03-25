@@ -7,5 +7,6 @@ var searchData=
   ['writematerialxdoc_4',['writeMaterialXDoc',['../classmaterialxgltf_1_1core_1_1_util.html#a4a8d3050b303e1e86b2fbfeffc228f58',1,'materialxgltf::core::Util']]],
   ['writematerialxdocstring_5',['writeMaterialXDocString',['../classmaterialxgltf_1_1core_1_1_util.html#a6119243ace20244234f017c3c58c22dd',1,'materialxgltf::core::Util']]],
   ['writematerialxstringzip_6',['writeMaterialXStringZip',['../classmaterialxgltf_1_1core_1_1_util.html#a37c09feafd958c0656b2264b79b332d6',1,'materialxgltf::core::Util']]],
-  ['writematerialxzip_7',['writeMaterialXZip',['../classmaterialxgltf_1_1core_1_1_util.html#ac4692d80a5c18a5be650157072b8ce76',1,'materialxgltf::core::Util']]]
+  ['writematerialxzip_7',['writeMaterialXZip',['../classmaterialxgltf_1_1core_1_1_util.html#ac4692d80a5c18a5be650157072b8ce76',1,'materialxgltf::core::Util']]],
+  ['writing_20gltf_20to_20materialx_20conversion_20to_20different_20destinations_8',['Writing glTF to MaterialX Conversion to Different Destinations',['../D:/work/materialx/materialxgltf/README.md#autotoc_md20',1,'']]]
 ];
