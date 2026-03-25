@@ -25,12 +25,42 @@
 var NAVTREE =
 [
   [ "MaterialXglTF", "index.html", [
-    [ "Repository", "index.html#autotoc_md4", null ],
-    [ "Namespaces", "namespaces.html", [
-      [ "Documentation", "index.html#autotoc_md1", [
-        [ "Sample Integrations", "index.html#autotoc_md2", null ],
-        [ "Material Examples", "index.html#autotoc_md3", null ]
+    [ "Python Package", "readme_page.html", [
+      [ "Documentation", "index.html#autotoc_md24", [
+        [ "Sample Integrations", "index.html#autotoc_md25", null ],
+        [ "Material Examples", "index.html#autotoc_md26", null ]
       ] ],
+      [ "Repository", "index.html#autotoc_md27", null ],
+      [ "materialxgltf", "readme_page.html#autotoc_md0", [
+        [ "Contents", "readme_page.html#autotoc_md1", null ],
+        [ "Introduction", "readme_page.html#autotoc_md2", null ],
+        [ "Installation", "readme_page.html#autotoc_md3", [
+          [ "Requirements", "readme_page.html#autotoc_md4", null ]
+        ] ],
+        [ "Documentation", "readme_page.html#autotoc_md5", [
+          [ "Command Line Utilities", "readme_page.html#autotoc_md6", [
+            [ "glTF to MaterialX Conversion", "readme_page.html#autotoc_md7", null ],
+            [ "MaterialX to glTF Conversion", "readme_page.html#autotoc_md8", null ]
+          ] ]
+        ] ],
+        [ "Usage", "readme_page.html#autotoc_md9", null ],
+        [ "Interactive Example", "readme_page.html#autotoc_md10", [
+          [ "Import the package", "readme_page.html#autotoc_md11", null ],
+          [ "Check Available Sample Data", "readme_page.html#autotoc_md12", null ],
+          [ "Convert from glTF to MaterialX", "readme_page.html#autotoc_md13", null ],
+          [ "Using glTF to MaterialX Generation Options", "readme_page.html#autotoc_md14", null ],
+          [ "Writing glTF to MaterialX Conversion to Different Destinations", "readme_page.html#autotoc_md15", null ],
+          [ "Conversion from MaterialX to glTF", "readme_page.html#autotoc_md16", null ],
+          [ "Embedding Geometry", "readme_page.html#autotoc_md17", null ],
+          [ "Creating Primitives Per Material", "readme_page.html#autotoc_md18", null ],
+          [ "Packaging A Binary File", "readme_page.html#autotoc_md19", null ],
+          [ "Translate Shader and Bake Textures", "readme_page.html#autotoc_md20", null ]
+        ] ],
+        [ "Build", "readme_page.html#autotoc_md21", null ],
+        [ "Authors", "readme_page.html#autotoc_md22", null ]
+      ] ]
+    ] ],
+    [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
