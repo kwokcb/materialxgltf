@@ -375,7 +375,7 @@ code {
 <li><a href="#build">Build</a></li>
 </ul>
 <h2 id="introduction">Introduction</h2>
-<p>This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1.  The current package is synced with MaterialX release 1.39.4</p>
+<p>This package supports the bi-directional translation between MaterialX materials and glTF materials. The minimum version of MaterialX required is 1.38.9 and the target glTF version is 2.0.1.  The current PyPi package is synced with MaterialX release 1.39.4. The current version under development is 1.39.5.</p>
 <p>See the <a href="https://kwokcb.github.io/materialxgltf/">home page</a> for this project.</p>
 <p>Below is an example of converting the &quot;Sci Fi Helmet&quot; asset (found in the <strong><a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/SciFiHelmet">glTF Sample Model repository</a></strong>) to MaterialX and previewing.</p>
 <!-- 
@@ -412,7 +412,8 @@ code {
 <h4 id="gltf-to-materialx-conversion">glTF to MaterialX Conversion</h4>
 <pre class="hljs"><code><div>python -m materialxgltf gltf2mtlx -h
 </div></code></pre>
-<pre class="hljs"><code><div>usage: gltf2mtlx.py [-h] [--mtlxFileName MTLXFILENAME] [--createAssignments CREATEASSIGNMENTS] [--addAllInputs ADDALLINPUTS] gltfFileName
+<pre class="hljs"><code><div>usage: gltf2mtlx.py [-h] [-fn MTLXFILENAME] [-ca CREATEASSIGNMENTS] [-ai ADDALLINPUTS] [-ax ASSIGNXFORM] [-z ZIP]
+                    gltfFileName
 
 Utility to convert a glTF file to MaterialX file
 
@@ -421,12 +422,17 @@ positional arguments:
 
 options:
   -h, --<span class="hljs-built_in">help</span>            show this <span class="hljs-built_in">help</span> message and <span class="hljs-built_in">exit</span>
-  --mtlxFileName MTLXFILENAME
-                        Name of MaterialX output file. If not specified the glTF name with <span class="hljs-string">"_tomtlx.mtlx"</span> suffix will be used
-  --createAssignments CREATEASSIGNMENTS
+  -fn MTLXFILENAME, --mtlxFileName MTLXFILENAME
+                        Name of MaterialX output file. If not specified the glTF name with <span class="hljs-string">"_converted.mtlx"</span> suffix
+                        will be used
+  -ca CREATEASSIGNMENTS, --createAssignments CREATEASSIGNMENTS
                         Create material assignments. Default is True
-  --addAllInputs ADDALLINPUTS
+  -ai ADDALLINPUTS, --addAllInputs ADDALLINPUTS
                         Add all definition inputs to MaterialX shader nodes. Default is False
+  -ax ASSIGNXFORM, --assignXform ASSIGNXFORM
+                        Assign to transforms vs shapes. Default is False
+  -z ZIP, --zip ZIP     Write a zip file containing the MaterialX file and all referenced texture files. Default is
+                        False
 </div></code></pre>
 <h4 id="materialx-to-gltf-conversion">MaterialX to glTF Conversion</h4>
 <pre class="hljs"><code><div>python -m materialxgltf mtlx2gltf -h
@@ -512,9 +518,9 @@ print(<span class="hljs-string">'Resulting MaterialX document:\n'</span>)
 result = core.Util.writeMaterialXDocString(doc)
 print(result)
 </div></code></pre>
-<h3 id="using-gltf-to-materialx-options">Using glTF to MaterialX Options</h3>
-<pre class="hljs"><code><div><span class="hljs-comment"># Set option to write material assignments</span>
-options = core.GLTF2MtlxOptions()
+<h3 id="using-gltf-to-materialx-generation-options">Using glTF to MaterialX Generation Options</h3>
+<ul>
+<li>Example: Set option to write material assignments<pre class="hljs"><code><div>options = core.GLTF2MtlxOptions()
 options[<span class="hljs-string">'createAssignments'</span>] = <span class="hljs-literal">True</span>
 gltf2MtlxReader.setOptions(options)
 
@@ -527,12 +533,27 @@ doc = gltf2MtlxReader.convert(gltfFileName)
         print(<span class="hljs-string">'Generated MaterialX document has validation errors: '</span>, err)
     <span class="hljs-keyword">else</span>:
         print(<span class="hljs-string">'Generated MaterialX document is valid'</span>)
-
-<span class="hljs-comment"># Write the document to a string</span>
-print(<span class="hljs-string">'Resulting MaterialX document:\n'</span>)
+</div></code></pre>
+</li>
+</ul>
+<h3 id="writing-gltf-to-materialx-conversion-to-different-destinations">Writing glTF to MaterialX Conversion to Different Destinations</h3>
+<ul>
+<li>
+<p>Example: Write the document to a string</p>
+<pre class="hljs"><code><div>print(<span class="hljs-string">'Resulting MaterialX document:\n'</span>)
 result = core.Util.writeMaterialXDocString(doc)
 print(result)
 </div></code></pre>
+</li>
+<li>
+<p>Example: Write the document and reference images to zip</p>
+<pre class="hljs"><code><div>image_references = gltf2MtlxReader.getImageReferences()
+zip_path = <span class="hljs-string">'mtlx_output.zip'</span>
+mtlx_file = <span class="hljs-string">'mtlx_output.mtlx'</span>
+core.Util.writeMaterialXZip(doc, mtlx_file, zip_path, image_references)
+</div></code></pre>
+</li>
+</ul>
 <h3 id="conversion-from-materialx-to-gltf">Conversion from MaterialX to glTF</h3>
 <pre class="hljs"><code><div>materialXFileName = pkg_resources.resource_filename(<span class="hljs-string">'materialxgltf'</span>, <span class="hljs-string">'data/BoomBoxWithAxes.mtlx'</span>)
 print(<span class="hljs-string">'&gt; Load MaterialX document: %s'</span> % materialXFileName)

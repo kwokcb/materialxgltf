@@ -76,7 +76,8 @@ python -m materialxgltf gltf2mtlx -h
 ```
 
 ```bash
-usage: gltf2mtlx.py [-h] [--mtlxFileName MTLXFILENAME] [--createAssignments CREATEASSIGNMENTS] [--addAllInputs ADDALLINPUTS] gltfFileName
+usage: gltf2mtlx.py [-h] [-fn MTLXFILENAME] [-ca CREATEASSIGNMENTS] [-ai ADDALLINPUTS] [-ax ASSIGNXFORM] [-z ZIP]
+                    gltfFileName
 
 Utility to convert a glTF file to MaterialX file
 
@@ -94,6 +95,8 @@ options:
                         Add all definition inputs to MaterialX shader nodes. Default is False
   -ax ASSIGNXFORM, --assignXform ASSIGNXFORM
                         Assign to transforms vs shapes. Default is False
+  -z ZIP, --zip ZIP     Write a zip file containing the MaterialX file and all referenced texture files. Default is
+                        False
 ```
 
 #### MaterialX to glTF Conversion
@@ -210,29 +213,40 @@ result = core.Util.writeMaterialXDocString(doc)
 print(result)
 ```
 
-### Using glTF to MaterialX Options
+### Using glTF to MaterialX Generation Options
 
-```python
-# Set option to write material assignments
-options = core.GLTF2MtlxOptions()
-options['createAssignments'] = True
-gltf2MtlxReader.setOptions(options)
+- Example: Set option to write material assignments
+    ```python
+    options = core.GLTF2MtlxOptions()
+    options['createAssignments'] = True
+    gltf2MtlxReader.setOptions(options)
 
-doc = gltf2MtlxReader.convert(gltfFileName)
-if not doc:
-    print('Existing due to error')
-else:
-    status, err = doc.validate()
-    if not status:
-        print('Generated MaterialX document has validation errors: ', err)
+    doc = gltf2MtlxReader.convert(gltfFileName)
+    if not doc:
+        print('Existing due to error')
     else:
-        print('Generated MaterialX document is valid')
+        status, err = doc.validate()
+        if not status:
+            print('Generated MaterialX document has validation errors: ', err)
+        else:
+            print('Generated MaterialX document is valid')
+    ```
 
-# Write the document to a string
-print('Resulting MaterialX document:\n')
-result = core.Util.writeMaterialXDocString(doc)
-print(result)
-```
+### Writing glTF to MaterialX Conversion to Different Destinations
+- Example: Write the document to a string
+    ```python
+    print('Resulting MaterialX document:\n')
+    result = core.Util.writeMaterialXDocString(doc)
+    print(result)
+    ```
+
+- Example: Write the document and reference images to zip
+    ```python
+    image_references = gltf2MtlxReader.getImageReferences()
+    zip_path = 'mtlx_output.zip'
+    mtlx_file = 'mtlx_output.mtlx'
+    core.Util.writeMaterialXZip(doc, mtlx_file, zip_path, image_references)
+    ```
 
 ### Conversion from MaterialX to glTF
 

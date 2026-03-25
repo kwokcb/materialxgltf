@@ -56,7 +56,7 @@ var NAVTREEINDEX0 =
 "mtlx2gltf_8py_source.html":[3,0,0,0,5],
 "namespacematerialxgltf_1_1gltf2_mtlx.html":[1,1,0,0],
 "namespacematerialxgltf_1_1gltf2_mtlx.html#a0196dbd1589878f4a8ecbea27f033f4a":[1,1,0,0,1],
-"namespacematerialxgltf_1_1gltf2_mtlx.html#a044819aff1c5b5f9a7e2a7cc0bac7945":[1,1,0,0,0],
+"namespacematerialxgltf_1_1gltf2_mtlx.html#afbcd377897d2771ade5fbb28dfed4d83":[1,1,0,0,0],
 "namespacematerialxgltf_1_1mtlx2gltf.html":[1,1,0,1],
 "namespacematerialxgltf_1_1mtlx2gltf.html#a84ac1ea6e60c01a1e87bf84b00e01975":[1,1,0,1,1],
 "namespacematerialxgltf_1_1mtlx2gltf.html#ae580e4452f61772bf65d1f714e8f275d":[1,1,0,1,0],

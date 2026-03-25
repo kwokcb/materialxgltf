@@ -2,7 +2,7 @@ var namespaces_dup =
 [
     [ "materialxgltf", null, [
       [ "gltf2Mtlx", "namespacematerialxgltf_1_1gltf2_mtlx.html", [
-        [ "gltf2Mtlx", "namespacematerialxgltf_1_1gltf2_mtlx.html#a044819aff1c5b5f9a7e2a7cc0bac7945", null ],
+        [ "gltf2Mtlx", "namespacematerialxgltf_1_1gltf2_mtlx.html#afbcd377897d2771ade5fbb28dfed4d83", null ],
         [ "main", "namespacematerialxgltf_1_1gltf2_mtlx.html#a0196dbd1589878f4a8ecbea27f033f4a", null ]
       ] ],
       [ "mtlx2gltf", "namespacematerialxgltf_1_1mtlx2gltf.html", [
