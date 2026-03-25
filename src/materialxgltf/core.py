@@ -2667,7 +2667,7 @@ class MTLX2GLTFWriter:
             if thicknessInput:
 
                 thicknessNode = thicknessInput.getConnectedNode()
-                thicknessFileName = mx.EMPTY_STRING
+                thicknessFileName = EMPTY_STRING
                 if thicknessNode:
                     fileInput = thicknessNode.getInput(mx.Implementation.FILE_ATTRIBUTE)
                     if fileInput and fileInput.getAttribute(mx.TypedElement.TYPE_ATTRIBUTE) == mx.FILENAME_TYPE_STRING:

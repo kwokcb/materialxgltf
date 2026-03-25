@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['sample_20data_0',['Check Available Sample Data',['../D:/Work/materialx/materialxgltf/README.md#autotoc_md17',1,'']]],
+  ['sample_20data_0',['Check Available Sample Data',['../D:/work/materialx/materialxgltf/README.md#autotoc_md17',1,'']]],
   ['sample_20integrations_1',['Sample Integrations',['../index.html#autotoc_md2',1,'']]],
   ['setoptions_2',['setOptions',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ac8d7bd7f58fcfde45f26ac60e355b7c8',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['shader_20and_20bake_20textures_3',['Translate Shader and Bake Textures',['../D:/Work/materialx/materialxgltf/README.md#autotoc_md24',1,'']]],
+  ['shader_20and_20bake_20textures_3',['Translate Shader and Bake Textures',['../D:/work/materialx/materialxgltf/README.md#autotoc_md24',1,'']]],
   ['skiplibraryelement_4',['skipLibraryElement',['../classmaterialxgltf_1_1core_1_1_util.html#ab1a945afea7749f8f31d5335ee7a4d96',1,'materialxgltf::core::Util']]],
   ['stringtoscalar_5',['stringToScalar',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a34168384799f210daefc63528f13179d',1,'materialxgltf::core::MTLX2GLTFWriter']]]
 ];

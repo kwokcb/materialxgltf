@@ -1,16 +1,16 @@
 var searchData=
 [
-  ['check_20available_20sample_20data_0',['Check Available Sample Data',['../D:/Work/materialx/materialxgltf/README.md#autotoc_md17',1,'']]],
+  ['check_20available_20sample_20data_0',['Check Available Sample Data',['../D:/work/materialx/materialxgltf/README.md#autotoc_md17',1,'']]],
   ['clearlog_1',['clearLog',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#abac8fe7ec05bdce7b139d9f3d0213a41',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['command_20line_20utilities_2',['Command Line Utilities',['../D:/Work/materialx/materialxgltf/README.md#autotoc_md11',1,'']]],
-  ['contents_3',['Contents',['../D:/Work/materialx/materialxgltf/README.md#autotoc_md6',1,'']]],
-  ['conversion_4',['Conversion',['../D:/Work/materialx/materialxgltf/README.md#autotoc_md12',1,'glTF to MaterialX Conversion'],['../D:/Work/materialx/materialxgltf/README.md#autotoc_md13',1,'MaterialX to glTF Conversion']]],
-  ['conversion_20from_20materialx_20to_20gltf_5',['Conversion from MaterialX to glTF',['../D:/Work/materialx/materialxgltf/README.md#autotoc_md20',1,'']]],
+  ['command_20line_20utilities_2',['Command Line Utilities',['../D:/work/materialx/materialxgltf/README.md#autotoc_md11',1,'']]],
+  ['contents_3',['Contents',['../D:/work/materialx/materialxgltf/README.md#autotoc_md6',1,'']]],
+  ['conversion_4',['Conversion',['../D:/work/materialx/materialxgltf/README.md#autotoc_md12',1,'glTF to MaterialX Conversion'],['../D:/work/materialx/materialxgltf/README.md#autotoc_md13',1,'MaterialX to glTF Conversion']]],
+  ['conversion_20from_20materialx_20to_20gltf_5',['Conversion from MaterialX to glTF',['../D:/work/materialx/materialxgltf/README.md#autotoc_md20',1,'']]],
   ['convert_6',['convert',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#add6d073dad92168a550f3fded340687c',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['convert_20from_20gltf_20to_20materialx_7',['Convert from glTF to MaterialX',['../D:/Work/materialx/materialxgltf/README.md#autotoc_md18',1,'']]],
+  ['convert_20from_20gltf_20to_20materialx_7',['Convert from glTF to MaterialX',['../D:/work/materialx/materialxgltf/README.md#autotoc_md18',1,'']]],
   ['copygraphinterfaces_8',['copyGraphInterfaces',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a382ea199bb58f4f61a304466ccbcb54f',1,'materialxgltf::core::MTLX2GLTFWriter']]],
   ['core_2epy_9',['core.py',['../core_8py.html',1,'']]],
   ['creatematerialxdoc_10',['createMaterialXDoc',['../classmaterialxgltf_1_1core_1_1_util.html#a9bdc6049c62a7c57620d0dcec7e5dc57',1,'materialxgltf::core::Util']]],
   ['createprimsformaterials_11',['createPrimsForMaterials',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a96b887b48951a09c0fb2c0f6caf856b2',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['creating_20primitives_20per_20material_12',['Creating Primitives Per Material',['../D:/Work/materialx/materialxgltf/README.md#autotoc_md22',1,'']]]
+  ['creating_20primitives_20per_20material_12',['Creating Primitives Per Material',['../D:/work/materialx/materialxgltf/README.md#autotoc_md22',1,'']]]
 ];

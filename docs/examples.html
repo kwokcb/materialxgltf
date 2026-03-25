@@ -7648,7 +7648,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>C:\Users\home\AppData\Local\Temp\ipykernel_11980\1081666708.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
+<pre>C:\Users\home\AppData\Local\Temp\ipykernel_29756\1081666708.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
   import pkg_resources
 </pre>
 </div>
@@ -7729,7 +7729,12 @@ standard_surface_marble_solid.mtlx.gltf
 
 Converting: BoomBoxWithAxes.gltf
 - Convert gLTF material to MateriaLX: MAT_M_BoomBox
+-- Convert file reference: BoomBoxWithAxes_baseColor.png
+-- Convert file reference: BoomBoxWithAxes_roughnessMetallic.png
+-- Convert file reference: BoomBoxWithAxes_normal.png
+-- Convert file reference: BoomBoxWithAxes_emissive.png
 - Convert gLTF material to MateriaLX: MAT_M_Coordinates
+-- Convert file reference: BoomBoxWithAxes_baseColor1.png
 </pre>
 </div>
 </div>
@@ -7745,7 +7750,7 @@ Converting: BoomBoxWithAxes.gltf
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
 <details open=""><summary><b>Resulting MaterialX document</b></summary>
 <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version="1.0"?&gt;</span>
-<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">"1.39"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">"1.39"</span><span class="w"> </span><span class="na">doc=</span><span class="s">" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF generator: glTF Tools for Unity. glTF version: 2.0."</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="cm">&lt;!-- Generated shader: M_BoomBox --&gt;</span>
 <span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">"M_BoomBox"</span><span class="w"> </span><span class="na">type=</span><span class="s">"surfaceshader"</span><span class="w"> </span><span class="na">nodedef=</span><span class="s">"ND_gltf_pbr_surfaceshader"</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"base_color"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="w"> </span><span class="na">nodename=</span><span class="s">"image_base_color"</span><span class="w"> </span><span class="na">output=</span><span class="s">"outcolor"</span><span class="w"> </span><span class="nt">/&gt;</span>
@@ -7863,7 +7868,18 @@ Converting: BoomBoxWithAxes.gltf
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Converting with Look: BoomBoxWithAxes.gltf
 - Convert gLTF material to MateriaLX: MAT_M_BoomBox
+-- Convert file reference: BoomBoxWithAxes_baseColor.png
+-- Convert file reference: BoomBoxWithAxes_roughnessMetallic.png
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>-- Convert file reference: BoomBoxWithAxes_normal.png
+-- Convert file reference: BoomBoxWithAxes_emissive.png
 - Convert gLTF material to MateriaLX: MAT_M_Coordinates
+-- Convert file reference: BoomBoxWithAxes_baseColor1.png
 </pre>
 </div>
 </div>
@@ -7879,7 +7895,7 @@ Converting: BoomBoxWithAxes.gltf
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
 <details open=""><summary><b>Resulting MaterialX document</b></summary>
 <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version="1.0"?&gt;</span>
-<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">"1.39"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">"1.39"</span><span class="w"> </span><span class="na">doc=</span><span class="s">" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF generator: glTF Tools for Unity. glTF version: 2.0."</span><span class="nt">&gt;</span>
 <span class="w">  </span><span class="cm">&lt;!-- Generated shader: M_BoomBox --&gt;</span>
 <span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">"M_BoomBox"</span><span class="w"> </span><span class="na">type=</span><span class="s">"surfaceshader"</span><span class="w"> </span><span class="na">nodedef=</span><span class="s">"ND_gltf_pbr_surfaceshader"</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"base_color"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="w"> </span><span class="na">nodename=</span><span class="s">"image_base_color"</span><span class="w"> </span><span class="na">output=</span><span class="s">"outcolor"</span><span class="w"> </span><span class="nt">/&gt;</span>
@@ -7940,8 +7956,8 @@ Converting: BoomBoxWithAxes.gltf
 <span class="w">  </span><span class="nt">&lt;/gltf_colorimage&gt;</span>
 <span class="w">  </span><span class="cm">&lt;!-- Generated material assignments --&gt;</span>
 <span class="w">  </span><span class="nt">&lt;look</span><span class="w"> </span><span class="na">name=</span><span class="s">"look"</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;materialassign</span><span class="w"> </span><span class="na">name=</span><span class="s">"MAT_M_BoomBox"</span><span class="w"> </span><span class="na">material=</span><span class="s">"MAT_M_BoomBox"</span><span class="w"> </span><span class="na">geom=</span><span class="s">"/BoomBox_Coordinates/BoomBox/BoomBox"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;materialassign</span><span class="w"> </span><span class="na">name=</span><span class="s">"MAT_M_Coordinates"</span><span class="w"> </span><span class="na">material=</span><span class="s">"MAT_M_Coordinates"</span><span class="w"> </span><span class="na">geom=</span><span class="s">"/BoomBox_Coordinates/CoordinateSystem/CoordinateSystem,/BoomBox_Coordinates/X_axis/X_axis,/BoomBox_Coordinates/Y_axis/Y_axis,/BoomBox_Coordinates/Z_axis/Z_axis"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;materialassign</span><span class="w"> </span><span class="na">name=</span><span class="s">"MAT_M_BoomBox"</span><span class="w"> </span><span class="na">material=</span><span class="s">"MAT_M_BoomBox"</span><span class="w"> </span><span class="na">geom=</span><span class="s">"/BoomBox_Coordinates/BoomBox"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;materialassign</span><span class="w"> </span><span class="na">name=</span><span class="s">"MAT_M_Coordinates"</span><span class="w"> </span><span class="na">material=</span><span class="s">"MAT_M_Coordinates"</span><span class="w"> </span><span class="na">geom=</span><span class="s">"/BoomBox_Coordinates/CoordinateSystem,/BoomBox_Coordinates/X_axis,/BoomBox_Coordinates/Y_axis,/BoomBox_Coordinates/Z_axis"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/look&gt;</span>
 <span class="nt">&lt;/materialx&gt;</span>
 </pre></div>
@@ -7997,10 +8013,22 @@ Converting: BoomBoxWithAxes.gltf
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>&gt; Load MaterialX document: C:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\BoomBoxWithAxes.mtlx
-- Convert MaterialX node to glTF: M_BoomBox
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>- Convert MaterialX node to glTF: M_BoomBox
 - Append single ORM texture BoomBoxWithAxes_roughnessMetallic.png
 - Convert MaterialX node to glTF: M_Coordinates
-- Generating a new primitive for each of 2 materials
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>- Generating a new primitive for each of 2 materials
 </pre>
 </div>
 </div>
