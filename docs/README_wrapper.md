@@ -1,3 +1,5 @@
+\page readme_page Python Package
+
 # materialxgltf
 
 ## Contents
