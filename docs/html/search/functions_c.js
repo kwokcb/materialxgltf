@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['translateshader_0',['translateShader',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a759160710f02e8b3c85297b1964aa6f1',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['translateshaders_1',['translateShaders',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ae8a4410a941943d4ebbf2977cfc62d90',1,'materialxgltf::core::MTLX2GLTFWriter']]]
+  ['setoptions_0',['setOptions',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a583a54c11e8c730bb9915f5bd075db02',1,'materialxgltf.core.GLTF2MtlxReader.setOptions()'],['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ac8d7bd7f58fcfde45f26ac60e355b7c8',1,'materialxgltf.core.MTLX2GLTFWriter.setOptions()']]],
+  ['skiplibraryelement_1',['skipLibraryElement',['../classmaterialxgltf_1_1core_1_1_util.html#ab1a945afea7749f8f31d5335ee7a4d96',1,'materialxgltf::core::Util']]],
+  ['stringtoscalar_2',['stringToScalar',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a34168384799f210daefc63528f13179d',1,'materialxgltf::core::MTLX2GLTFWriter']]]
 ];

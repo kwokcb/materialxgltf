@@ -1,11 +1,5 @@
 var searchData=
 [
-  ['writecolor3input_0',['writeColor3Input',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a08aaa3755103ed158aadcc493a1e334f',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['writecopyright_1',['writeCopyright',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ad2cf563ca0f27e58b1788fb9207a593d',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['writefloatinput_2',['writeFloatInput',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ada5b108ce998e7059ec927e48aaf5f94',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['writeimageproperties_3',['writeImageProperties',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a5d5afafc72058172b0b4bb6d7116d59f',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['writematerialxdoc_4',['writeMaterialXDoc',['../classmaterialxgltf_1_1core_1_1_util.html#a4a8d3050b303e1e86b2fbfeffc228f58',1,'materialxgltf::core::Util']]],
-  ['writematerialxdocstring_5',['writeMaterialXDocString',['../classmaterialxgltf_1_1core_1_1_util.html#a6119243ace20244234f017c3c58c22dd',1,'materialxgltf::core::Util']]],
-  ['writematerialxstringzip_6',['writeMaterialXStringZip',['../classmaterialxgltf_1_1core_1_1_util.html#a37c09feafd958c0656b2264b79b332d6',1,'materialxgltf::core::Util']]],
-  ['writematerialxzip_7',['writeMaterialXZip',['../classmaterialxgltf_1_1core_1_1_util.html#ac4692d80a5c18a5be650157072b8ce76',1,'materialxgltf::core::Util']]]
+  ['translateshader_0',['translateShader',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a759160710f02e8b3c85297b1964aa6f1',1,'materialxgltf::core::MTLX2GLTFWriter']]],
+  ['translateshaders_1',['translateShaders',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ae8a4410a941943d4ebbf2977cfc62d90',1,'materialxgltf::core::MTLX2GLTFWriter']]]
 ];

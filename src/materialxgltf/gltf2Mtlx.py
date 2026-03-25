@@ -11,8 +11,8 @@ def gltf2Mtlx(gltf_file, mtlx_file, options=GLTF2MtlxOptions(), zip=False):
     '''
     @brief Utility to convert a glTF file to MaterialX file
 
-    @param gltfFileName Path to glTF file to convert
-    @param mtlxFileName Path to MaterialX file to write
+    @param gltf_file Path to glTF file to convert
+    @param mtlx_file Path to MaterialX file to write
     @param options Options for conversion
     @param zip Write document to zip with image references vs just the document.    
     '''

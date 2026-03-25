@@ -76,7 +76,7 @@ class Util:
         '''
         @brief Utility to write a MaterialX document and its referenced images to a zip file.
         @param doc The MaterialX document to write.
-        @paraam mtlx_filename The name of the MaterialX file to write within the zip file.
+        @param mtlx_filename The name of the MaterialX file to write within the zip file.
         @param zip_filename The name of the zip file to write to.
         @param image_references The list of image file references to include in the zip file.
         @param predicate A predicate function to determine if an element should be written. Default is to skip library elements.
@@ -89,7 +89,7 @@ class Util:
         '''
         @brief Utility to write a MaterialX document and its referenced images to a zip file.
         @param mtlx_str The MaterialX document string to write.
-        @paraam mtlx_filename The name of the MaterialX file to write within the zip file.
+        @param mtlx_filename The name of the MaterialX file to write within the zip file.
         @param zip_filename The name of the zip file to write to.
         @param image_references The list of image file references to include in the zip file.
         @param predicate A predicate function to determine if an element should be written. Default is to skip library elements.
@@ -154,6 +154,7 @@ class Util:
 #########################################################################################
 # gLTF to MaterialX Conversion classes
 #########################################################################################
+
 class GLTF2MtlxOptions(dict):
     '''
     @brief Class to hold options for glTF to MaterialX conversion.
@@ -175,20 +176,10 @@ class GLTF2MtlxOptions(dict):
         self['assignXform'] = False
 
 class GLTF2MtlxReader:
-    """
-    @class GLTF2MtlxReader
+    '''
     @brief Class to read glTF and convert to MaterialX.
-    @var _log
-    @brief Log string for storing conversion status and error messages.
-    @details This string accumulates log entries during the glTF to MaterialX conversion process.
-    It can be cleared with clearLog() and retrieved with getLog().
-    @var _options
-    @brief Options for the glTF to MaterialX conversion process.
-    @details This is an instance of GLTF2MtlxOptions that holds various options for controlling the conversion process, such as whether to add all inputs from node definitions, whether to create material assignments, and whether to print debug output.
-    """
     '''
-    Class to read glTF and convert to MaterialX.    
-    '''
+
     # Log string
     _log = ''
 
@@ -249,9 +240,10 @@ class GLTF2MtlxReader:
         return self._options
 
     def addNodeDefOutputs(self, mx_node):
-
-        # Handle with node outputs are not explicitly specified on
-        # a multioutput node.
+        '''
+        Handle with node outputs are not explicitly specified on a multioutput node.
+        @param mx_node The node to add outputs to if needed.
+        '''
         if mx_node.getType() == MULTI_OUTPUT_TYPE_STRING:
             mx_node_def = mx_node.getNodeDef()
             if mx_node_def:
@@ -488,7 +480,7 @@ class GLTF2MtlxReader:
         #print('**** done readInput. imageNode:', imageNode.getName() if imageNode else None )
         return imageNode
 
-    def versionGreaterThan(self, major, minor, patch):
+    def _versionGreaterThan(self, major, minor, patch):
         return False
     
         mx_major, mx_minor, mx_patch = mx.getVersionIntegers()
@@ -553,7 +545,7 @@ class GLTF2MtlxReader:
                     assignedColorTexture = True
 
                 # Connect texture to alpha input on shader
-                if len(alphaInputName) and self.versionGreaterThan(1, 38, 10):            
+                if len(alphaInputName) and self._versionGreaterThan(1, 38, 10):            
                     alphaInput = shaderNode.addInputFromNodeDef(alphaInputName)
                     if not alphaInput:
                         self.log('Failed to add alpha input:' + alphaInputName)
@@ -584,7 +576,12 @@ class GLTF2MtlxReader:
                     # Force this to be interepret as float vs integer
                     alphaInput.setValue(float(color[3]))
 
-    def readAsset(self, doc, gltfDoc):
+    def readAsset(self, doc, gltfDoc) -> None:
+        '''
+        @brief Read glTF asset information and set on MaterialX document.
+        @param doc The MaterialX document to update.
+        @param gltfDoc The glTF document to read from.        
+        '''
         if 'asset' in gltfDoc:
             asset = gltfDoc['asset']
             gltf_version = asset['version']

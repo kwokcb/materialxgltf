@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['setoptions_0',['setOptions',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#ac8d7bd7f58fcfde45f26ac60e355b7c8',1,'materialxgltf::core::MTLX2GLTFWriter']]],
-  ['skiplibraryelement_1',['skipLibraryElement',['../classmaterialxgltf_1_1core_1_1_util.html#ab1a945afea7749f8f31d5335ee7a4d96',1,'materialxgltf::core::Util']]],
-  ['stringtoscalar_2',['stringToScalar',['../classmaterialxgltf_1_1core_1_1_m_t_l_x2_g_l_t_f_writer.html#a34168384799f210daefc63528f13179d',1,'materialxgltf::core::MTLX2GLTFWriter']]]
+  ['readasset_0',['readAsset',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a9c22e71752bfdcc288862c58e33bdf72',1,'materialxgltf::core::GLTF2MtlxReader']]],
+  ['readcolorinput_1',['readColorInput',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#aaa8b6cf6c5c08185a1a4b269f1d4deb7',1,'materialxgltf::core::GLTF2MtlxReader']]],
+  ['readgltfimageproperties_2',['readGLTFImageProperties',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#af94da9c6268ac6ca03be5eabbb02ba89',1,'materialxgltf::core::GLTF2MtlxReader']]],
+  ['readinput_3',['readInput',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a1db761e6711eff797496e9ed4e6eb4a3',1,'materialxgltf::core::GLTF2MtlxReader']]]
 ];
