@@ -357,17 +357,17 @@ class GLTF2MtlxReader:
                 if input:
                     # Note: Rotation in glTF and MaterialX are opposite directions
                     # Direction is handled in the MaterialX implementation
-                    input.setValueString (str(rotation * TO_DEGREE))
+                    input.setValue(rotation * TO_DEGREE, 'float')
             offset = transformExtension['offset'] if 'offset' in transformExtension else None
             if offset:
                 input = imageNode.addInputFromNodeDef('offset')
                 if input:
-                    input.setValueString ( str(offset).removeprefix('[').removesuffix(']'))
+                    input.setValueString( str(offset).removeprefix('[').removesuffix(']'))
             scale = transformExtension['scale'] if 'scale' in transformExtension else None
             if scale:
                 input = imageNode.addInputFromNodeDef('scale')
                 if input:
-                    input.setValueString (str(scale).removeprefix('[').removesuffix(']') )
+                    input.setValueString(str(scale).removeprefix('[').removesuffix(']') )
 
             # Override texcoord if found in extension
             texcoordt = transformExtension['texCoord'] if 'texCoord' in transformExtension else None
@@ -495,7 +495,7 @@ class GLTF2MtlxReader:
 
     def readColorInput(self, materials, colorTexture, color, imageNodeName, nodeCategory, nodeType, nodeDefId,
                         shaderNode, colorInputName, alphaInputName, 
-                        gltf_textures, gltf_images, gltf_samplers, colorspace=MTLX_DEFAULT_COLORSPACE):
+                        gltf_textures, gltf_images, gltf_samplers, colorspace=MTLX_TEXTURE_COLORSPACE):
         '''     
         @brief Read glTF material color input and set input values or add upstream connected nodes
         @param materials MaterialX document to update
@@ -567,7 +567,7 @@ class GLTF2MtlxReader:
                     colorInput.setValue(mx.Color3(color[0], color[1], color[2]))
                     if len(colorspace):
                         colorspaceattr = MTLX_COLOR_SPACE_ATTRIBUTE 
-                        colorInput.setAttribute(colorspaceattr, colorspace)
+                        colorInput.setAttribute(colorspaceattr, MTLX_NONTEXTURE_COLORSPACE)
             if not assignedAlphaTexture and len(alphaInputName):            
                 alphaInput = shaderNode.addInputFromNodeDef(alphaInputName)
                 if not alphaInput:
@@ -701,23 +701,23 @@ class GLTF2MtlxReader:
                     self.readColorInput(doc, baseColorTexture, baseColorFactor, imagename, 
                                 MTLX_GLTF_COLOR_IMAGE, MULTI_OUTPUT_TYPE_STRING, 
                                     '', shaderNode, colorInputName, alphaInputName, 
-                                    textures, images, samplers, MTLX_DEFAULT_COLORSPACE)
+                                    textures, images, samplers, MTLX_TEXTURE_COLORSPACE)
 
                 # Parse metallic factor
                 # ---------------------
                 if 'metallicFactor' in pbrMetallicRoughness:
                     metallicFactor = pbrMetallicRoughness['metallicFactor']
-                    metallicFactor = str(metallicFactor)
-                    metallicInput = shaderNode.addInputFromNodeDef('metallic')
-                    metallicInput.setValueString(metallicFactor)
+                    if metallicFactor != 1:
+                        metallicInput = shaderNode.addInputFromNodeDef('metallic')
+                        metallicInput.setValue(metallicFactor, 'float')
             
                 # Parse roughness factor
                 # ---------------------
                 if 'roughnessFactor' in pbrMetallicRoughness:
                     roughnessFactor = pbrMetallicRoughness['roughnessFactor']
-                    roughnessFactor = str(roughnessFactor)
-                    roughnessInput = shaderNode.addInputFromNodeDef('roughness')
-                    roughnessInput.setValueString(roughnessFactor)
+                    if roughnessFactor != 1:
+                        roughnessInput = shaderNode.addInputFromNodeDef('roughness')
+                        roughnessInput.setValue(roughnessFactor, 'float')
 
                 # Parse texture for metalic, roughness, and occlusion (if not specified separately)
                 # ---------------------------------------------------------------------
@@ -794,9 +794,10 @@ class GLTF2MtlxReader:
             emissiveFactor = [0.0, 0.0, 0.0]
             if 'emissiveFactor' in material:
                 emissiveFactor = material['emissiveFactor']
-            self.readColorInput(doc, emissiveTexture, emissiveFactor, 'image_emissive',
-                            MTLX_GLTF_COLOR_IMAGE, MULTI_OUTPUT_TYPE_STRING, 
-                            '', shaderNode, 'emissive', '', textures, images, samplers, MTLX_DEFAULT_COLORSPACE)       
+            if emissiveTexture or emissiveFactor != [0.0, 0.0, 0.0]:
+                self.readColorInput(doc, emissiveTexture, emissiveFactor, 'image_emissive',
+                                MTLX_GLTF_COLOR_IMAGE, MULTI_OUTPUT_TYPE_STRING, 
+                                '', shaderNode, 'emissive', '', textures, images, samplers, MTLX_TEXTURE_COLORSPACE)       
         
             # Parse and remap alpha mode
             # --------------------------
@@ -843,7 +844,7 @@ class GLTF2MtlxReader:
                     if specularColorFactor or specularColorTexture:
                         self.readColorInput(doc, specularColorTexture, specularColorFactor, 'image_specularcolor',
                                 MTLX_GLTF_COLOR_IMAGE, MULTI_OUTPUT_TYPE_STRING, 
-                                '', shaderNode, 'specular_color', '', textures, images, MTLX_DEFAULT_COLORSPACE)
+                                '', shaderNode, 'specular_color', '', textures, images, MTLX_TEXTURE_COLORSPACE)
 
                     specularTexture = specularFactor = None
                     if 'specularFactor' in specularExtension:
@@ -945,9 +946,8 @@ class GLTF2MtlxReader:
                     # Untextured attenuation distance
                     if 'attenuationDistance' in volumeExtension:
                         attenuationDistance = volumeExtension['attenuationDistance']
-                        attenuationDistance = str(attenuationDistance)
                         attenuationInput = shaderNode.addInputFromNodeDef('attenuation_distance')
-                        attenuationInput.setValueString(attenuationDistance)
+                        attenuationInput.setValue(attenuationDistance, 'float')
 
                 # Parse clearcoat
                 if 'KHR_materials_clearcoat' in extensions:
@@ -992,7 +992,7 @@ class GLTF2MtlxReader:
                     if sheenColorFactor or sheenColorTexture:
                         self.readColorInput(doc, sheenColorTexture, sheenColorFactor, 'image_sheen',
                                 MTLX_GLTF_COLOR_IMAGE, MULTI_OUTPUT_TYPE_STRING, 
-                                '', shaderNode, 'sheen_color', '', textures, images, MTLX_DEFAULT_COLORSPACE)
+                                '', shaderNode, 'sheen_color', '', textures, images, MTLX_TEXTURE_COLORSPACE)
                         
                     sheenRoughnessFactor = sheenRoughnessTexture = None
                     if 'sheenRoughnessFactor' in sheen:
