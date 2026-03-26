@@ -2679,9 +2679,9 @@ class MTLX2GLTFWriter:
                     outputExtension['thicknessTexture']['index'] = len(textures) - 1     
                 
                 # TODO: Update gltf MTLX definitions
-                # to support a thicknessFactor separate from the texture                #  
+                # to support a thicknessFactor separate from the texture                  #  
                 thicknessValue = thicknessInput.getValue() 
-                if thicknessValue > 0.0:
+                if thicknessValue and thicknessValue > 0.0:
                     outputExtension['thicknessFactor'] = thicknessValue
 
             # Parse attenuation and attenuation distance
