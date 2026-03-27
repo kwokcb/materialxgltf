@@ -13,7 +13,7 @@ python ../../../utilities/test_render.py Tire.mtlx
 python ../../../utilities/test_render.py Whiteboard.mtlx
 popd
 
-@echo "Convert Substance3D Example to glTF"
+@echo "Convert from MTLX to glTF : Substance3D Example"
 pushd .
 cd docs/data/Substance3D
 python -m materialxgltf mtlx2gltf --packageBinary 1 --gltfGeomFileName ../Geometry/test_cube.gltf parquet_clothes.mtlx
@@ -23,7 +23,7 @@ rm parquet_clothes.mtlx_sphere.gltf
 python ../../../utilities/test_render.py parquet_clothes.mtlx
 popd
 
-echo "Convert from MTLX to glTF: QuiltiX"
+echo "Convert from MTLX to glTF: GPUOpen Example"
 pushd .
 cd docs/data/QuiltiX
 python -m materialxgltf mtlx2gltf --packageBinary 1 --gltfGeomFileName ../Geometry/test_sphere.gltf Black_Upholstery.mtlx_baked.mtlx
@@ -35,7 +35,7 @@ python ../../../utilities/test_render.py Copper_Old.gltf_baked.mtlx
 python ../../../utilities/test_render.py Motley_Patchwork_Rug.mtlx
 popd
 
-echo "Convert from glTF to MTLX: GLTF Examples"
+echo "Convert from glTF to MTLX: GLTF Sample Assets Examples"
 pushd .
 cd docs/data/RTS_GLTF
 python -m materialxgltf gltf2mtlx DamagedHelmet.gltf

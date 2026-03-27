@@ -1,7 +1,7 @@
 {
   "asset": {
     "version": "2.0",
-    "copyright": "Copyright 2022-2025: Bernard Kwok.",
+    "copyright": "Copyright 2022-2026: Bernard Kwok.",
     "generator": "MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf"
   },
   "accessors": [
@@ -229,6 +229,10 @@
         "KHR_materials_iridescence": {
           "iridescenceFactor": 0.5,
           "iridescenceIor": 1.5
+        },
+        "KHR_materials_anisotropy": {
+          "iridescenceFactor": 0.5,
+          "iridescenceIor": 1.5
         }
       },
       "name": "gltf_pbr_surfaceshader",
@@ -309,6 +313,7 @@
     "KHR_materials_sheen",
     "KHR_materials_clearcoat",
     "KHR_materials_volume",
-    "KHR_materials_iridescence"
+    "KHR_materials_iridescence",
+    "KHR_materials_anisotropy"
   ]
 }

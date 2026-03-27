@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<materialx version="1.39">
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF generator: VKTS glTF 2.0 exporter. glTF version: 2.0.">
   <!-- Generated shader: SciFiHelmet -->
   <gltf_pbr name="SciFiHelmet" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
@@ -7,7 +7,6 @@
     <input name="roughness" type="float" nodename="extract_orm2" />
     <input name="occlusion" type="float" nodename="image_occlusion" />
     <input name="normal" type="vector3" nodename="image_normal" />
-    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
   </gltf_pbr>
   <!-- Generated material: MAT_SciFiHelmet -->
   <surfacematerial name="MAT_SciFiHelmet" type="material">
@@ -41,6 +40,6 @@
   </gltf_image>
   <!-- Generated material assignments -->
   <look name="look">
-    <materialassign name="MAT_SciFiHelmet" material="MAT_SciFiHelmet" geom="/SciFiHelmet/SciFiHelmet" />
+    <materialassign name="MAT_SciFiHelmet" material="MAT_SciFiHelmet" geom="/SciFiHelmet" />
   </look>
 </materialx>

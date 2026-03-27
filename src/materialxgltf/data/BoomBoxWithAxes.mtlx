@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<materialx version="1.39">
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF generator: glTF Tools for Unity. glTF version: 2.0.">
   <!-- Generated shader: M_BoomBox -->
   <gltf_pbr name="M_BoomBox" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
@@ -45,9 +45,8 @@
   <gltf_pbr name="M_Coordinates" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color2" output="outcolor" />
     <input name="alpha" type="float" value="1" />
-    <input name="metallic" type="float" value="0.0" />
+    <input name="metallic" type="float" value="0" />
     <input name="roughness" type="float" value="0.735" />
-    <input name="emissive" type="color3" value="0, 0, 0" colorspace="srgb_texture" />
   </gltf_pbr>
   <!-- Generated material: MAT_M_Coordinates -->
   <surfacematerial name="MAT_M_Coordinates" type="material">
@@ -60,7 +59,7 @@
   </gltf_colorimage>
   <!-- Generated material assignments -->
   <look name="look">
-    <materialassign name="MAT_M_BoomBox" material="MAT_M_BoomBox" geom="/BoomBox_Coordinates/BoomBox/BoomBox" />
-    <materialassign name="MAT_M_Coordinates" material="MAT_M_Coordinates" geom="/BoomBox_Coordinates/CoordinateSystem/CoordinateSystem,/BoomBox_Coordinates/X_axis/X_axis,/BoomBox_Coordinates/Y_axis/Y_axis,/BoomBox_Coordinates/Z_axis/Z_axis" />
+    <materialassign name="MAT_M_BoomBox" material="MAT_M_BoomBox" geom="/BoomBox_Coordinates/BoomBox" />
+    <materialassign name="MAT_M_Coordinates" material="MAT_M_Coordinates" geom="/BoomBox_Coordinates/CoordinateSystem,/BoomBox_Coordinates/X_axis,/BoomBox_Coordinates/Y_axis,/BoomBox_Coordinates/Z_axis" />
   </look>
 </materialx>
