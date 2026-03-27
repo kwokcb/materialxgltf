@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<materialx version="1.39">
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF generator: Khronos Blender glTF 2.0 exporter. glTF version: 2.0.">
   <!-- Generated shader: Material_MR -->
   <gltf_pbr name="Material_MR" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
@@ -46,6 +46,6 @@
   </gltf_colorimage>
   <!-- Generated material assignments -->
   <look name="look">
-    <materialassign name="MAT_Material_MR" material="MAT_Material_MR" geom="/node_damagedHelmet__6514/mesh_helmet_LP_13930damagedHelmet" />
+    <materialassign name="MAT_Material_MR" material="MAT_Material_MR" geom="/node_damagedHelmet__6514" />
   </look>
 </materialx>

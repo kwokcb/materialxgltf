@@ -2,7 +2,7 @@
   "asset": {
     "generator": "MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf",
     "version": "2.0",
-    "copyright": "Copyright 2022-2025: Bernard Kwok."
+    "copyright": "Copyright 2022-2026: Bernard Kwok."
   },
   "scene": 0,
   "scenes": [
