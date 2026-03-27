@@ -187,6 +187,8 @@ class GLTF2MtlxReader:
     _doc = None
     # List of images referenced by materialx doc
     _image_references = []
+    # Map of glTF texture index to MaterialX image node
+    _index_cache = {}
 
     def getDocument(self):
         '''
@@ -253,10 +255,11 @@ class GLTF2MtlxReader:
                         mx_output_type = mx_output.getType()
                         mx_node.addOutput(mx_output_name, mx_output_type)
 
-    def addMtlxImage(self, materials, nodeName, fileName, nodeCategory, nodeDefId, nodeType, colorspace='') -> mx.Node:
+    def addMtlxImage(self, materials, textureIndex, nodeName, fileName, nodeCategory, nodeDefId, nodeType, colorspace='') -> mx.Node:
         '''
         Create a MaterialX image lookup.
         @param materials MaterialX document to add the image node to.
+        @param textureIndex glTF texture index
         @param nodeName Name of the image node.
         @param fileName File name of the image.
         @param nodeCategory Category of the image node.
@@ -268,6 +271,8 @@ class GLTF2MtlxReader:
         nodeName = materials.createValidChildName(nodeName)
         imageNode = materials.addNode(nodeCategory, nodeName, nodeType)
         if imageNode:
+            self.setCacheImageForIndex(textureIndex, imageNode)
+
             if not imageNode.getNodeDef():
                 self.log('Failed to create image node. Category,name,type: %s %s %s' % (nodeCategory, nodeName, nodeType))
                 return imageNode
@@ -278,8 +283,8 @@ class GLTF2MtlxReader:
             fileInput = imageNode.addInputFromNodeDef(mx.Implementation.FILE_ATTRIBUTE)
             if fileInput:
                 fileInput.setValue(fileName, mx.FILENAME_TYPE_STRING)    
-                if self._options['debugOutput']:
-                    print('-- Convert file reference: %s' % fileName)
+                #if self._options['debugOutput']:
+                print(f'-- Convert gltf index {textureIndex} with file reference: {fileName} to MTLX node: {imageNode.getName()}')
                 self._image_references.append(fileName)                
 
                 if len(colorspace):
@@ -450,23 +455,27 @@ class GLTF2MtlxReader:
         # Create and set mapped input
         if texture:
             textureIndex = texture['index']
-            texture = gltf_textures[textureIndex] if textureIndex < len(gltf_textures) else None
-            uri = self.getGLTFTextureUri(texture, gltf_images)    
-            imageNodeName = materials.createValidChildName(imageNodeName)
-            imageNode = self.addMtlxImage(materials, imageNodeName, uri, nodeCategory, nodeDefId,                                   
-                                        nodeType, EMPTY_STRING)
-            if imageNode:
-                #print('Crated image node:' + imageNode.getName() + ' for texture:' + uri)
-                self.readGLTFImageProperties(imageNode, texture, gltf_samplers)
+            # Check cached images
+            imageNode = self.getCachedImageForIndex(textureIndex)
 
-                for inputName in inputNames:
-                    #print('>>>> Adding input from node def:' + inputName)
-                    input = shaderNode.addInputFromNodeDef(inputName)
-                    if input:
-                        #print('>>>> Setting input value from image node:' + imageNode.getName())
-                        input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
-                        input.removeAttribute(MTLX_VALUE_ATTRIBUTE)
+            if not imageNode:
+                texture = gltf_textures[textureIndex] if textureIndex < len(gltf_textures) else None
+                uri = self.getGLTFTextureUri(texture, gltf_images)    
+                imageNodeName = materials.createValidChildName(imageNodeName)
+                imageNode = self.addMtlxImage(materials, textureIndex, imageNodeName, uri, nodeCategory, nodeDefId,                                   
+                                            nodeType, EMPTY_STRING)
+                if imageNode:
+                    #print('Crated image node:' + imageNode.getName() + ' for texture:' + uri)
+                    self.readGLTFImageProperties(imageNode, texture, gltf_samplers)
 
+                    for inputName in inputNames:
+                        #print('>>>> Adding input from node def:' + inputName)
+                        input = shaderNode.addInputFromNodeDef(inputName)
+                        if input:
+                            #print('>>>> Setting input value from image node:' + imageNode.getName())
+                            input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
+                            input.removeAttribute(MTLX_VALUE_ATTRIBUTE)
+                    
         # Create and set unmapped input
         if not imageNode:        
             if len(values) > 0 and (len(values) == len(inputNames)):
@@ -491,6 +500,29 @@ class GLTF2MtlxReader:
             return False
         if mx_patch < patch:
             return False
+        return True
+
+    def getCachedImageForIndex(self, texture_index):
+        '''
+        Check if have create MaterialX image for glTF texture index yet
+        '''
+        image_node = None
+        if texture_index in self._index_cache:
+            image_node = self._index_cache[texture_index] 
+            print(f'-- Reuse glTF texture index: {texture_index} MTLX node: {image_node.getName()}' )
+        return image_node
+    
+    def setCacheImageForIndex(self, texture_index, image_node):
+        '''
+        Cache the MaterialX image node reference for a given glTF texture index
+        @param texture_index glTF texture index
+        @param image_node MaterialX image node
+        @return True if cached.
+        '''
+        if texture_index in self._index_cache:
+            print('Error trying to cache the same glTF texture twice !!!')
+            return False
+        self._index_cache[texture_index] = image_node
         return True
 
     def readColorInput(self, materials, colorTexture, color, imageNodeName, nodeCategory, nodeType, nodeDefId,
@@ -518,15 +550,19 @@ class GLTF2MtlxReader:
         assignedColorTexture = False 
         assignedAlphaTexture = False 
 
-
         # Try to assign a texture (image node)
         if colorTexture:
             # Get the index of the texture
             textureIndex = colorTexture['index']
-            texture = gltf_textures[textureIndex] if textureIndex < len(gltf_textures) else None
-            uri = self.getGLTFTextureUri(texture, gltf_images)    
-            imageNodeName = materials.createValidChildName(imageNodeName)
-            imageNode = self.addMtlxImage(materials, imageNodeName, uri, nodeCategory, nodeDefId, nodeType, colorspace)
+
+            # Check if textureIndex in index_cache
+            imageNode = self.getCachedImageForIndex(textureIndex)
+
+            if not imageNode:
+                texture = gltf_textures[textureIndex] if textureIndex < len(gltf_textures) else None
+                uri = self.getGLTFTextureUri(texture, gltf_images)    
+                imageNodeName = materials.createValidChildName(imageNodeName)
+                imageNode = self.addMtlxImage(materials, textureIndex, imageNodeName, uri, nodeCategory, nodeDefId, nodeType, colorspace)
 
             if imageNode:
                 self.readGLTFImageProperties(imageNode, colorTexture, gltf_samplers)
@@ -894,23 +930,28 @@ class GLTF2MtlxReader:
                                 uri = ''
                                 if iridescenceThicknessTexture:
                                     textureIndex = iridescenceThicknessTexture['index']
-                                    texture = textures[textureIndex] if textureIndex < len(textures) else None
-                                    uri = self.getGLTFTextureUri(texture, images)  
-                                
-                                    imageNodeName = doc.createValidChildName("image_iridescence_thickness")                            
-                                    newTexture = self.addMtlxImage(doc, imageNodeName, uri, 'gltf_iridescence_thickness', '', MTLX_FLOAT_STRING, '')
-                                    if newTexture:
-                                        floatInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, newTexture.getName())
-                                        floatInput.removeAttribute(MTLX_VALUE_STRING)
 
-                                        if iridescenceThicknessMinimum:
-                                            minInput = newTexture.addInputFromNodeDef("thicknessMin")
-                                            if minInput:
-                                                minInput.setValue(float(iridescenceThicknessMinimum))
-                                        if iridescenceThicknessMaximum:
-                                            maxInput = newTexture.addInputFromNodeDef("thicknessMax")
-                                            if maxInput:
-                                                maxInput.setValue(float(iridescenceThicknessMaximum))
+                                    newTexture = self.getCachedImageForIndex(textureIndex)
+                                    if not newTexture:
+
+                                        texture = textures[textureIndex] if textureIndex < len(textures) else None
+                                        uri = self.getGLTFTextureUri(texture, images)  
+                                    
+                                        imageNodeName = doc.createValidChildName("image_iridescence_thickness")                            
+                                        newTexture = self.addMtlxImage(doc, textureIndex, imageNodeName, uri, 'gltf_iridescence_thickness', '', MTLX_FLOAT_STRING, '')
+                                        if newTexture:
+                                            floatInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, newTexture.getName())
+                                            floatInput.removeAttribute(MTLX_VALUE_STRING)
+
+                                            if iridescenceThicknessMinimum:
+                                                minInput = newTexture.addInputFromNodeDef("thicknessMin")
+                                                if minInput:
+                                                    minInput.setValue(float(iridescenceThicknessMinimum))
+                                            if iridescenceThicknessMaximum:
+                                                maxInput = newTexture.addInputFromNodeDef("thicknessMax")
+                                                if maxInput:
+                                                    maxInput.setValue(float(iridescenceThicknessMaximum))                                            
+
 
                 if 'KHR_materials_emissive_strength' in extensions:
                     emissiveStrengthExtension = extensions['KHR_materials_emissive_strength']
@@ -1181,6 +1222,8 @@ class GLTF2MtlxReader:
         @param gltfFileName The glTF file to convert.
         @return A MaterialX document if successful, otherwise None.
         '''
+        self._index_cache = {}
+        self._image_references = []
 
         if not os.path.exists(gltfFileName):
             if self._options['debugOutput']:
