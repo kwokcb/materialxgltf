@@ -324,6 +324,7 @@ class GLTF2MtlxReader:
                 texcoordInput = image.addInputFromNodeDef('texcoord')
                 if texcoordInput:
                     texcoordInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, texcoordNode.getName())
+                    texcoordInput.removeAttribute(MTLX_VALUE_ATTRIBUTE)
         
         return texcoordNode
 
@@ -783,7 +784,8 @@ class GLTF2MtlxReader:
                         separateNode = doc.addNode('separate3', separateNodeName, MULTI_OUTPUT_TYPE_STRING)      
                         seperateInput = separateNode.addInputFromNodeDef(MTLX_IN_STRING)
                         seperateInput.setType(MTLX_VEC3_STRING)
-                        seperateInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())                  
+                        seperateInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
+                        seperateInput.removeAttribute(MTLX_VALUE_STRING)                                          
                     for i in range(0,3): 
                         input = inputs[i]
                         if input:
@@ -800,8 +802,10 @@ class GLTF2MtlxReader:
                                 extractNodeInput.setValue(i)
 
                                 input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, extractNode.getName())
+                                input.removeAttribute(MTLX_VALUE_STRING)
                             elif separateNode:
                                 input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, separateNode.getName())
+                                input.removeAttribute(MTLX_VALUE_STRING)
                                 input.setOutputString(outputName[i])
 
             # Parse normal input

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF copyright: (c) 2023 Wayfair, model and textures by Eric Chadwick, CC BY 4.0.. glTF generator: 3ds Max, Max2Babylon, Visual Studio Code, glTF Tools. glTF version: 2.0.">
+  <!-- Generated shader: Lamp_Metal -->
+  <gltf_pbr name="Lamp_Metal" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
+    <input name="metallic" type="float" nodename="extract_orm3" />
+    <input name="roughness" type="float" nodename="extract_orm2" />
+    <input name="occlusion" type="float" nodename="extract_orm" />
+    <input name="normal" type="vector3" nodename="image_normal" />
+    <input name="clearcoat" type="float" value="0.25" />
+    <input name="clearcoat_roughness" type="float" value="0.15" />
+    <input name="anisotropy_strength" type="float" nodename="image_anisotropy_strength" output="anisotropy_strength_out" />
+    <input name="anisotropy_rotation" type="float" nodename="image_anisotropy_strength" output="anisotropy_rotation_out" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Lamp_Metal -->
+  <surfacematerial name="MAT_Lamp_Metal" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Lamp_Metal" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color" type="multioutput">
+    <input name="file" type="filename" value="AnisotropyBarnLamp_basecolor.png" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
+  </gltf_colorimage>
+  <gltf_image name="image_orm" type="vector3">
+    <input name="file" type="filename" value="AnisotropyBarnLamp_occlusionroughnessmetal.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <extract name="extract_orm" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm2" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm3" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="2" />
+  </extract>
+  <gltf_normalmap name="image_normal" type="vector3">
+    <input name="file" type="filename" value="AnisotropyBarnLamp_normalbump.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_normalmap>
+  <gltf_anisotropy_image name="image_anisotropy_strength" type="multioutput">
+    <input name="file" type="filename" value="AnisotropyBarnLamp_anisotropy.png" />
+    <output name="anisotropy_strength_out" type="float" />
+    <output name="anisotropy_rotation_out" type="float" />
+    <input name="filtertype" type="string" value="cubic" />
+    <input name="anisotropy_strength" type="float" value="1" />
+    <input name="anisotropy_rotation" type="float" value="0" />
+  </gltf_anisotropy_image>
+  <!-- Generated shader: Lamp_Filament -->
+  <gltf_pbr name="Lamp_Filament" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.09, 0.09, 0.09" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.7" />
+    <input name="emissive" type="color3" value="1, 0.5, 0.25" colorspace="lin_rec709" />
+    <input name="emissive_strength" type="float" value="25" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Lamp_Filament -->
+  <surfacematerial name="MAT_Lamp_Filament" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Lamp_Filament" />
+  </surfacematerial>
+  <!-- Generated shader: Lamp_Glass -->
+  <gltf_pbr name="Lamp_Glass" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0" />
+    <input name="transmission" type="float" value="1" />
+    <input name="thickness" type="float" value="0.01" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Lamp_Glass -->
+  <surfacematerial name="MAT_Lamp_Glass" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Lamp_Glass" />
+  </surfacematerial>
+  <!-- Generated material assignments -->
+  <look name="look">
+    <materialassign name="MAT_Lamp_Metal" material="MAT_Lamp_Metal" geom="/Lamp_Metal" />
+    <materialassign name="MAT_Lamp_Filament" material="MAT_Lamp_Filament" geom="/Lamp_Filament" />
+    <materialassign name="MAT_Lamp_Glass" material="MAT_Lamp_Glass" geom="/Lamp_Glass" />
+  </look>
+</materialx>
