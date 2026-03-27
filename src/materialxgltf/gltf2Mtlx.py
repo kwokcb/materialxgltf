@@ -50,7 +50,7 @@ def main():
     parser.add_argument('-fn', '--mtlxFileName', dest='mtlxFileName', default='', help='Name of MaterialX output file. If not specified the glTF name with "_converted.mtlx" suffix will be used')
     parser.add_argument('-ca', '--createAssignments', dest='createAssignments', type=mx.stringToBoolean, default=True, help='Create material assignments. Default is True')
     parser.add_argument('-ai','--addAllInputs', dest='addAllInputs', type=mx.stringToBoolean, default=False, help='Add all definition inputs to MaterialX shader nodes. Default is False')
-    parser.add_argument('-ax', '--assignXform', dest='assignXform', type=mx.stringToBoolean, default=False, help='Assign to transforms vs shapes. Default is False'   )
+    parser.add_argument('-ax', '--assignXform', dest='assignXform', type=mx.stringToBoolean, default=True, help='Assign to transforms vs shapes. Default is True'   )
     parser.add_argument('-z', '--zip', dest='zip', type=mx.stringToBoolean, default=False, help='Write a zip file containing the MaterialX file and all referenced texture files. Default is False')
 
     opts = parser.parse_args()
