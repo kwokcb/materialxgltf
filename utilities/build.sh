@@ -7,7 +7,7 @@ pip install . --quiet
 pushd .
 cd src/materialxgltf/data 
 # Build boombox MTLX from glTF
-materialxgltf gltf2Mtlx.py BoomBoxWithAxes.gltf --mtlxFileName BoomBoxWithAxes.mtlx
+materialxgltf gltf2mtlx BoomBoxWithAxes.gltf --mtlxFileName BoomBoxWithAxes.mtlx
 # Build boombox glb from MTLX
 materialxgltf mtlx2gltf BoomBoxWithAxes.mtlx --gltfGeomFileName shaderball.gltf --primsPerMaterial True  --packageBinary True
 # Build MTLX w/ glTF to glb

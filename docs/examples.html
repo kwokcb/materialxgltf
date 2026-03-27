@@ -7648,7 +7648,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>C:\Users\home\AppData\Local\Temp\ipykernel_29552\1081666708.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
+<pre>C:\Users\home\AppData\Local\Temp\ipykernel_25948\1081666708.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
   import pkg_resources
 </pre>
 </div>
@@ -7729,12 +7729,12 @@ standard_surface_marble_solid.mtlx.gltf
 
 Converting: BoomBoxWithAxes.gltf
 - Convert gLTF material to MateriaLX: MAT_M_BoomBox
--- Convert file reference: BoomBoxWithAxes_baseColor.png
--- Convert file reference: BoomBoxWithAxes_roughnessMetallic.png
--- Convert file reference: BoomBoxWithAxes_normal.png
--- Convert file reference: BoomBoxWithAxes_emissive.png
+-- Convert gltf index 0 with file reference: BoomBoxWithAxes_baseColor.png to MTLX node: image_base_color
+-- Convert gltf index 1 with file reference: BoomBoxWithAxes_roughnessMetallic.png to MTLX node: image_orm
+-- Convert gltf index 2 with file reference: BoomBoxWithAxes_normal.png to MTLX node: image_normal
+-- Convert gltf index 3 with file reference: BoomBoxWithAxes_emissive.png to MTLX node: image_emissive
 - Convert gLTF material to MateriaLX: MAT_M_Coordinates
--- Convert file reference: BoomBoxWithAxes_baseColor1.png
+-- Convert gltf index 4 with file reference: BoomBoxWithAxes_baseColor1.png to MTLX node: image_base_color2
 </pre>
 </div>
 </div>
@@ -7796,9 +7796,8 @@ Converting: BoomBoxWithAxes.gltf
 <span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">"M_Coordinates"</span><span class="w"> </span><span class="na">type=</span><span class="s">"surfaceshader"</span><span class="w"> </span><span class="na">nodedef=</span><span class="s">"ND_gltf_pbr_surfaceshader"</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"base_color"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="w"> </span><span class="na">nodename=</span><span class="s">"image_base_color2"</span><span class="w"> </span><span class="na">output=</span><span class="s">"outcolor"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"alpha"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"1"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"metallic"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0.0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"metallic"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"roughness"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0.735"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"emissive"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0, 0, 0"</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">"srgb_texture"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
 <span class="w">  </span><span class="cm">&lt;!-- Generated material: MAT_M_Coordinates --&gt;</span>
 <span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">"MAT_M_Coordinates"</span><span class="w"> </span><span class="na">type=</span><span class="s">"material"</span><span class="nt">&gt;</span>
@@ -7868,25 +7867,19 @@ Converting: BoomBoxWithAxes.gltf
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Converting with Look: BoomBoxWithAxes.gltf
 - Convert gLTF material to MateriaLX: MAT_M_BoomBox
--- Convert file reference: BoomBoxWithAxes_baseColor.png
--- Convert file reference: BoomBoxWithAxes_roughnessMetallic.png
--- Convert file reference: BoomBoxWithAxes_normal.png
--- Convert file reference: BoomBoxWithAxes_emissive.png
+-- Convert gltf index 0 with file reference: BoomBoxWithAxes_baseColor.png to MTLX node: image_base_color
+-- Convert gltf index 1 with file reference: BoomBoxWithAxes_roughnessMetallic.png to MTLX node: image_orm
+-- Convert gltf index 2 with file reference: BoomBoxWithAxes_normal.png to MTLX node: image_normal
+-- Convert gltf index 3 with file reference: BoomBoxWithAxes_emissive.png to MTLX node: image_emissive
 - Convert gLTF material to MateriaLX: MAT_M_Coordinates
--- Convert file reference: BoomBoxWithAxes_baseColor1.png
+-- Convert gltf index 4 with file reference: BoomBoxWithAxes_baseColor1.png to MTLX node: image_base_color2
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Generated MaterialX document is valid</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+<pre>Generated MaterialX document is valid
 </pre>
 </div>
 </div>
@@ -7941,9 +7934,8 @@ Converting: BoomBoxWithAxes.gltf
 <span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">"M_Coordinates"</span><span class="w"> </span><span class="na">type=</span><span class="s">"surfaceshader"</span><span class="w"> </span><span class="na">nodedef=</span><span class="s">"ND_gltf_pbr_surfaceshader"</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"base_color"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="w"> </span><span class="na">nodename=</span><span class="s">"image_base_color2"</span><span class="w"> </span><span class="na">output=</span><span class="s">"outcolor"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"alpha"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"1"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"metallic"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0.0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"metallic"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"roughness"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0.735"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"emissive"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0, 0, 0"</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">"srgb_texture"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
 <span class="w">  </span><span class="cm">&lt;!-- Generated material: MAT_M_Coordinates --&gt;</span>
 <span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">"MAT_M_Coordinates"</span><span class="w"> </span><span class="na">type=</span><span class="s">"material"</span><span class="nt">&gt;</span>
@@ -8015,7 +8007,13 @@ Converting: BoomBoxWithAxes.gltf
 <pre>&gt; Load MaterialX document: C:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\BoomBoxWithAxes.mtlx
 - Convert MaterialX node to glTF: M_BoomBox
 - Append single ORM texture BoomBoxWithAxes_roughnessMetallic.png
-- Convert MaterialX node to glTF: M_Coordinates
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>- Convert MaterialX node to glTF: M_Coordinates
 - Generating a new primitive for each of 2 materials
 </pre>
 </div>

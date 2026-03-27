@@ -1,7 +1,7 @@
 var searchData=
 [
   ['a_20binary_20file_0',['Packaging A Binary File',['../readme_page.html#autotoc_md19',1,'']]],
-  ['addmtlximage_1',['addMtlxImage',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a5559ec98e06281abe6a2b9190b5d849a',1,'materialxgltf::core::GLTF2MtlxReader']]],
+  ['addmtlximage_1',['addMtlxImage',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#a9deacfb685a4f02c2a6bd2940452bfbe',1,'materialxgltf::core::GLTF2MtlxReader']]],
   ['addmtlxtexcoordnode_2',['addMTLXTexCoordNode',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#aa96e7b03ac70b6d749f8241cd899813c',1,'materialxgltf::core::GLTF2MtlxReader']]],
   ['addnodedefoutputs_3',['addNodeDefOutputs',['../classmaterialxgltf_1_1core_1_1_g_l_t_f2_mtlx_reader.html#ad0dd22b04e9bf6ec9540bdcf4b0b37bb',1,'materialxgltf::core::GLTF2MtlxReader']]],
   ['and_20bake_20textures_4',['Translate Shader and Bake Textures',['../readme_page.html#autotoc_md20',1,'']]],
