@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
+# %% [markdown]
 # <script type='module' src='https://unpkg.com/@google/model-viewer/dist/model-viewer.js'></script>
 # 
 # ### Using The Core Library
@@ -19,18 +17,14 @@
 # | <model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer> | <model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx_moebius.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer> | 
 # | <model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx_shaderball.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer> | <model-viewer style='background-color:grey; width: 24em; height: 24em' id='viewer1' ar interaction-prompt='none' camera-controls touch-action='pan-y' src='./data/Substance3D/parquet_clothes.mtlx_sphere.glb' shadow-intensity='0.3' alt='Parquet on Cube' poster=''></model-viewer> |
 
-# In[1]:
-
-
+# %%
 import materialxgltf
 import materialxgltf.core as core
 
-
+# %% [markdown]
 # This is import not required and is only added used here to improve output display
 
-# In[2]:
-
-
+# %%
 from IPython.display import display_markdown
 
 def displaySource(title, string, language='xml', open=True):
@@ -39,19 +33,20 @@ def displaySource(title, string, language='xml', open=True):
     text = text + '><summary><b>' + title + '</b></summary>\n\n' + '```' + language + '\n' + string + '\n```\n' + '</details>\n' 
     display_markdown(text, raw=True)
 
-
+# %% [markdown]
 # Packaged Sample Data
 # 
 # For convenience a few sample files are included as part of the Python package and are used in this notebook.
 
-# In[3]:
-
-
-import pkg_resources
+# %%
+from importlib.resources import files
 import os
 
 directory_name = "data"  
-files = pkg_resources.resource_listdir('materialxgltf', directory_name)
+
+gltfFileName = str(files('materialxgltf').joinpath('data/BoomBoxWithAxes.gltf'))
+files = [f.name for f in files('materialxgltf').joinpath(directory_name).iterdir()]
+
 result = ''
 for file in files:
     if file == 'shaderball.gltf' or file.find('baked') != -1:
@@ -62,20 +57,19 @@ for file in files:
 
 displaySource('Available data files', result, 'text', True)
 
-
+# %% [markdown]
 # ### Convert from glTF to MaterialX
 # 
 # The sample glTF input file is the "BoomBox with Axes" file from the glTF sample repository [here](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models//BoomBoxWithAxes/glTF).
 
-# In[4]:
-
-
-import pkg_resources
+# %%
+from importlib.resources import files
 import MaterialX as mx
 
 print(f'Using ( MaterialX version: {mx.getVersionString()} materialxgltf version: {materialxgltf.__version__} )\n')
 
-gltfFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes.gltf')
+file_list = files('materialxgltf').joinpath('data/BoomBoxWithAxes.gltf')
+gltfFileName = str(file_list)
 print('Converting: %s' % mx.FilePath(gltfFileName).getBaseName())
 
 # Instantiate a the reader class. Read in sample  glTF file
@@ -95,14 +89,12 @@ else:
 result = core.Util.writeMaterialXDocString(doc)
 displaySource('Resulting MaterialX document', result, 'xml', True)
 
-
+# %% [markdown]
 # ### Using glTF to MaterialX Options
 # 
 # The option to create material assignments is enabled and the MaterialX file is regenerated.
 
-# In[5]:
-
-
+# %%
 # Set option to write material assignments
 options = core.GLTF2MtlxOptions()
 options['createAssignments'] = True
@@ -123,20 +115,20 @@ else:
 result = core.Util.writeMaterialXDocString(doc)
 displaySource('Resulting MaterialX document', result, 'xml', True)
 
-
+# %% [markdown]
 # ### Conversion from MaterialX to glTF
 # 
 # This file is then converted back to glTF.
 
-# In[6]:
-
-
-materialXFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes.mtlx')
+# %%
+from importlib.resources import files
+file_list = files('materialxgltf').joinpath('data/BoomBoxWithAxes.mtlx')
+materialXFileName = str(file_list)
 print('> Load MaterialX document: %s' % materialXFileName)
 
 mtlx2glTFWriter = core.MTLX2GLTFWriter()
 doc, libFiles = core.Util.createMaterialXDoc()
-mx.readFromXmlFile(doc, materialXFileName, mx.FileSearchPath())
+mx.readFromXmlFile(doc, mx.FilePath(materialXFileName), mx.FileSearchPath())
 
 options = core.MTLX2GLTFOptions()
 options['debugOutput'] = True
@@ -147,16 +139,16 @@ if len(gltfString) > 0:
 else:
     print('> Failed to convert MaterialX document to glTF')
 
-
+# %% [markdown]
 # ### Embedding Geometry
 # 
 # To view the material on sample geometry the sample "shader ball" geometry is imported. 
 # The first MaterialX material will be assigned to all of the geometric primitives.
 
-# In[7]:
-
-
-gltfGeometryFile = pkg_resources.resource_filename('materialxgltf', 'data/shaderBall.gltf')
+# %%
+from importlib.resources import files
+file_list = files('materialxgltf').joinpath('data/shaderBall.gltf')
+gltfGeometryFile = str(file_list)
 print('> Load glTF geometry file: %s' % mx.FilePath(gltfGeometryFile).getBaseName())
 
 options = core.MTLX2GLTFOptions()
@@ -171,18 +163,18 @@ if len(gltfString) > 0:
 else:
     print('> Failed to convert MaterialX document to glTF')
 
-
+# %% [markdown]
 # ### Creating Primitives Per Material
 # 
 # This geometry is (transform) instanced for each of the MaterialX materials and then assigned that material.
 # 
 # In this case there are 2 materials.
 
-# In[8]:
-
-
-gltfGeometryFile = pkg_resources.resource_filename('materialxgltf', 'data/shaderBall.gltf')
-print('> Load glTF geometry file: %s' % gltfGeometryFile)
+# %%
+from importlib.resources import files
+file_list = files('materialxgltf').joinpath('data/shaderBall.gltf')
+gltfGeometryFile = str(file_list)
+print('> Load glTF geometry file: %s' % mx.FilePath(gltfGeometryFile).getBaseName())
 
 options = core.MTLX2GLTFOptions()
 options['geometryFile'] = gltfGeometryFile
@@ -197,7 +189,7 @@ if len(gltfString) > 0:
 else:
     print('> Failed to convert MaterialX document to glTF')
 
-
+# %% [markdown]
 # ### Creating Binary Package
 # 
 # For the purposesd of data interop and preview the glTF file is packaged to produce a single glb file.
@@ -205,11 +197,11 @@ else:
 # <img src="./images/ThreeJS_editor_boombox.png" width="100%"><br>
 # <sub>Result after conversion to glTF as show in the ThreeJS editor</sub>
 
-# In[9]:
-
-
+# %%
 # Load in sample gltf file
-gltfFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes_primMaterials.gltf')
+from importlib.resources import files
+file_list = files('materialxgltf').joinpath('data/BoomBoxWithAxes_primMaterials.gltf')
+gltfFileName = str(file_list) 
 gltfFileNameBase = mx.FilePath(gltfGeometryFile).getBaseName()
 
 log = 'Packaging GLB...\n'
@@ -233,7 +225,7 @@ except Exception as err:
 
 displaySource('Packaging Log', log, 'text', True)
 
-
+# %% [markdown]
 # ### Translate Shader and Bake Textures
 # 
 # Shader translation and and baking generally are paired together as
@@ -250,6 +242,7 @@ displaySource('Packaging Log', log, 'text', True)
 # with only a dependency on the core MaterialX distribution -- thus
 # does not require this package to be used.
 
+# %% [markdown]
 # #### Marble Example
 # 
 # The following assumes access to the "marble" example available from MaterialX github.
@@ -259,15 +252,16 @@ displaySource('Packaging Log', log, 'text', True)
 # 
 # The first step executes shader translation.
 
-# In[10]:
-
+# %%
+from importlib.resources import files
 
 # Set search path to defaut so that MaterialX libraries can be found
 searchPath = mx.getDefaultDataSearchPath()
 
 # Translate shaders
-materialXFileName = pkg_resources.resource_filename('materialxgltf', 'data/standard_surface_marble_solid.mtlx')
-materialXFileNameBase = mx.FilePath(materialXFileName).getBaseName()
+file_list = files('materialxgltf').joinpath('data/standard_surface_marble_solid.mtlx')
+materialXFileName = mx.FilePath(str(file_list))
+materialXFileNameBase = materialXFileName.getBaseName()
 print('> Load MaterialX file: %s' % materialXFileNameBase)
 
 mtlx2glTFWriter = core.MTLX2GLTFWriter()
@@ -280,6 +274,7 @@ title = ' Translated ' + str(translatedCount) + ' shader(s).'
 displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', True)
 
 
+# %% [markdown]
 # This is followed by texture baking to obtain this result:
 # 
 # | MaterialX Graph Editor | Baked Image(s) |
@@ -296,9 +291,7 @@ displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', True)
 # 
 # - Baking embeds baked image file name references with **absolute paths**. This is not a problem for the MaterialX document itself, but is a problem for the glTF file which is being generated. To handle this all absolute paths are converted to relative paths, given the assumption that baking will write the files into the same folder location as the baked MaterialX document.
 
-# In[11]:
-
-
+# %%
 import os
 
 materialXFileName = materialXFileName + '_baked.mtlx'
@@ -323,11 +316,10 @@ mx.readFromXmlFile(doc, materialXFileName, searchPath)
 title = ' Baked document: '
 displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', True)
 
-
+# %% [markdown]
 # After baking we perform a final pass to make these image paths relative to that folder as platform specific absolute paths are not valid for glTF.
 
-# In[12]:
-
+# %%
 
 remappedUris = core.Util.makeFilePathsRelative(doc, materialXFileName)
 for uri in remappedUris:
@@ -336,12 +328,10 @@ for uri in remappedUris:
 title = ' Baked document with resolved URIs: '
 displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', True)
 
-
+# %% [markdown]
 # This final document can then be used as input for conversion to glTF:
 
-# In[13]:
-
-
+# %%
 # Create a convert and convert write only materials to a glTF file
 mtlx2glTFWriter = core.MTLX2GLTFWriter()
 options = core.MTLX2GLTFOptions()
@@ -353,17 +343,19 @@ if len(gltfString) > 0:
 else:
     print('> Failed to convert MaterialX document to glTF')
 
-
+# %% [markdown]
 # The final result can then be viewed using a viewer such as the ThreeJS editor:
 # 
 # <img src="./images/ThreeJS_editor_baked_marble.png" width="100%">
 
+# %% [markdown]
 # Translation and baking are useful to just convert shading models. Below is a snapshot of a few materials which were downloaded from
 #  the [Physical Based Site](https://physicallybased.info/) which is maintained by Anton Palmqvist. The materials were converted from MaterialX with the preview using the ThreeJS editor:
 # 
 #  <img src="./images/PhysicallyBasedExamples.png" width=100%>
 #  <sub>Figure: From left to right: "Aluminum", "Sapphire", "Whiteboard", and "Tire" examples</sub>
 
+# %% [markdown]
 # ## Convenience Functions and Command Line Tools
 # 
 # The following are convenience functions and command line tools which are provided as part of this package.
@@ -423,3 +415,5 @@ else:
 # 
 # The examples at the beginning of this document show an example Adobe Substance 3D material which was exported and mapped to a MaterialX material. Then it was converted to glTF with different geometry paths.
 # 
+
+

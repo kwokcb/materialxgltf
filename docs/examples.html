@@ -7561,7 +7561,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">materialxgltf</span>
@@ -7587,7 +7587,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [41]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display_markdown</span>
@@ -7619,14 +7619,17 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [42]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="n">directory_name</span> <span class="o">=</span> <span class="s2">"data"</span>  
-<span class="n">files</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_listdir</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="n">directory_name</span><span class="p">)</span>
+
+<span class="n">gltfFileName</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">files</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'data/BoomBoxWithAxes.gltf'</span><span class="p">))</span>
+<span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">directory_name</span><span class="p">)</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()]</span>
+
 <span class="n">result</span> <span class="o">=</span> <span class="s1">''</span>
 <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">file</span> <span class="o">==</span> <span class="s1">'shaderball.gltf'</span> <span class="ow">or</span> <span class="n">file</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'baked'</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -7647,23 +7650,16 @@ a.anchor-link {
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>C:\Users\home\AppData\Local\Temp\ipykernel_25948\1081666708.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
-  import pkg_resources
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
 <details open=""><summary><b>Available data files</b></summary>
-<div class="highlight"><pre><span></span>BoomBoxWithAxes.gltf
+<div class="highlight"><pre><span></span>standard_surface_marble_solid.mtlx
 BoomBoxWithAxes.mtlx
 BoomBoxWithAxes.mtlx.gltf
 gltf_test_nondefault_pbr.mtlx
 gltf_test_nondefault_pbr.mtlx.gltf
-standard_surface_marble_solid.mtlx
 standard_surface_marble_solid.mtlx.gltf
+BoomBoxWithAxes_primMaterials.gltf
+BoomBoxWithAxes.gltf
 </pre></div>
 </details>
 </div>
@@ -7686,15 +7682,16 @@ standard_surface_marble_solid.mtlx.gltf
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [43]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">MaterialX</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mx</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Using ( MaterialX version: </span><span class="si">{</span><span class="n">mx</span><span class="o">.</span><span class="n">getVersionString</span><span class="p">()</span><span class="si">}</span><span class="s1"> materialxgltf version: </span><span class="si">{</span><span class="n">materialxgltf</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1"> )</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 
-<span class="n">gltfFileName</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="s1">'data/BoomBoxWithAxes.gltf'</span><span class="p">)</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'data/BoomBoxWithAxes.gltf'</span><span class="p">)</span>
+<span class="n">gltfFileName</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Converting: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">gltfFileName</span><span class="p">)</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">())</span>
 
 <span class="c1"># Instantiate a the reader class. Read in sample  glTF file</span>
@@ -7735,13 +7732,7 @@ Converting: BoomBoxWithAxes.gltf
 -- Convert gltf index 3 with file reference: BoomBoxWithAxes_emissive.png to MTLX node: image_emissive
 - Convert gLTF material to MateriaLX: MAT_M_Coordinates
 -- Convert gltf index 4 with file reference: BoomBoxWithAxes_baseColor1.png to MTLX node: image_base_color2
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>- Generated MaterialX document is valid
+- Generated MaterialX document is valid
 </pre>
 </div>
 </div>
@@ -7831,7 +7822,7 @@ Converting: BoomBoxWithAxes.gltf
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [44]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Set option to write material assignments</span>
@@ -7873,13 +7864,7 @@ Converting: BoomBoxWithAxes.gltf
 -- Convert gltf index 3 with file reference: BoomBoxWithAxes_emissive.png to MTLX node: image_emissive
 - Convert gLTF material to MateriaLX: MAT_M_Coordinates
 -- Convert gltf index 4 with file reference: BoomBoxWithAxes_baseColor1.png to MTLX node: image_base_color2
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Generated MaterialX document is valid
+Generated MaterialX document is valid
 </pre>
 </div>
 </div>
@@ -7974,15 +7959,17 @@ Converting: BoomBoxWithAxes.gltf
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [45]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">materialXFileName</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="s1">'data/BoomBoxWithAxes.mtlx'</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'data/BoomBoxWithAxes.mtlx'</span><span class="p">)</span>
+<span class="n">materialXFileName</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'&gt; Load MaterialX document: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">materialXFileName</span><span class="p">)</span>
 
 <span class="n">mtlx2glTFWriter</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFWriter</span><span class="p">()</span>
 <span class="n">doc</span><span class="p">,</span> <span class="n">libFiles</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Util</span><span class="o">.</span><span class="n">createMaterialXDoc</span><span class="p">()</span>
-<span class="n">mx</span><span class="o">.</span><span class="n">readFromXmlFile</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">materialXFileName</span><span class="p">,</span> <span class="n">mx</span><span class="o">.</span><span class="n">FileSearchPath</span><span class="p">())</span>
+<span class="n">mx</span><span class="o">.</span><span class="n">readFromXmlFile</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">materialXFileName</span><span class="p">),</span> <span class="n">mx</span><span class="o">.</span><span class="n">FileSearchPath</span><span class="p">())</span>
 
 <span class="n">options</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFOptions</span><span class="p">()</span>
 <span class="n">options</span><span class="p">[</span><span class="s1">'debugOutput'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
@@ -8004,16 +7991,10 @@ Converting: BoomBoxWithAxes.gltf
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&gt; Load MaterialX document: C:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\BoomBoxWithAxes.mtlx
+<pre>&gt; Load MaterialX document: /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/materialxgltf/data/BoomBoxWithAxes.mtlx
 - Convert MaterialX node to glTF: M_BoomBox
 - Append single ORM texture BoomBoxWithAxes_roughnessMetallic.png
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>- Convert MaterialX node to glTF: M_Coordinates
+- Convert MaterialX node to glTF: M_Coordinates
 - Generating a new primitive for each of 2 materials
 </pre>
 </div>
@@ -8143,10 +8124,12 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [46]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">gltfGeometryFile</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="s1">'data/shaderBall.gltf'</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'data/shaderBall.gltf'</span><span class="p">)</span>
+<span class="n">gltfGeometryFile</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'&gt; Load glTF geometry file: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">gltfGeometryFile</span><span class="p">)</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">())</span>
 
 <span class="n">options</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFOptions</span><span class="p">()</span>
@@ -8173,8 +8156,8 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>&gt; Load glTF geometry file: shaderBall.gltf
-- glTF geometry file:C:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
-- Embedding glTF geometry file:C:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
+- glTF geometry file:/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/materialxgltf/data/shaderBall.gltf
+- Embedding glTF geometry file:/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/materialxgltf/data/shaderBall.gltf
 - Convert MaterialX node to glTF: M_BoomBox
 - Append single ORM texture BoomBoxWithAxes_roughnessMetallic.png
 - Convert MaterialX node to glTF: M_Coordinates
@@ -8590,11 +8573,13 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [47]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">gltfGeometryFile</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="s1">'data/shaderBall.gltf'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'&gt; Load glTF geometry file: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">gltfGeometryFile</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'data/shaderBall.gltf'</span><span class="p">)</span>
+<span class="n">gltfGeometryFile</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'&gt; Load glTF geometry file: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">gltfGeometryFile</span><span class="p">)</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">())</span>
 
 <span class="n">options</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFOptions</span><span class="p">()</span>
 <span class="n">options</span><span class="p">[</span><span class="s1">'geometryFile'</span><span class="p">]</span> <span class="o">=</span> <span class="n">gltfGeometryFile</span>
@@ -8620,9 +8605,9 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&gt; Load glTF geometry file: C:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
-- glTF geometry file:C:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
-- Embedding glTF geometry file:C:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\shaderBall.gltf
+<pre>&gt; Load glTF geometry file: shaderBall.gltf
+- glTF geometry file:/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/materialxgltf/data/shaderBall.gltf
+- Embedding glTF geometry file:/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/materialxgltf/data/shaderBall.gltf
 - Convert MaterialX node to glTF: M_BoomBox
 - Append single ORM texture BoomBoxWithAxes_roughnessMetallic.png
 - Convert MaterialX node to glTF: M_Coordinates
@@ -9039,11 +9024,13 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [48]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Load in sample gltf file</span>
-<span class="n">gltfFileName</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="s1">'data/BoomBoxWithAxes_primMaterials.gltf'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'data/BoomBoxWithAxes_primMaterials.gltf'</span><span class="p">)</span>
+<span class="n">gltfFileName</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span> 
 <span class="n">gltfFileNameBase</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">gltfGeometryFile</span><span class="p">)</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">()</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="s1">'Packaging GLB...</span><span class="se">\n</span><span class="s1">'</span>
@@ -9081,7 +9068,14 @@ The first MaterialX material will be assigned to all of the geometric primitives
 <details open=""><summary><b>Packaging Log</b></summary>
 <div class="highlight"><pre><span></span>Packaging GLB...
 - Load glTF geometry file: shaderBall.gltf
-- Failed to package GLB file: [Errno 2] No such file or directory: 'C:\\Users\\home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\materialxgltf\\data\\BoomBoxWithAxes_primMaterials.gltf'
+- Save GLB file:BoomBoxWithAxes_primMaterials.glb. Status: True
+  - Embedded image: BoomBoxWithAxes_baseColor.png
+  - Embedded image: BoomBoxWithAxes_roughnessMetallic.png
+  - Embedded image: BoomBoxWithAxes_normal.png
+  - Embedded image: BoomBoxWithAxes_emissive.png
+  - Embedded image: BoomBoxWithAxes_baseColor1.png
+  - Embedded buffer: shaderball_data.bin
+Packaging completed.
 </pre></div>
 </details>
 </div>
@@ -9130,15 +9124,18 @@ does not require this package to be used.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [49]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Set search path to defaut so that MaterialX libraries can be found</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+
+<span class="c1"># Set search path to defaut so that MaterialX libraries can be found</span>
 <span class="n">searchPath</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">getDefaultDataSearchPath</span><span class="p">()</span>
 
 <span class="c1"># Translate shaders</span>
-<span class="n">materialXFileName</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">,</span> <span class="s1">'data/standard_surface_marble_solid.mtlx'</span><span class="p">)</span>
-<span class="n">materialXFileNameBase</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="n">materialXFileName</span><span class="p">)</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">()</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s1">'materialxgltf'</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'data/standard_surface_marble_solid.mtlx'</span><span class="p">)</span>
+<span class="n">materialXFileName</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">FilePath</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">file_list</span><span class="p">))</span>
+<span class="n">materialXFileNameBase</span> <span class="o">=</span> <span class="n">materialXFileName</span><span class="o">.</span><span class="n">getBaseName</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'&gt; Load MaterialX file: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">materialXFileNameBase</span><span class="p">)</span>
 
 <span class="n">mtlx2glTFWriter</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MTLX2GLTFWriter</span><span class="p">()</span>
@@ -9326,7 +9323,7 @@ does not require this package to be used.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [50]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -9363,36 +9360,18 @@ does not require this package to be used.</p>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<details open=""><summary><b> Baked document: </b></summary>
-<div class="highlight"><pre><span></span><span class="cp">&lt;?xml version="1.0"?&gt;</span>
-<span class="nt">&lt;materialx</span><span class="w"> </span><span class="na">version=</span><span class="s">"1.39"</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">"lin_rec709"</span><span class="nt">&gt;</span>
-<span class="w">  </span><span class="nt">&lt;nodegraph</span><span class="w"> </span><span class="na">name=</span><span class="s">"NG_baked"</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">"srgb_texture"</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;image</span><span class="w"> </span><span class="na">name=</span><span class="s">"base_color"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="nt">&gt;</span>
-<span class="w">      </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"file"</span><span class="w"> </span><span class="na">type=</span><span class="s">"filename"</span><span class="w"> </span><span class="na">value=</span><span class="s">"C:\Users\home\AppData\Local\Programs\Python\Python311\Lib\site-packages\materialxgltf\data\Marble_3D_gltf_pbr_base_color.png"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;/image&gt;</span>
-<span class="w">    </span><span class="nt">&lt;output</span><span class="w"> </span><span class="na">name=</span><span class="s">"base_color_output"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="w"> </span><span class="na">nodename=</span><span class="s">"base_color"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">  </span><span class="nt">&lt;/nodegraph&gt;</span>
-<span class="w">  </span><span class="nt">&lt;gltf_pbr</span><span class="w"> </span><span class="na">name=</span><span class="s">"SR_marble1"</span><span class="w"> </span><span class="na">type=</span><span class="s">"surfaceshader"</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"base_color"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="w"> </span><span class="na">output=</span><span class="s">"base_color_output"</span><span class="w"> </span><span class="na">nodegraph=</span><span class="s">"NG_baked"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"metallic"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"roughness"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0.0980392"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"ior"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"1"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"thickness"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"1"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"attenuation_distance"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"clearcoat_roughness"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0.0980392"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"emissive"</span><span class="w"> </span><span class="na">type=</span><span class="s">"color3"</span><span class="w"> </span><span class="na">value=</span><span class="s">"1, 1, 1"</span><span class="w"> </span><span class="na">colorspace=</span><span class="s">"srgb_texture"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"emissive_strength"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"normal"</span><span class="w"> </span><span class="na">type=</span><span class="s">"vector3"</span><span class="w"> </span><span class="na">value=</span><span class="s">"1, 0, 0"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"tangent"</span><span class="w"> </span><span class="na">type=</span><span class="s">"vector3"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0, 0, 1"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"alpha_mode"</span><span class="w"> </span><span class="na">type=</span><span class="s">"integer"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">  </span><span class="nt">&lt;/gltf_pbr&gt;</span>
-<span class="w">  </span><span class="nt">&lt;surfacematerial</span><span class="w"> </span><span class="na">name=</span><span class="s">"Marble_3D"</span><span class="w"> </span><span class="na">type=</span><span class="s">"material"</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;input</span><span class="w"> </span><span class="na">name=</span><span class="s">"surfaceshader"</span><span class="w"> </span><span class="na">type=</span><span class="s">"surfaceshader"</span><span class="w"> </span><span class="na">nodename=</span><span class="s">"SR_marble1"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">  </span><span class="nt">&lt;/surfacematerial&gt;</span>
-<span class="nt">&lt;/materialx&gt;</span>
-</pre></div>
-</details>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[50]</span><span class="ansi-green-fg">, line 3</span>
+<span class="ansi-green-fg">      1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">os</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">3</span> materialXFileName = <span class="ansi-yellow-bg">materialXFileName</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">+</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-fg ansi-yellow-bg">_baked.mtlx</span><span class="ansi-yellow-fg ansi-yellow-bg">'</span>
+<span class="ansi-green-fg">      4</span> bakeResolution = <span class="ansi-green-fg">256</span>
+<span class="ansi-green-fg">      6</span> <span style="color: rgb(95,135,135)"># Set the search options properly to ensure the MaterialX definition library can be found</span>
+<span class="ansi-green-fg">      7</span> <span style="color: rgb(95,135,135)"># as well as set search paths for filename resolving.</span>
+
+<span class="ansi-red-fg">TypeError</span>: unsupported operand type(s) for +: 'MaterialX.PyMaterialXFormat.FilePath' and 'str'</pre>
 </div>
 </div>
 </div>
@@ -9413,7 +9392,7 @@ does not require this package to be used.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">remappedUris</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Util</span><span class="o">.</span><span class="n">makeFilePathsRelative</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">materialXFileName</span><span class="p">)</span>
@@ -9490,7 +9469,7 @@ does not require this package to be used.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create a convert and convert write only materials to a glTF file</span>
