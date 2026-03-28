@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF copyright: (C) 2023, Wayfair LLC. License: CC BY 4.0 International. glTF generator: Model and textures by Eric Chadwick. Modeled in 3ds Max, exported with babylon.js glTF exporter, hand-edited in VSCode with glTF Tools. glTF version: 2.0.">
+  <!-- Generated shader: GlassHurricaneCandleHolder_opaque -->
+  <gltf_pbr name="GlassHurricaneCandleHolder_opaque" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
+    <input name="metallic" type="float" nodename="extract_orm3" />
+    <input name="roughness" type="float" nodename="extract_orm2" />
+    <input name="occlusion" type="float" nodename="extract_orm" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_GlassHurricaneCandleHolder_opaque -->
+  <surfacematerial name="MAT_GlassHurricaneCandleHolder_opaque" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="GlassHurricaneCandleHolder_opaque" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color" type="multioutput">
+    <input name="file" type="filename" value="GlassHurricaneCandleHolder_basecolor.png" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
+  </gltf_colorimage>
+  <gltf_image name="image_orm" type="vector3">
+    <input name="file" type="filename" value="GlassHurricaneCandleHolder_orm.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <extract name="extract_orm" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm2" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm3" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="2" />
+  </extract>
+  <!-- Generated shader: GlassHurricaneCandleHolder_glass -->
+  <gltf_pbr name="GlassHurricaneCandleHolder_glass" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
+    <input name="metallic" type="float" nodename="extract_orm6" />
+    <input name="roughness" type="float" nodename="extract_orm5" />
+    <input name="occlusion" type="float" nodename="extract_orm4" />
+    <input name="transmission" type="float" value="1" />
+    <input name="thickness" type="float" nodename="image_thickness" />
+    <input name="attenuation_color" type="color3" value="0.8, 0.95, 1" />
+    <input name="attenuation_distance" type="float" value="0.001" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_GlassHurricaneCandleHolder_glass -->
+  <surfacematerial name="MAT_GlassHurricaneCandleHolder_glass" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="GlassHurricaneCandleHolder_glass" />
+  </surfacematerial>
+  <extract name="extract_orm4" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm5" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm6" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="2" />
+  </extract>
+  <gltf_image name="image_thickness" type="float">
+    <input name="file" type="filename" value="GlassHurricaneCandleHolder_thickness.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_image>
+  <!-- Generated material assignments -->
+  <look name="look">
+    <materialassign name="MAT_GlassHurricaneCandleHolder_opaque" material="MAT_GlassHurricaneCandleHolder_opaque" geom="/GlassHurricaneCandleHolder_opaque" />
+    <materialassign name="MAT_GlassHurricaneCandleHolder_glass" material="MAT_GlassHurricaneCandleHolder_glass" geom="/GlassHurricaneCandleHolder_glass" />
+  </look>
+</materialx>

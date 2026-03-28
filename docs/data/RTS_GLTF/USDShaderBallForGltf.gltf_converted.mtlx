@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF copyright: CCBY 4.0, geometry and textures: Chris Rydalch; original specification and validation: AndrÃ© Mazzone; original scene, inspiration and consultation: Thomas Anagnostou; glTF conversion: Eric Chadwick. glTF generator: gltfeditor.com. glTF version: 2.0.">
+  <!-- Generated shader: core -->
+  <gltf_pbr name="core" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.18, 0.18, 0.18" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="occlusion" type="float" nodename="image_occlusion" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_core -->
+  <surfacematerial name="MAT_core" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="core" />
+  </surfacematerial>
+  <gltf_image name="image_occlusion" type="float">
+    <input name="file" type="filename" value="core_ao.png" />
+    <input name="filtertype" type="string" value="cubic" />
+    <input name="uaddressmode" type="string" value="periodic" />
+    <input name="vaddressmode" type="string" value="periodic" />
+  </gltf_image>
+  <!-- Generated shader: material_surface -->
+  <gltf_pbr name="material_surface" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="1, 1, 1" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0" />
+    <input name="occlusion" type="float" nodename="image_occlusion2" />
+    <input name="transmission" type="float" value="1" />
+    <input name="thickness" type="float" nodename="image_thickness" />
+    <input name="attenuation_color" type="color3" value="0.973445, 0.991102, 0.982251" />
+    <input name="attenuation_distance" type="float" value="0.01" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_material_surface -->
+  <surfacematerial name="MAT_material_surface" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="material_surface" />
+  </surfacematerial>
+  <gltf_image name="image_occlusion2" type="float">
+    <input name="file" type="filename" value="material_ao.png" />
+    <input name="filtertype" type="string" value="cubic" />
+    <input name="uaddressmode" type="string" value="clamp" />
+    <input name="vaddressmode" type="string" value="clamp" />
+  </gltf_image>
+  <gltf_image name="image_thickness" type="float">
+    <input name="file" type="filename" value="material_thick.png" />
+    <input name="filtertype" type="string" value="cubic" />
+    <input name="uaddressmode" type="string" value="clamp" />
+    <input name="vaddressmode" type="string" value="clamp" />
+  </gltf_image>
+  <!-- Generated shader: sss_bars -->
+  <gltf_pbr name="sss_bars" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_sss_bars -->
+  <surfacematerial name="MAT_sss_bars" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="sss_bars" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color" type="multioutput">
+    <input name="file" type="filename" value="sss_bars.png" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
+  </gltf_colorimage>
+  <!-- Generated material assignments -->
+  <look name="look">
+    <materialassign name="MAT_core" material="MAT_core" geom="/base,/core" />
+    <materialassign name="MAT_material_surface" material="MAT_material_surface" geom="/material_surface" />
+    <materialassign name="MAT_sss_bars" material="MAT_sss_bars" geom="/sss_bars" />
+  </look>
+</materialx>

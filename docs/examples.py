@@ -47,11 +47,14 @@ def displaySource(title, string, language='xml', open=True):
 # In[3]:
 
 
-import pkg_resources
+from importlib.resources import files
 import os
 
 directory_name = "data"  
-files = pkg_resources.resource_listdir('materialxgltf', directory_name)
+
+gltfFileName = str(files('materialxgltf').joinpath('data/BoomBoxWithAxes.gltf'))
+files = [f.name for f in files('materialxgltf').joinpath(directory_name).iterdir()]
+
 result = ''
 for file in files:
     if file == 'shaderball.gltf' or file.find('baked') != -1:
@@ -70,12 +73,13 @@ displaySource('Available data files', result, 'text', True)
 # In[4]:
 
 
-import pkg_resources
+from importlib.resources import files
 import MaterialX as mx
 
 print(f'Using ( MaterialX version: {mx.getVersionString()} materialxgltf version: {materialxgltf.__version__} )\n')
 
-gltfFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes.gltf')
+file_list = files('materialxgltf').joinpath('data/BoomBoxWithAxes.gltf')
+gltfFileName = str(file_list)
 print('Converting: %s' % mx.FilePath(gltfFileName).getBaseName())
 
 # Instantiate a the reader class. Read in sample  glTF file
@@ -131,12 +135,14 @@ displaySource('Resulting MaterialX document', result, 'xml', True)
 # In[6]:
 
 
-materialXFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes.mtlx')
+from importlib.resources import files
+file_list = files('materialxgltf').joinpath('data/BoomBoxWithAxes.mtlx')
+materialXFileName = str(file_list)
 print('> Load MaterialX document: %s' % materialXFileName)
 
 mtlx2glTFWriter = core.MTLX2GLTFWriter()
 doc, libFiles = core.Util.createMaterialXDoc()
-mx.readFromXmlFile(doc, materialXFileName, mx.FileSearchPath())
+mx.readFromXmlFile(doc, mx.FilePath(materialXFileName), mx.FileSearchPath())
 
 options = core.MTLX2GLTFOptions()
 options['debugOutput'] = True
@@ -156,7 +162,9 @@ else:
 # In[7]:
 
 
-gltfGeometryFile = pkg_resources.resource_filename('materialxgltf', 'data/shaderBall.gltf')
+from importlib.resources import files
+file_list = files('materialxgltf').joinpath('data/shaderBall.gltf')
+gltfGeometryFile = str(file_list)
 print('> Load glTF geometry file: %s' % mx.FilePath(gltfGeometryFile).getBaseName())
 
 options = core.MTLX2GLTFOptions()
@@ -181,8 +189,10 @@ else:
 # In[8]:
 
 
-gltfGeometryFile = pkg_resources.resource_filename('materialxgltf', 'data/shaderBall.gltf')
-print('> Load glTF geometry file: %s' % gltfGeometryFile)
+from importlib.resources import files
+file_list = files('materialxgltf').joinpath('data/shaderBall.gltf')
+gltfGeometryFile = str(file_list)
+print('> Load glTF geometry file: %s' % mx.FilePath(gltfGeometryFile).getBaseName())
 
 options = core.MTLX2GLTFOptions()
 options['geometryFile'] = gltfGeometryFile
@@ -209,7 +219,9 @@ else:
 
 
 # Load in sample gltf file
-gltfFileName = pkg_resources.resource_filename('materialxgltf', 'data/BoomBoxWithAxes_primMaterials.gltf')
+from importlib.resources import files
+file_list = files('materialxgltf').joinpath('data/BoomBoxWithAxes_primMaterials.gltf')
+gltfFileName = str(file_list) 
 gltfFileNameBase = mx.FilePath(gltfGeometryFile).getBaseName()
 
 log = 'Packaging GLB...\n'
@@ -262,11 +274,14 @@ displaySource('Packaging Log', log, 'text', True)
 # In[10]:
 
 
+from importlib.resources import files
+
 # Set search path to defaut so that MaterialX libraries can be found
 searchPath = mx.getDefaultDataSearchPath()
 
 # Translate shaders
-materialXFileName = pkg_resources.resource_filename('materialxgltf', 'data/standard_surface_marble_solid.mtlx')
+file_list = files('materialxgltf').joinpath('data/standard_surface_marble_solid.mtlx')
+materialXFileName = str(file_list)
 materialXFileNameBase = mx.FilePath(materialXFileName).getBaseName()
 print('> Load MaterialX file: %s' % materialXFileNameBase)
 
@@ -316,12 +331,16 @@ options['searchPath'] = searchPath
 mtlx2glTFWriter.setOptions(options)
 
 # Perform baking
-mtlx2glTFWriter.bakeTextures(doc, False, bakeResolution, bakeResolution, False, 
-                            False, False, materialXFileName)
-doc, libFiles = core.Util.createMaterialXDoc()
-mx.readFromXmlFile(doc, materialXFileName, searchPath)
-title = ' Baked document: '
-displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', True)
+try:
+    print(f'Baking filename: {mx.FilePath(materialXFileName).getBaseName()}')
+    mtlx2glTFWriter.bakeTextures(doc, False, bakeResolution, bakeResolution, False, 
+                                False, False, materialXFileName)
+    doc, libFiles = core.Util.createMaterialXDoc()
+    mx.readFromXmlFile(doc, mx.FilePath(materialXFileName), searchPath)
+    title = ' Baked document: '
+    displaySource(title, core.Util.writeMaterialXDocString(doc), 'xml', True)
+except Exception as err:
+    print('> Failed to bake textures: %s' % err)
 
 
 # After baking we perform a final pass to make these image paths relative to that folder as platform specific absolute paths are not valid for glTF.
@@ -368,7 +387,7 @@ else:
 # 
 # The following are convenience functions and command line tools which are provided as part of this package.
 # 
-# - The file `mtlx2gltf.py`` contains a command line tool that uses a utility function `mtlx2gltf` to convert from MaterialX to glTF.
+# - The file `mtlx2gltf.py` contains a command line tool that uses a utility function `mtlx2gltf` to convert from MaterialX to glTF.
 # Various command line options are mapped to conversion options (`MTLX2GLTFOptions`).
 # ```bash
 # usage: mtlx2gltf.py [-h] [--gltfFileName GLTFFILENAME] [--gltfGeomFileName GLTFGEOMFILENAME] [--primsPerMaterial PRIMSPERMATERIAL]

@@ -1,0 +1,414 @@
+<?xml version="1.0"?>
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF copyright: Asset Â© 2025 Darmstadt Graphics Group GmbH, CC BY 4.0 International, adapted by Eric Chadwick. Original asset Chronograph Watch Mudmaster (https://skfb.ly/oAsPA) by graphiccompressor is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). Khronos logo Â© 2015, Khronos Group. DGG logo Â© 2020, Darmstadt Graphics Group GmbH.. glTF generator: Created by RapidPipeline 3D Processor v7.2.1 | rapidpipeline.com. glTF version: 2.0.">
+  <!-- Generated shader: Backplate_Khronos -->
+  <gltf_pbr name="Backplate_Khronos" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
+    <input name="metallic" type="float" nodename="extract_orm3" />
+    <input name="roughness" type="float" nodename="extract_orm2" />
+    <input name="occlusion" type="float" nodename="extract_orm" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Backplate_Khronos -->
+  <surfacematerial name="MAT_Backplate_Khronos" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Backplate_Khronos" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color" type="multioutput">
+    <input name="file" type="filename" value="khronos_basecolor.png" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
+    <input name="offset" type="vector2" value="-0.5, -3.6" />
+    <input name="scale" type="vector2" value="2, 8" />
+  </gltf_colorimage>
+  <gltf_image name="image_orm" type="vector3">
+    <input name="file" type="filename" value="khronos_rm.png" />
+    <input name="filtertype" type="string" value="cubic" />
+    <input name="uaddressmode" type="string" value="clamp" />
+    <input name="vaddressmode" type="string" value="clamp" />
+    <input name="offset" type="vector2" value="-0.5, -3.6" />
+    <input name="scale" type="vector2" value="2, 8" />
+  </gltf_image>
+  <extract name="extract_orm" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm2" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm3" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="2" />
+  </extract>
+  <!-- Generated shader: Band_Carbon_Fiber -->
+  <gltf_pbr name="Band_Carbon_Fiber" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.87, 0.87, 0.87" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.4" />
+    <input name="normal" type="vector3" nodename="image_normal" />
+    <input name="occlusion" type="float" nodename="image_occlusion" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Band_Carbon_Fiber -->
+  <surfacematerial name="MAT_Band_Carbon_Fiber" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Band_Carbon_Fiber" />
+  </surfacematerial>
+  <gltf_normalmap name="image_normal" type="vector3">
+    <input name="file" type="filename" value="carbonfiber_normal.png" />
+    <input name="filtertype" type="string" value="cubic" />
+  </gltf_normalmap>
+  <gltf_image name="image_occlusion" type="float">
+    <input name="file" type="filename" value="band_occlusion.png" />
+    <input name="filtertype" type="string" value="cubic" />
+    <input name="uaddressmode" type="string" value="clamp" />
+    <input name="vaddressmode" type="string" value="clamp" />
+  </gltf_image>
+  <!-- Generated shader: Band_Plastic -->
+  <gltf_pbr name="Band_Plastic" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Band_Plastic -->
+  <surfacematerial name="MAT_Band_Plastic" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Band_Plastic" />
+  </surfacematerial>
+  <!-- Generated shader: Bezel_Frame -->
+  <gltf_pbr name="Bezel_Frame" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Bezel_Frame -->
+  <surfacematerial name="MAT_Bezel_Frame" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Bezel_Frame" />
+  </surfacematerial>
+  <!-- Generated shader: Button_Metal -->
+  <gltf_pbr name="Button_Metal" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.762, 0.743, 0.787" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Button_Metal -->
+  <surfacematerial name="MAT_Button_Metal" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Button_Metal" />
+  </surfacematerial>
+  <!-- Generated shader: Button_Plastic -->
+  <gltf_pbr name="Button_Plastic" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.86, 0, 0" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Button_Plastic -->
+  <surfacematerial name="MAT_Button_Plastic" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Button_Plastic" />
+  </surfacematerial>
+  <!-- Generated shader: Clasp_DGG -->
+  <gltf_pbr name="Clasp_DGG" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color2" output="outcolor" />
+    <input name="metallic" type="float" nodename="extract_orm6" />
+    <input name="roughness" type="float" nodename="extract_orm5" />
+    <input name="occlusion" type="float" nodename="extract_orm4" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Clasp_DGG -->
+  <surfacematerial name="MAT_Clasp_DGG" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Clasp_DGG" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color2" type="multioutput">
+    <input name="file" type="filename" value="dgg_basecolor.png" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
+    <input name="offset" type="vector2" value="-0.15, -0.4" />
+    <input name="scale" type="vector2" value="1.25, 1.75" />
+  </gltf_colorimage>
+  <gltf_image name="image_orm2" type="vector3">
+    <input name="file" type="filename" value="dgg_rm.png" />
+    <input name="filtertype" type="string" value="cubic" />
+    <input name="uaddressmode" type="string" value="clamp" />
+    <input name="vaddressmode" type="string" value="clamp" />
+    <input name="offset" type="vector2" value="-0.15, -0.4" />
+    <input name="scale" type="vector2" value="1.25, 1.75" />
+  </gltf_image>
+  <extract name="extract_orm4" type="float">
+    <input name="in" type="vector3" nodename="image_orm2" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm5" type="float">
+    <input name="in" type="vector3" nodename="image_orm2" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm6" type="float">
+    <input name="in" type="vector3" nodename="image_orm2" />
+    <input name="index" type="integer" value="2" />
+  </extract>
+  <!-- Generated shader: Glass_Face -->
+  <gltf_pbr name="Glass_Face" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0" />
+    <input name="transmission" type="float" value="1" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Glass_Face -->
+  <surfacematerial name="MAT_Glass_Face" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Glass_Face" />
+  </surfacematerial>
+  <!-- Generated shader: Hand_Plastic -->
+  <gltf_pbr name="Hand_Plastic" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.03, 0.03, 0.03" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Hand_Plastic -->
+  <surfacematerial name="MAT_Hand_Plastic" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Hand_Plastic" />
+  </surfacematerial>
+  <!-- Generated shader: Hand_Metal -->
+  <gltf_pbr name="Hand_Metal" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.762, 0.743, 0.787" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Hand_Metal -->
+  <surfacematerial name="MAT_Hand_Metal" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Hand_Metal" />
+  </surfacematerial>
+  <!-- Generated shader: Hand_Color -->
+  <gltf_pbr name="Hand_Color" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.86, 0, 0" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Hand_Color -->
+  <surfacematerial name="MAT_Hand_Color" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Hand_Color" />
+  </surfacematerial>
+  <!-- Generated shader: Watch_Face -->
+  <gltf_pbr name="Watch_Face" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color3" output="outcolor" />
+    <input name="metallic" type="float" nodename="extract_orm9" />
+    <input name="roughness" type="float" nodename="extract_orm8" />
+    <input name="occlusion" type="float" nodename="extract_orm7" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Watch_Face -->
+  <surfacematerial name="MAT_Watch_Face" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Watch_Face" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color3" type="multioutput">
+    <input name="file" type="filename" value="watchface_basecolor.png" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
+  </gltf_colorimage>
+  <gltf_image name="image_orm3" type="vector3">
+    <input name="file" type="filename" value="watchface_orm.png" />
+    <input name="filtertype" type="string" value="cubic" />
+    <input name="uaddressmode" type="string" value="clamp" />
+    <input name="vaddressmode" type="string" value="clamp" />
+  </gltf_image>
+  <extract name="extract_orm7" type="float">
+    <input name="in" type="vector3" nodename="image_orm3" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm8" type="float">
+    <input name="in" type="vector3" nodename="image_orm3" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm9" type="float">
+    <input name="in" type="vector3" nodename="image_orm3" />
+    <input name="index" type="integer" value="2" />
+  </extract>
+  <!-- Generated shader: Band_Carbon_Fiber_Gold -->
+  <gltf_pbr name="Band_Carbon_Fiber_Gold" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="1, 0.72, 0.315" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="roughness" type="float" value="0.4" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Band_Carbon_Fiber_Gold -->
+  <surfacematerial name="MAT_Band_Carbon_Fiber_Gold" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Band_Carbon_Fiber_Gold" />
+  </surfacematerial>
+  <!-- Generated shader: Band_Plastic_Gold -->
+  <gltf_pbr name="Band_Plastic_Gold" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.03, 0.03, 0.03" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Band_Plastic_Gold -->
+  <surfacematerial name="MAT_Band_Plastic_Gold" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Band_Plastic_Gold" />
+  </surfacematerial>
+  <!-- Generated shader: Bezel_Frame_Gold -->
+  <gltf_pbr name="Bezel_Frame_Gold" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="1, 0.72, 0.315" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Bezel_Frame_Gold -->
+  <surfacematerial name="MAT_Bezel_Frame_Gold" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Bezel_Frame_Gold" />
+  </surfacematerial>
+  <!-- Generated shader: Button_Plastic_Gold -->
+  <gltf_pbr name="Button_Plastic_Gold" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.03, 0.03, 0.03" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Button_Plastic_Gold -->
+  <surfacematerial name="MAT_Button_Plastic_Gold" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Button_Plastic_Gold" />
+  </surfacematerial>
+  <!-- Generated shader: Hand_Color_Gold -->
+  <gltf_pbr name="Hand_Color_Gold" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="1, 0.72, 0.315" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Hand_Color_Gold -->
+  <surfacematerial name="MAT_Hand_Color_Gold" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Hand_Color_Gold" />
+  </surfacematerial>
+  <!-- Generated shader: Band_Carbon_Fiber_Green -->
+  <gltf_pbr name="Band_Carbon_Fiber_Green" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.03, 0.03, 0.03" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.4" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Band_Carbon_Fiber_Green -->
+  <surfacematerial name="MAT_Band_Carbon_Fiber_Green" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Band_Carbon_Fiber_Green" />
+  </surfacematerial>
+  <!-- Generated shader: Band_Plastic_Green -->
+  <gltf_pbr name="Band_Plastic_Green" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.03, 0.03, 0.03" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Band_Plastic_Green -->
+  <surfacematerial name="MAT_Band_Plastic_Green" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Band_Plastic_Green" />
+  </surfacematerial>
+  <!-- Generated shader: Bezel_Frame_Green -->
+  <gltf_pbr name="Bezel_Frame_Green" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.175, 0.33, 0.2" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Bezel_Frame_Green -->
+  <surfacematerial name="MAT_Bezel_Frame_Green" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Bezel_Frame_Green" />
+  </surfacematerial>
+  <!-- Generated shader: Button_Plastic_Green -->
+  <gltf_pbr name="Button_Plastic_Green" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.03, 0.03, 0.03" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Button_Plastic_Green -->
+  <surfacematerial name="MAT_Button_Plastic_Green" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Button_Plastic_Green" />
+  </surfacematerial>
+  <!-- Generated shader: Hand_Color_Green -->
+  <gltf_pbr name="Hand_Color_Green" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.175, 0.33, 0.2" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Hand_Color_Green -->
+  <surfacematerial name="MAT_Hand_Color_Green" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Hand_Color_Green" />
+  </surfacematerial>
+  <!-- Generated shader: Band_Carbon_Fiber_Red -->
+  <gltf_pbr name="Band_Carbon_Fiber_Red" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.45, 0.075, 0.075" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="roughness" type="float" value="0.4" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Band_Carbon_Fiber_Red -->
+  <surfacematerial name="MAT_Band_Carbon_Fiber_Red" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Band_Carbon_Fiber_Red" />
+  </surfacematerial>
+  <!-- Generated shader: Band_Plastic_Red -->
+  <gltf_pbr name="Band_Plastic_Red" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.87, 0.87, 0.87" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Band_Plastic_Red -->
+  <surfacematerial name="MAT_Band_Plastic_Red" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Band_Plastic_Red" />
+  </surfacematerial>
+  <!-- Generated shader: Bezel_Frame_Red -->
+  <gltf_pbr name="Bezel_Frame_Red" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.791, 0.074, 0.074" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Bezel_Frame_Red -->
+  <surfacematerial name="MAT_Bezel_Frame_Red" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Bezel_Frame_Red" />
+  </surfacematerial>
+  <!-- Generated shader: Button_Plastic_Red -->
+  <gltf_pbr name="Button_Plastic_Red" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.83, 0.83, 0.83" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Button_Plastic_Red -->
+  <surfacematerial name="MAT_Button_Plastic_Red" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Button_Plastic_Red" />
+  </surfacematerial>
+  <!-- Generated shader: Hand_Color_Red -->
+  <gltf_pbr name="Hand_Color_Red" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.791, 0.074, 0.074" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Hand_Color_Red -->
+  <surfacematerial name="MAT_Hand_Color_Red" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Hand_Color_Red" />
+  </surfacematerial>
+  <!-- Generated shader: Button_Metal_Red -->
+  <gltf_pbr name="Button_Metal_Red" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.05, 0.05, 0.05" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="metallic" type="float" value="0" />
+    <input name="roughness" type="float" value="0.2" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Button_Metal_Red -->
+  <surfacematerial name="MAT_Button_Metal_Red" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Button_Metal_Red" />
+  </surfacematerial>
+  <!-- Generated shader: Button_Metal_Green -->
+  <gltf_pbr name="Button_Metal_Green" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" value="0.2, 0.2, 0.2" colorspace="lin_rec709" />
+    <input name="alpha" type="float" value="1" />
+    <input name="roughness" type="float" value="0.3" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_Button_Metal_Green -->
+  <surfacematerial name="MAT_Button_Metal_Green" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="Button_Metal_Green" />
+  </surfacematerial>
+  <!-- Generated material assignments -->
+  <look name="look">
+    <materialassign name="MAT_Backplate_Khronos" material="MAT_Backplate_Khronos" geom="/Backplate_Khronos" />
+    <materialassign name="MAT_Band_Carbon_Fiber_Gold" material="MAT_Band_Carbon_Fiber_Gold" geom="/Band_Carbon_Fiber" />
+    <materialassign name="MAT_Band_Plastic_Gold" material="MAT_Band_Plastic_Gold" geom="/Band_Plastic" />
+    <materialassign name="MAT_Bezel_Frame_Gold" material="MAT_Bezel_Frame_Gold" geom="/Bezel_Frame" />
+    <materialassign name="MAT_Button_Metal" material="MAT_Button_Metal" geom="/Button_Metal" />
+    <materialassign name="MAT_Button_Plastic_Gold" material="MAT_Button_Plastic_Gold" geom="/Button_Plastic" />
+    <materialassign name="MAT_Clasp_DGG" material="MAT_Clasp_DGG" geom="/Clasp_DGG" />
+    <materialassign name="MAT_Glass_Face" material="MAT_Glass_Face" geom="/Glass_Face" />
+    <materialassign name="MAT_Hand_Plastic" material="MAT_Hand_Plastic" geom="/Hands/Hand_Hours,/Hands/Hand_Minutes,/Hands/Hand_Seconds,/Hands/Hand_Setting" />
+    <materialassign name="MAT_Hand_Metal" material="MAT_Hand_Metal" geom="/Hands/Hand_Hours,/Hands/Hand_Minutes,/Hands/Hand_Seconds,/Hands/Hand_Setting" />
+    <materialassign name="MAT_Hand_Color_Gold" material="MAT_Hand_Color_Gold" geom="/Hands/Hand_Hours,/Hands/Hand_Minutes" />
+    <materialassign name="MAT_Watch_Face" material="MAT_Watch_Face" geom="/Watch_Face" />
+  </look>
+</materialx>
