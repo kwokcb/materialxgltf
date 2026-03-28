@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF copyright: CC0 public domain, model sourced from https://polyhaven.com/a/tea_set_01, edited by Eric Chadwick.. glTF generator: Edited in 3ds Max 2024.1, exported with Satoshi Hayashi glTF exporter 1.42, edited in Visual Studio Code 1.83 with glTF Tools 2.4.. glTF version: 2.0.">
+  <!-- Generated shader: tea_saucer -->
+  <gltf_pbr name="tea_saucer" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
+    <input name="metallic" type="float" nodename="extract_orm3" />
+    <input name="roughness" type="float" nodename="extract_orm2" />
+    <input name="occlusion" type="float" nodename="extract_orm" />
+    <input name="normal" type="vector3" nodename="image_normal" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_tea_saucer -->
+  <surfacematerial name="MAT_tea_saucer" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="tea_saucer" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color" type="multioutput">
+    <input name="file" type="filename" value="teasaucer_basecolor.jpg" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
+  </gltf_colorimage>
+  <gltf_image name="image_orm" type="vector3">
+    <input name="file" type="filename" value="teasaucer_ormt.png" />
+    <input name="uaddressmode" type="string" value="periodic" />
+    <input name="vaddressmode" type="string" value="periodic" />
+  </gltf_image>
+  <extract name="extract_orm" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm2" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm3" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="2" />
+  </extract>
+  <gltf_normalmap name="image_normal" type="vector3">
+    <input name="file" type="filename" value="teasaucer_normal.png" />
+    <input name="uaddressmode" type="string" value="periodic" />
+    <input name="vaddressmode" type="string" value="periodic" />
+  </gltf_normalmap>
+  <!-- Generated shader: tea_cup -->
+  <gltf_pbr name="tea_cup" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color2" output="outcolor" />
+    <input name="metallic" type="float" nodename="extract_orm6" />
+    <input name="roughness" type="float" nodename="extract_orm5" />
+    <input name="occlusion" type="float" nodename="extract_orm4" />
+    <input name="normal" type="vector3" nodename="image_normal2" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_tea_cup -->
+  <surfacematerial name="MAT_tea_cup" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="tea_cup" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color2" type="multioutput">
+    <input name="file" type="filename" value="teacup_basecolor.jpg" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
+  </gltf_colorimage>
+  <gltf_image name="image_orm2" type="vector3">
+    <input name="file" type="filename" value="teacup_ormt.png" />
+    <input name="uaddressmode" type="string" value="periodic" />
+    <input name="vaddressmode" type="string" value="periodic" />
+  </gltf_image>
+  <extract name="extract_orm4" type="float">
+    <input name="in" type="vector3" nodename="image_orm2" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_orm5" type="float">
+    <input name="in" type="vector3" nodename="image_orm2" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_orm6" type="float">
+    <input name="in" type="vector3" nodename="image_orm2" />
+    <input name="index" type="integer" value="2" />
+  </extract>
+  <gltf_normalmap name="image_normal2" type="vector3">
+    <input name="file" type="filename" value="teacup_normal.png" />
+    <input name="uaddressmode" type="string" value="periodic" />
+    <input name="vaddressmode" type="string" value="periodic" />
+  </gltf_normalmap>
+  <!-- Generated material assignments -->
+  <look name="look">
+    <materialassign name="MAT_tea_cup" material="MAT_tea_cup" geom="/tea_cup" />
+    <materialassign name="MAT_tea_saucer" material="MAT_tea_saucer" geom="/tea_saucer" />
+  </look>
+</materialx>
