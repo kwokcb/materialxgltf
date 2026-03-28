@@ -354,7 +354,7 @@ code {
 
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.min.js"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
 </head>
 <body>
   <script>
@@ -503,8 +503,8 @@ QuiltiX and MaterialX to use the MaterialX 1.38.9 definition library for OpenUSD
 </tbody>
 </table>
 <h3 id="gltf-to-materialx">glTF to MaterialX</h3>
-<p>The following are renders performed using the MaterialX Viewer which comes with the MaterialX release.<br>
-The MaterialX material file and the original glTF geometry file are loaded into the viewer and rendered.</p>
+<p>The following are renders performed using the MaterialX Viewer which comes with the MaterialX release. The MaterialX material file and the original glTF geometry file are used for rendering.</p>
+<p>Note that <code>transmission refraction</code> has been turned off to show geometry which would otherwise be occluded if this option were enabled. This however results in refraction and reflection effects from being disabled as well. There appears to be no way currently to get renderings using the hardware shader generation code logic which provides both effects as can be seen by glTF renderers such as <code>ThreeJS</code>, and <code>Bablyon</code>.</p>
 <table>
 <thead>
 <tr>
@@ -514,6 +514,16 @@ The MaterialX material file and the original glTF geometry file are loaded into 
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:center"><img src="./data/RTS_GLTF/USDShaderBallForGltf.gltf_converted.png" width=100%> USD Shaderball</td>
+<td style="text-align:center"><img src="./data/RTS_GLTF/GlassHurricaneCandleHolder.gltf_converted.png"> Candle Holder</td>
+<td style="text-align:center"><img src="./data/RTS_GLTF/AnisotropyBarnLamp.gltf_converted.png">Barn Lamp</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="./data/RTS_GLTF/ChronographWatch.gltf_converted.png" width=100%> Watch</td>
+<td style="text-align:center"><img src="./data/RTS_GLTF/DiffuseTransmissionTeacup.gltf_converted.png"> Teapcup</td>
+<td style="text-align:center"><img src="./data/RTS_GLTF/GlamVelvetSofa.gltf_converted.png">Sofa</td>
+</tr>
 <tr>
 <td style="text-align:center"><img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/ABeautifulGame.png" width=100%> Open Chess Set</td>
 <td style="text-align:center"><img src="./data/RTS_GLTF/SciFiHelmet.gltf_converted.png"> Sci Fi Helmet</td>
@@ -542,7 +552,7 @@ The MaterialX material file and the original glTF geometry file are loaded into 
 </tbody>
 </table>
 </table>
-<p>The same files can be loadded into any integration which accepts MaterialX files. Below is the the glTF Sample Model &quot;Damaged Helmt&quot; shown after conversion in the <b><a href="https://kwokcb.github.io/MaterialXLab/javascript/shader_editor/dist/index_out.html" target="_blank">MaterialLab Graph Editor</a></b></p>
+<p>The same files can be loaded into any integration which accepts MaterialX files. Below is the the glTF Sample Model &quot;Damaged Helmt&quot; shown after conversion in the <b><a href="https://kwokcb.github.io/MaterialXLab/javascript/shader_editor/dist/index_out.html" target="_blank">MaterialLab Graph Editor</a></b></p>
 <img src="./images/GraphEditor_DamagedHelmet.png">
 
 </body>

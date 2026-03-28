@@ -61,11 +61,14 @@ These materials are from the "Physically Based" site maintained by Anton Palmqvi
 
 ### glTF to MaterialX
 
-The following are renders performed using the MaterialX Viewer which comes with the MaterialX release.
-The MaterialX material file and the original glTF geometry file are loaded into the viewer and rendered.
+The following are renders performed using the MaterialX Viewer which comes with the MaterialX release. The MaterialX material file and the original glTF geometry file are used for rendering. 
+
+Note that `transmission refraction` has been turned off to show geometry which would otherwise be occluded if this option were enabled. This however results in refraction and reflection effects from being disabled as well. There appears to be no way currently to get renderings using the hardware shader generation code logic which provides both effects as can be seen by glTF renderers such as `ThreeJS`, and `Bablyon`.
 
 | | | |
 | :--: | :--: | :--: |
+| <img src="./data/RTS_GLTF/USDShaderBallForGltf.gltf_converted.png" width=100%> USD Shaderball | <img src="./data/RTS_GLTF/GlassHurricaneCandleHolder.gltf_converted.png"> Candle Holder | <img src="./data/RTS_GLTF/AnisotropyBarnLamp.gltf_converted.png">Barn Lamp |
+| <img src="./data/RTS_GLTF/ChronographWatch.gltf_converted.png" width=100%> Watch | <img src="./data/RTS_GLTF/DiffuseTransmissionTeacup.gltf_converted.png"> Teapcup | <img src="./data/RTS_GLTF/GlamVelvetSofa.gltf_converted.png">Sofa |
 | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/ABeautifulGame.png" width=100%> Open Chess Set | <img src="./data/RTS_GLTF/SciFiHelmet.gltf_converted.png"> Sci Fi Helmet | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/IridescenceLamp.png" width=100%> Iridescence Lamp |
 | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/glTF.png" width=100%> glTF logo | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/DamagedHelmet.png" width=100%> Damaged Helmet | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/BoomBoxWithAxes.png" width=100%> BoomBox with Axes |
 | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/flightHelmet.png" width=100%> Flight Helmet | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/VertexColorTest.png" width=100%>  Alpha Blend Test | <img src="https://github.com/kwokcb/glTF_MaterialX/raw/main/docs/AlphaBlendTest.png" width=100%>  Vertex Color Test | 
@@ -74,6 +77,6 @@ The MaterialX material file and the original glTF geometry file are loaded into 
 
 </table>
 
-The same files can be loadded into any integration which accepts MaterialX files. Below is the the glTF Sample Model "Damaged Helmt" shown after conversion in the <b><a href="https://kwokcb.github.io/MaterialXLab/javascript/shader_editor/dist/index_out.html" target="_blank">MaterialLab Graph Editor</a></b>
+The same files can be loaded into any integration which accepts MaterialX files. Below is the the glTF Sample Model "Damaged Helmt" shown after conversion in the <b><a href="https://kwokcb.github.io/MaterialXLab/javascript/shader_editor/dist/index_out.html" target="_blank">MaterialLab Graph Editor</a></b>
 
 <img src="./images/GraphEditor_DamagedHelmet.png">
