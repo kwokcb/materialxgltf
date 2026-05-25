@@ -24,7 +24,7 @@ are currently too dark due to lack of color management in the version of OpenUSD
 <sub>Note that the MaterialX versions must match between QuiltiX and the MaterialXglTF package. 
 Either the appropriate branch of the GitHub repository needs to be built locally or the matching version of the package needs to be installed from the PyPi repository.
 
-The current matching released versions use MaterialX `1.39.4`. The current development version is `1.39.5`. 
+The current matching released versions use MaterialX `1.39.5`. The current development version is `1.39.6`. 
 </sub>
 
 #### Material Examples
