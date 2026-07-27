@@ -20,7 +20,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "materialx==1.39.5", 
+    "materialx>=1.39.5", 
     "pygltflib"
 ]
 [project.optional-dependencies]
