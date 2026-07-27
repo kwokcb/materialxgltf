@@ -3,6 +3,7 @@
 Utility and command line interface to convert from a MaterialX file to a glTF file 
 '''
 import os
+import sys
 import argparse
 
 from core import *
@@ -23,6 +24,11 @@ def mtlx2gltf(materialXFileName, gltfOutputFileName, options=MTLX2GLTFOptions())
     mx.readFromXmlFile(doc, materialXFileName, options['searchPath'])    
     
     mtlx2glTFWriter.setOptions(options)
+
+    # Firewall. MSL fails for backing on Mac (issue):
+    if sys.platform == "darwin":
+        print('- Skipping texture baking as this is not supported on Mac')
+        options['bakeTextures'] = False
 
     # Perform shader translation and baking if necessary
     if options['translateShaders']:
