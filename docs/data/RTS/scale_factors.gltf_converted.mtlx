@@ -20,6 +20,7 @@
   </gltf_colorimage>
   <gltf_image name="image_orm" type="vector3">
     <input name="file" type="filename" value="resources/Images/brick_roughness.jpg" />
+    <!-- <input name="factor" type="vector3" value="0.28, 0.82. 1.0" /> this is unsupported in definition as of 1.39.5 --> 
     <input name="filtertype" type="string" value="linear" />
     <input name="uaddressmode" type="string" value="periodic" />
     <input name="vaddressmode" type="string" value="periodic" />

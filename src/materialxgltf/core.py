@@ -2490,6 +2490,7 @@ class MTLX2GLTFWriter:
             imageNamePaths = [ EMPTY_STRING, EMPTY_STRING, EMPTY_STRING ]
             roughnessInputs = [ 'metallicFactor', 'roughnessFactor', '' ]
             roughnessValues = [ 1.0, 1.0, 1.0 ]
+            roughnessMultiply = [ False, False, False ]
 
             IN_STRING = MTLX_IN_STRING
             ormNode= None
@@ -2509,11 +2510,13 @@ class MTLX2GLTFWriter:
                         if connectedNode.getCategory() == multiplyCategory:
                             # Try both inputs for an upstream connected extract node
                             roughnessValues[e] = connectedNode.getInputValue('in1')
+                            roughnessMultiply[e] = True
                             #print(f'Scan multipler {e}. in2: {connectedNode.getNamePath()} value: {roughnessValues[e]}')
                             connectedNode = connectedNode.getConnectedNode('in2')
                             if not connectedNode:
                                 connectedNode = connectedNode.getConnectedNode('in1')
                                 roughnessValues[e] = connectedNode.getInputValue('in2')
+                                roughnessMultiply[e] = True
                                 #print(f'Scan multipler {e}. in1: {connectedNode.getNamePath()} value: {roughnessValues[e]}')
                         if connectedNode.getCategory() == extractCategory:
                             imageNode = connectedNode.getConnectedNode(IN_STRING)
@@ -2527,6 +2530,18 @@ class MTLX2GLTFWriter:
                             filename = fileInput.getResolvedValueString()  
                         filenames[e] = filename
                         imageNamePaths[e] = imageNode.getNamePath()
+
+                        # Check for a scale factor on the image node
+                        factorInput = imageNode.getInput('factor')
+                        if factorInput:
+                            factorValue = factorInput.getValue()
+                            if factorValue != None:
+                                if roughnessMultiply[e]:
+                                    print(f'Multiply with image node {e}. factor: {imageNode.getNamePath()} value: {roughnessValues[e]}')
+                                    roughnessValues[e] = roughnessValues[e] * factorValue[e]
+                                else:
+                                    print(f'Replace with image node {e}. factor: {imageNode.getNamePath()} value: {roughnessValues[e]}')
+                                    roughnessValues[e] = factorValue[e]
 
                     # Write out constant factors. This will either be PRB input value, or
                     # any upstream multiplier value. 
@@ -3072,6 +3087,14 @@ class MTLX2GLTFWriter:
 
         # Clear and convert materials
         resetMaterials = True
+
+        # Do quick validation. Do not halt conversion though.
+        valid, errors = doc.validate()
+        if not valid:
+            self.log('- Warning: MaterialX document validation failed with errors:')
+            if self._options['debugOutput']:
+                print('- Warning: MaterialX document validation failed with errors:')
+                print('  - ' + errors)
         self.materialX2glTF(doc, gltfJson, resetMaterials)
         
         # If geometry specified, create new primitives for each material
