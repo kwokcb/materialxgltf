@@ -3,9 +3,9 @@
   <!-- Generated shader: M_BoomBox -->
   <gltf_pbr name="M_BoomBox" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm3" />
-    <input name="roughness" type="float" nodename="extract_orm2" />
-    <input name="occlusion" type="float" nodename="extract_orm" />
+    <input name="metallic" type="float" nodename="extract_metallic" />
+    <input name="roughness" type="float" nodename="extract_roughness" />
+    <input name="occlusion" type="float" nodename="extract_occlusion" />
     <input name="normal" type="vector3" nodename="image_normal" />
     <input name="emissive" type="color3" nodename="image_emissive" output="outcolor" />
   </gltf_pbr>
@@ -21,15 +21,15 @@
   <gltf_image name="image_orm" type="vector3">
     <input name="file" type="filename" value="BoomBoxWithAxes_roughnessMetallic.png" />
   </gltf_image>
-  <extract name="extract_orm" type="float">
+  <extract name="extract_occlusion" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm2" type="float">
+  <extract name="extract_roughness" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm3" type="float">
+  <extract name="extract_metallic" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="2" />
   </extract>
@@ -40,6 +40,7 @@
     <input name="file" type="filename" value="BoomBoxWithAxes_emissive.png" colorspace="srgb_texture" />
     <output name="outcolor" type="color3" />
     <output name="outa" type="float" />
+    <input name="color" type="color4" value="1, 1, 1, 1" />
   </gltf_colorimage>
   <!-- Generated shader: M_Coordinates -->
   <gltf_pbr name="M_Coordinates" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
@@ -56,6 +57,7 @@
     <input name="file" type="filename" value="BoomBoxWithAxes_baseColor1.png" colorspace="srgb_texture" />
     <output name="outcolor" type="color3" />
     <output name="outa" type="float" />
+    <input name="color" type="color4" value="0, 0.0405063, 0.0212407, 1" />
   </gltf_colorimage>
   <!-- Generated material assignments -->
   <look name="look">

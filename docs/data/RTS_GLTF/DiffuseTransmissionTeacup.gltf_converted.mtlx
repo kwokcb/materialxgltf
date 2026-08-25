@@ -3,9 +3,9 @@
   <!-- Generated shader: tea_saucer -->
   <gltf_pbr name="tea_saucer" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm3" />
-    <input name="roughness" type="float" nodename="extract_orm2" />
-    <input name="occlusion" type="float" nodename="extract_orm" />
+    <input name="metallic" type="float" nodename="extract_metallic" />
+    <input name="roughness" type="float" nodename="extract_roughness" />
+    <input name="occlusion" type="float" nodename="extract_occlusion" />
     <input name="normal" type="vector3" nodename="image_normal" />
   </gltf_pbr>
   <!-- Generated material: MAT_tea_saucer -->
@@ -22,15 +22,15 @@
     <input name="uaddressmode" type="string" value="periodic" />
     <input name="vaddressmode" type="string" value="periodic" />
   </gltf_image>
-  <extract name="extract_orm" type="float">
+  <extract name="extract_occlusion" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm2" type="float">
+  <extract name="extract_roughness" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm3" type="float">
+  <extract name="extract_metallic" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="2" />
   </extract>
@@ -42,9 +42,9 @@
   <!-- Generated shader: tea_cup -->
   <gltf_pbr name="tea_cup" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color2" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm6" />
-    <input name="roughness" type="float" nodename="extract_orm5" />
-    <input name="occlusion" type="float" nodename="extract_orm4" />
+    <input name="metallic" type="float" nodename="extract_metallic2" />
+    <input name="roughness" type="float" nodename="extract_roughness2" />
+    <input name="occlusion" type="float" nodename="extract_occlusion2" />
     <input name="normal" type="vector3" nodename="image_normal2" />
   </gltf_pbr>
   <!-- Generated material: MAT_tea_cup -->
@@ -61,15 +61,15 @@
     <input name="uaddressmode" type="string" value="periodic" />
     <input name="vaddressmode" type="string" value="periodic" />
   </gltf_image>
-  <extract name="extract_orm4" type="float">
+  <extract name="extract_occlusion2" type="float">
     <input name="in" type="vector3" nodename="image_orm2" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm5" type="float">
+  <extract name="extract_roughness2" type="float">
     <input name="in" type="vector3" nodename="image_orm2" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm6" type="float">
+  <extract name="extract_metallic2" type="float">
     <input name="in" type="vector3" nodename="image_orm2" />
     <input name="index" type="integer" value="2" />
   </extract>

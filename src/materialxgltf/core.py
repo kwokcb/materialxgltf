@@ -487,8 +487,8 @@ class GLTF2MtlxReader:
             if multiplierName and len(multiplierName) and len(values) > 0:
                 if len(values) == 1 or (len(values) == 3 and self._vec3_gltf_image_factor_supported):
                     multiplierInput = imageNode.addInputFromNodeDef(multiplierName)
-                    if multiplierInput:
-                        multiplierInput.setValueString(values)       
+                    if multiplierInput and values != None:
+                        multiplierInput.setValue(values)       
                     else:
                         self.log(f'Failed to find multiplier input: {multiplierName} on image node: {imageNode.getName()}')
                 else:
@@ -2502,7 +2502,8 @@ class MTLX2GLTFWriter:
                 pbrInput = pbrNode.getInput(inputName)
                 # Extract constant out from PBR node for unconnected value.
                 # This will be overriden if there are any scalar multipliers between any upstream connections.
-                roughnessValues[e] = pbrInput.getValue()
+                if pbrInput:
+                    roughnessValues[e] = pbrInput.getValue()
                 if pbrInput:
                     # Read past any extract node
                     connectedNode = pbrNode.getConnectedNode(inputName)
@@ -2705,9 +2706,10 @@ class MTLX2GLTFWriter:
             # Handle specular color and specular extension
             imageNode = pbrNode.getConnectedNode('specular_color')
             imageGraph = None
-            if imageNode:
-                if imageNode.getParent().isA(mx.NodeGraph):
-                    imageGraph = imageNode.getParent()
+            if self._options['createProceduralTextures']:
+                if imageNode:
+                    if imageNode.getParent().isA(mx.NodeGraph):
+                        imageGraph = imageNode.getParent()
 
             # Procedural extension. WIP
             if imageGraph:
