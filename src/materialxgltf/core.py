@@ -2485,31 +2485,36 @@ class MTLX2GLTFWriter:
             # Handle partially mapped or when different channels map to different images
             # by merging into a single ORM image. Note that we save as BGR 24-bit fixed images
             # thus we scan by that order which results in an MRO image being written to disk.
-            #roughness['metallicRoughnessTexture'] = {}
-            metallicFactor = pbrNode.getInputValue('metallic')
-            #if metallicFactor:
-            #    roughness['metallicFactor'] = metallicFactor
-            #    print('------------------------ set metallic', roughness['metallicFactor'],
-            #          ' node:', pbrNode.getNamePath())
-            #roughnessFactor = pbrNode.getInputValue('roughness')
-            #if roughnessFactor:        
-            #    roughness['roughnessFactor'] = roughnessFactor
             extractInputs = [ 'metallic', 'roughness', 'occlusion' ]
             filenames = [ EMPTY_STRING, EMPTY_STRING, EMPTY_STRING ]
             imageNamePaths = [ EMPTY_STRING, EMPTY_STRING, EMPTY_STRING ]
             roughnessInputs = [ 'metallicFactor', 'roughnessFactor', '' ]
+            roughnessValues = [ 1.0, 1.0, 1.0 ]
 
             IN_STRING = MTLX_IN_STRING
             ormNode= None
             imageNode = None
             extractCategory = 'extract'
+            multiplyCategory = 'multiply'
             for e in range(0, 3):
                 inputName = extractInputs[e]
                 pbrInput = pbrNode.getInput(inputName)
+                # Extract constant out from PBR node for unconnected value.
+                # This will be overriden if there are any scalar multipliers between any upstream connections.
+                roughnessValues[e] = pbrInput.getValue()
                 if pbrInput:
                     # Read past any extract node
                     connectedNode = pbrNode.getConnectedNode(inputName)
                     if connectedNode:
+                        if connectedNode.getCategory() == multiplyCategory:
+                            # Try both inputs for an upstream connected extract node
+                            roughnessValues[e] = connectedNode.getInputValue('in1')
+                            #print(f'Scan multipler {e}. in2: {connectedNode.getNamePath()} value: {roughnessValues[e]}')
+                            connectedNode = connectedNode.getConnectedNode('in2')
+                            if not connectedNode:
+                                connectedNode = connectedNode.getConnectedNode('in1')
+                                roughnessValues[e] = connectedNode.getInputValue('in2')
+                                #print(f'Scan multipler {e}. in1: {connectedNode.getNamePath()} value: {roughnessValues[e]}')
                         if connectedNode.getCategory() == extractCategory:
                             imageNode = connectedNode.getConnectedNode(IN_STRING)
                         else:
@@ -2523,16 +2528,18 @@ class MTLX2GLTFWriter:
                         filenames[e] = filename
                         imageNamePaths[e] = imageNode.getNamePath()
 
-                    # Write out constant factors. If there is an image node
-                    # then ignore any value stored as the image takes precedence.
+                    # Write out constant factors. This will either be PRB input value, or
+                    # any upstream multiplier value. 
                     if len(roughnessInputs[e]):
-                        value = pbrInput.getValue()
-                        if value != None:
+                        value = roughnessValues[e] #
+                        if value != None and (value != 1.0):
+                            #print('Write roughness input:', roughnessInputs[e], ' value:', value)
                             roughness[roughnessInputs[e]] = value
+                        # Skip if undefined or default 1 value
                         #else:
                         #    roughness[roughnessInputs[e]] = 1.0
 
-                # Set to default 1.0
+                # Set to default 1.0 - Skipped on purpose as default is 1.0.                
                 #else:
                 #    if len(roughnessInputs[e]):
                 #        roughnessInputs[e] = 1.0
