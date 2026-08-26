@@ -484,11 +484,13 @@ class GLTF2MtlxReader:
             # Set scale factor on image node. Currently float has this exposed but
             # vector3 does not so will not work with ORM nodes. This should be added to
             # vector3 version of gltf_image in MaterialX core. 
-            if multiplierName and len(multiplierName) and len(values) > 0:
-                if len(values) == 1 or (len(values) == 3 and self._vec3_gltf_image_factor_supported):
+            if multiplierName and len(multiplierName) and values:
+                if self._vec3_gltf_image_factor_supported:
                     multiplierInput = imageNode.addInputFromNodeDef(multiplierName)
-                    if multiplierInput and values != None:
-                        multiplierInput.setValue(values)       
+                    if multiplierInput:
+                        value_string = str(values).removeprefix('[').removesuffix(']')
+                        #print(f'>>> Set value for multiplier input: {values} for image node: {imageNode.getName()}')
+                        multiplierInput.setValueString(value_string)
                     else:
                         self.log(f'Failed to find multiplier input: {multiplierName} on image node: {imageNode.getName()}')
                 else:
@@ -813,9 +815,11 @@ class GLTF2MtlxReader:
                 if 'metallicRoughnessTexture' in pbrMetallicRoughness:
                     texture = pbrMetallicRoughness['metallicRoughnessTexture']
                 if texture:
-
+                    # Note the scalar factors are passed as [ occlusion, roughess, metallic ] 
+                    # to match the [ R, G, B ] channels in the glTF texture as defined by the specification.
+                    # https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html
                     imageNode = self.readInput(doc, texture, [1.0, roughnessFactor, metallicFactor], 'image_orm', MTLX_GLTF_IMAGE, MTLX_VEC3_STRING, '',
-                                        shaderNode,  ['metallic', 'roughness', 'occlusion'], textures, images, samplers)
+                                        shaderNode,  ['occlusion', 'metallic', 'roughness', ], textures, images, samplers)
                     self.readGLTFImageProperties(imageNode, texture, samplers)
 
                     # Route individual channels on ORM image to the appropriate inputs on the shader
@@ -2535,21 +2539,25 @@ class MTLX2GLTFWriter:
                         # Check for a scale factor on the image node
                         factorInput = imageNode.getInput('factor')
                         if factorInput:
-                            factorValue = factorInput.getValue()
-                            if factorValue != None:
+                            factorVector = factorInput.getValue()
+                            # Reverse the ORM vector to be MRO
+                            factorVector = [ factorVector[2], factorVector[1], factorVector[0] ]
+                            if e < len(factorVector):
+                                factorValue = factorVector[e]
+                                #print(f'1 > Pulled factor[{e}] = {factorValue} from image node {imageNode.getNamePath()}')
                                 if roughnessMultiply[e]:
-                                    print(f'Multiply with image node {e}. factor: {imageNode.getNamePath()} value: {roughnessValues[e]}')
-                                    roughnessValues[e] = roughnessValues[e] * factorValue[e]
+                                    roughnessValues[e] = roughnessValues[e] * factorValue
+                                    #print(f'>>>> Multiply with image node {e}. factor: {imageNode.getNamePath()} value: {roughnessValues[e]}')
                                 else:
-                                    print(f'Replace with image node {e}. factor: {imageNode.getNamePath()} value: {roughnessValues[e]}')
-                                    roughnessValues[e] = factorValue[e]
+                                    roughnessValues[e] = factorValue
+                                    #print(f'>>>> Replace with image node {e}. factor: {imageNode.getNamePath()} value: {roughnessValues[e]}')
 
                     # Write out constant factors. This will either be PRB input value, or
                     # any upstream multiplier value. 
                     if len(roughnessInputs[e]):
                         value = roughnessValues[e] #
                         if value != None and (value != 1.0):
-                            #print('Write roughness input:', roughnessInputs[e], ' value:', value)
+                            self.log(f'> Write {roughnessInputs[e]}. Value: {value}')
                             roughness[roughnessInputs[e]] = value
                         # Skip if undefined or default 1 value
                         #else:

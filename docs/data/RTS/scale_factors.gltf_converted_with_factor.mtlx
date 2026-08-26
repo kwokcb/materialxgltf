@@ -4,8 +4,8 @@
   <gltf_pbr name="gltf_pbr_surfaceshader" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
     <input name="alpha" type="float" value="0.5" />
-    <input name="metallic" type="float" nodename="multiply_metallic" />
-    <input name="roughness" type="float" nodename="multiply_roughness" />
+    <input name="metallic" type="float" nodename="extract_metallic" />
+    <input name="roughness" type="float" nodename="extract_roughness" />
     <input name="occlusion" type="float" nodename="extract_occlusion" />
   </gltf_pbr>
   <!-- Generated material: MAT_gltf_pbr_surfaceshader -->
@@ -20,10 +20,10 @@
   </gltf_colorimage>
   <gltf_image name="image_orm" type="vector3">
     <input name="file" type="filename" value="resources/Images/brick_roughness.jpg" />
-    <!-- <input name="factor" type="vector3" value="1.0 0.82. 0.28, " /> this is unsupported in definition as of 1.39.5 --> 
     <input name="filtertype" type="string" value="linear" />
     <input name="uaddressmode" type="string" value="periodic" />
     <input name="vaddressmode" type="string" value="periodic" />
+    <input name="factor" type="vector3" value="1.0, 0.8, 0.2" />
   </gltf_image>
   <extract name="extract_occlusion" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
@@ -33,16 +33,8 @@
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <multiply name="multiply_roughness" type="float">
-    <input name="in1" type="float" value="0.8" />
-    <input name="in2" type="float" nodename="extract_roughness" />
-  </multiply>
   <extract name="extract_metallic" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="2" />
   </extract>
-  <multiply name="multiply_metallic" type="float">
-    <input name="in1" type="float" value="0.2" />
-    <input name="in2" type="float" nodename="extract_metallic" />
-  </multiply>
 </materialx>
