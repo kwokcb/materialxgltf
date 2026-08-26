@@ -1,0 +1,58 @@
+{
+  "asset": {
+    "copyright": "Copyright 2022-2026: Bernard Kwok.",
+    "generator": "MaterialX 1.39 to glTF 2.0 generator. https://github.com/kwokcb/materialxgltf",
+    "version": "2.0"
+  },
+  "materials": [
+    {
+      "name": "gltf_pbr_surfaceshader",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "baseColorFactor": [
+          0.7714629769325256,
+          0.0016784999752417207,
+          0.011678500100970268,
+          1.0
+        ],
+        "metallicFactor": 0.20000000298023224,
+        "roughnessFactor": 0.800000011920929,
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "textures": [
+    {
+      "name": "image_base_color",
+      "source": 0,
+      "sampler": 0
+    },
+    {
+      "name": "image_orm",
+      "source": 1,
+      "sampler": 0
+    }
+  ],
+  "images": [
+    {
+      "name": "image_base_color",
+      "uri": "resources/Images/brick_base_gray.jpg"
+    },
+    {
+      "name": "image_orm",
+      "uri": "resources/Images/brick_roughness.jpg"
+    }
+  ],
+  "samplers": [
+    {
+      "wrapS": 10497,
+      "wrapT": 10497,
+      "magFilter": 9729,
+      "minFilter": 9986
+    }
+  ]
+}

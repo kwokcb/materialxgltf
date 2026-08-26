@@ -3,9 +3,9 @@
   <!-- Generated shader: Lamp_Metal -->
   <gltf_pbr name="Lamp_Metal" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm3" />
-    <input name="roughness" type="float" nodename="extract_orm2" />
-    <input name="occlusion" type="float" nodename="extract_orm" />
+    <input name="metallic" type="float" nodename="extract_metallic" />
+    <input name="roughness" type="float" nodename="extract_roughness" />
+    <input name="occlusion" type="float" nodename="extract_occlusion" />
     <input name="normal" type="vector3" nodename="image_normal" />
     <input name="clearcoat" type="float" value="0.25" />
     <input name="clearcoat_roughness" type="float" value="0.15" />
@@ -25,15 +25,15 @@
     <input name="file" type="filename" value="AnisotropyBarnLamp_occlusionroughnessmetal.png" />
     <input name="filtertype" type="string" value="cubic" />
   </gltf_image>
-  <extract name="extract_orm" type="float">
+  <extract name="extract_occlusion" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm2" type="float">
+  <extract name="extract_roughness" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm3" type="float">
+  <extract name="extract_metallic" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="2" />
   </extract>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF generator: pygltflib@v1.16.5. glTF version: 2.0.">
+  <!-- Generated shader: gltf_pbr_surfaceshader -->
+  <gltf_pbr name="gltf_pbr_surfaceshader" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
+    <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
+    <input name="alpha" type="float" value="0.5" />
+    <input name="metallic" type="float" nodename="extract_metallic" />
+    <input name="roughness" type="float" nodename="extract_roughness" />
+    <input name="occlusion" type="float" nodename="extract_occlusion" />
+  </gltf_pbr>
+  <!-- Generated material: MAT_gltf_pbr_surfaceshader -->
+  <surfacematerial name="MAT_gltf_pbr_surfaceshader" type="material">
+    <input name="surfaceshader" type="surfaceshader" nodename="gltf_pbr_surfaceshader" />
+  </surfacematerial>
+  <gltf_colorimage name="image_base_color" type="multioutput">
+    <input name="file" type="filename" value="resources/Images/brick_base_gray.jpg" colorspace="srgb_texture" />
+    <output name="outcolor" type="color3" />
+    <output name="outa" type="float" />
+    <input name="color" type="color4" value="0.771463, 0.0016785, 0.0116785, 0.5" />
+  </gltf_colorimage>
+  <gltf_image name="image_orm" type="vector3">
+    <input name="file" type="filename" value="resources/Images/brick_roughness.jpg" />
+    <input name="filtertype" type="string" value="linear" />
+    <input name="uaddressmode" type="string" value="periodic" />
+    <input name="vaddressmode" type="string" value="periodic" />
+    <input name="factor" type="vector3" value="1.0, 0.8, 0.2" />
+  </gltf_image>
+  <extract name="extract_occlusion" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="0" />
+  </extract>
+  <extract name="extract_roughness" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="1" />
+  </extract>
+  <extract name="extract_metallic" type="float">
+    <input name="in" type="vector3" nodename="image_orm" />
+    <input name="index" type="integer" value="2" />
+  </extract>
+</materialx>

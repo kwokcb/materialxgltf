@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF copyright: CCBY 4.0, geometry and textures: Chris Rydalch; original specification and validation: AndrÃ© Mazzone; original scene, inspiration and consultation: Thomas Anagnostou; glTF conversion: Eric Chadwick. glTF generator: gltfeditor.com. glTF version: 2.0.">
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF copyright: CCBY 4.0, geometry and textures: Chris Rydalch; original specification and validation: André Mazzone; original scene, inspiration and consultation: Thomas Anagnostou; glTF conversion: Eric Chadwick. glTF generator: gltfeditor.com. glTF version: 2.0.">
   <!-- Generated shader: core -->
   <gltf_pbr name="core" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" value="0.18, 0.18, 0.18" colorspace="lin_rec709" />
@@ -44,6 +44,7 @@
     <input name="filtertype" type="string" value="cubic" />
     <input name="uaddressmode" type="string" value="clamp" />
     <input name="vaddressmode" type="string" value="clamp" />
+    <input name="factor" type="floatarray" value="8.9" />
   </gltf_image>
   <!-- Generated shader: sss_bars -->
   <gltf_pbr name="sss_bars" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
@@ -59,6 +60,7 @@
     <input name="file" type="filename" value="sss_bars.png" colorspace="srgb_texture" />
     <output name="outcolor" type="color3" />
     <output name="outa" type="float" />
+    <input name="color" type="color4" value="1, 1, 1, 1" />
   </gltf_colorimage>
   <!-- Generated material assignments -->
   <look name="look">

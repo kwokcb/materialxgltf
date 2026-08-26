@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF copyright: Asset Â© 2025 Darmstadt Graphics Group GmbH, CC BY 4.0 International, adapted by Eric Chadwick. Original asset Chronograph Watch Mudmaster (https://skfb.ly/oAsPA) by graphiccompressor is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). Khronos logo Â© 2015, Khronos Group. DGG logo Â© 2020, Darmstadt Graphics Group GmbH.. glTF generator: Created by RapidPipeline 3D Processor v7.2.1 | rapidpipeline.com. glTF version: 2.0.">
+<materialx version="1.39" doc=" Copyright 2022-2026: Bernard Kwok. gltTF 2.0 to MTLX 1.39 generator (https://github.com/kwokcb/materialxgltf). glTF copyright: Asset © 2025 Darmstadt Graphics Group GmbH, CC BY 4.0 International, adapted by Eric Chadwick. Original asset Chronograph Watch Mudmaster (https://skfb.ly/oAsPA) by graphiccompressor is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). Khronos logo © 2015, Khronos Group. DGG logo © 2020, Darmstadt Graphics Group GmbH.. glTF generator: Created by RapidPipeline 3D Processor v7.2.1 | rapidpipeline.com. glTF version: 2.0.">
   <!-- Generated shader: Backplate_Khronos -->
   <gltf_pbr name="Backplate_Khronos" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm3" />
-    <input name="roughness" type="float" nodename="extract_orm2" />
-    <input name="occlusion" type="float" nodename="extract_orm" />
+    <input name="metallic" type="float" nodename="extract_metallic" />
+    <input name="roughness" type="float" nodename="extract_roughness" />
+    <input name="occlusion" type="float" nodename="extract_occlusion" />
   </gltf_pbr>
   <!-- Generated material: MAT_Backplate_Khronos -->
   <surfacematerial name="MAT_Backplate_Khronos" type="material">
@@ -26,15 +26,15 @@
     <input name="offset" type="vector2" value="-0.5, -3.6" />
     <input name="scale" type="vector2" value="2, 8" />
   </gltf_image>
-  <extract name="extract_orm" type="float">
+  <extract name="extract_occlusion" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm2" type="float">
+  <extract name="extract_roughness" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm3" type="float">
+  <extract name="extract_metallic" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="2" />
   </extract>
@@ -103,9 +103,9 @@
   <!-- Generated shader: Clasp_DGG -->
   <gltf_pbr name="Clasp_DGG" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color2" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm6" />
-    <input name="roughness" type="float" nodename="extract_orm5" />
-    <input name="occlusion" type="float" nodename="extract_orm4" />
+    <input name="metallic" type="float" nodename="extract_metallic2" />
+    <input name="roughness" type="float" nodename="extract_roughness2" />
+    <input name="occlusion" type="float" nodename="extract_occlusion2" />
   </gltf_pbr>
   <!-- Generated material: MAT_Clasp_DGG -->
   <surfacematerial name="MAT_Clasp_DGG" type="material">
@@ -126,15 +126,15 @@
     <input name="offset" type="vector2" value="-0.15, -0.4" />
     <input name="scale" type="vector2" value="1.25, 1.75" />
   </gltf_image>
-  <extract name="extract_orm4" type="float">
+  <extract name="extract_occlusion2" type="float">
     <input name="in" type="vector3" nodename="image_orm2" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm5" type="float">
+  <extract name="extract_roughness2" type="float">
     <input name="in" type="vector3" nodename="image_orm2" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm6" type="float">
+  <extract name="extract_metallic2" type="float">
     <input name="in" type="vector3" nodename="image_orm2" />
     <input name="index" type="integer" value="2" />
   </extract>
@@ -183,9 +183,9 @@
   <!-- Generated shader: Watch_Face -->
   <gltf_pbr name="Watch_Face" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color3" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm9" />
-    <input name="roughness" type="float" nodename="extract_orm8" />
-    <input name="occlusion" type="float" nodename="extract_orm7" />
+    <input name="metallic" type="float" nodename="extract_metallic3" />
+    <input name="roughness" type="float" nodename="extract_roughness3" />
+    <input name="occlusion" type="float" nodename="extract_occlusion3" />
   </gltf_pbr>
   <!-- Generated material: MAT_Watch_Face -->
   <surfacematerial name="MAT_Watch_Face" type="material">
@@ -202,15 +202,15 @@
     <input name="uaddressmode" type="string" value="clamp" />
     <input name="vaddressmode" type="string" value="clamp" />
   </gltf_image>
-  <extract name="extract_orm7" type="float">
+  <extract name="extract_occlusion3" type="float">
     <input name="in" type="vector3" nodename="image_orm3" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm8" type="float">
+  <extract name="extract_roughness3" type="float">
     <input name="in" type="vector3" nodename="image_orm3" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm9" type="float">
+  <extract name="extract_metallic3" type="float">
     <input name="in" type="vector3" nodename="image_orm3" />
     <input name="index" type="integer" value="2" />
   </extract>

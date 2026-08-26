@@ -189,6 +189,8 @@ class GLTF2MtlxReader:
     _image_references = []
     # Map of glTF texture index to MaterialX image node
     _index_cache = {}
+    # Is factor supported on ORM nodes in MaterialX.
+    _vec3_gltf_image_factor_supported = False
 
     def getDocument(self):
         '''
@@ -433,7 +435,8 @@ class GLTF2MtlxReader:
 
 
     def readInput(self, materials, texture, values, imageNodeName, nodeCategory, nodeType, nodeDefId,
-                shaderNode, inputNames, gltf_textures, gltf_images, gltf_samplers) -> mx.Node:
+                shaderNode, inputNames, gltf_textures, gltf_images, gltf_samplers,
+                multiplierName='factor') -> mx.Node:
         '''
         @brief Read glTF material input and set input values or add upstream connected nodes
         @param materials MaterialX document to update
@@ -448,6 +451,7 @@ class GLTF2MtlxReader:
         @param gltf_textures The set of glTF textures to examine
         @param gltf_images The set of glTF images to examine
         @param gltf_samplers The set of glTF samplers to examine
+        @param multiplierName Name of input set set scalar multiplier value if mapped. Default is 'factor'.
         @return The created image node if mapped, otherwise None.
         '''
         imageNode = None
@@ -476,6 +480,21 @@ class GLTF2MtlxReader:
                             #print('>>>> Setting input value from image node:' + imageNode.getName())
                             input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
                             input.removeAttribute(MTLX_VALUE_ATTRIBUTE)
+
+            # Set scale factor on image node. Currently float has this exposed but
+            # vector3 does not so will not work with ORM nodes. This should be added to
+            # vector3 version of gltf_image in MaterialX core. 
+            if multiplierName and len(multiplierName) and values:
+                if self._vec3_gltf_image_factor_supported:
+                    multiplierInput = imageNode.addInputFromNodeDef(multiplierName)
+                    if multiplierInput:
+                        value_string = str(values).removeprefix('[').removesuffix(']')
+                        #print(f'>>> Set value for multiplier input: {values} for image node: {imageNode.getName()}')
+                        multiplierInput.setValueString(value_string)
+                    else:
+                        self.log(f'Failed to find multiplier input: {multiplierName} on image node: {imageNode.getName()}')
+                else:
+                    print(f'Note: Unsupported glTF image vec3 {multiplierName} ignored. Values: {values} multiplierName: {multiplierName} imageNode: {imageNode.getName() if imageNode else None}')
                     
         # Create and set unmapped input
         if not imageNode:        
@@ -528,12 +547,13 @@ class GLTF2MtlxReader:
 
     def readColorInput(self, materials, colorTexture, color, imageNodeName, nodeCategory, nodeType, nodeDefId,
                         shaderNode, colorInputName, alphaInputName, 
-                        gltf_textures, gltf_images, gltf_samplers, colorspace=MTLX_TEXTURE_COLORSPACE):
+                        gltf_textures, gltf_images, gltf_samplers, colorspace=MTLX_TEXTURE_COLORSPACE,
+                        colorFactorInputName=MTLX_GLTF_COLOR_FACTOR_INPUT_NAME):
         '''     
         @brief Read glTF material color input and set input values or add upstream connected nodes
         @param materials MaterialX document to update
         @param colorTexture The glTF texture to read properties from.
-        @param color The color to set on the shader node inputs if unmapped
+        @param color The color to set on the shader node inputs if unmapped, or color factor if mapped.
         @param imageNodeName The name of the image node to create if mapped
         @param nodeCategory The category of the image node to create if mapped
         @param nodeType The type of the image node to create if mapped
@@ -547,12 +567,14 @@ class GLTF2MtlxReader:
         @param colorspace The colorspace to set on the image node if mapped. Default is assumed to be srgb_texture.
         to match glTF convention.
         '''
+
             
         assignedColorTexture = False 
         assignedAlphaTexture = False 
 
         # Try to assign a texture (image node)
         if colorTexture:
+
             # Get the index of the texture
             textureIndex = colorTexture['index']
 
@@ -570,7 +592,7 @@ class GLTF2MtlxReader:
 
                 newTextureName = imageNode.getName()
 
-                # Connect texture to color input on shader
+                # Connect texture to color input on shader.
                 if len(colorInputName):
                     colorInput = shaderNode.addInputFromNodeDef(colorInputName)
                     if not colorInput:
@@ -579,6 +601,7 @@ class GLTF2MtlxReader:
                         colorInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, newTextureName)
                         colorInput.setOutputString('outcolor')
                         colorInput.removeAttribute(MTLX_VALUE_ATTRIBUTE)
+
                     assignedColorTexture = True
 
                 # Connect texture to alpha input on shader
@@ -592,6 +615,18 @@ class GLTF2MtlxReader:
                         alphaInput.removeAttribute(MTLX_VALUE_ATTRIBUTE)
 
                     assignedAlphaTexture = True
+
+                # Set color multiplier value if specified.
+                if color and len(colorFactorInputName):
+                    colorFactorInput = imageNode.addInputFromNodeDef(colorFactorInputName)
+                    if not colorFactorInput:
+                        self.log('Failed to add color factor input:' + colorFactorInputName)
+                    else:
+                        #print('> Set color multiplier:', color, ', input name:', colorFactorInputName)
+                        factor_value = mx.Color4(1.0, 1.0, 1.0, 1.0)
+                        for i in range(0, len(color)):
+                            factor_value[i] = color[i]
+                        colorFactorInput.setValue(factor_value)
 
         # Assign constant color / alpha if no texture is assigned
         if color:
@@ -648,6 +683,20 @@ class GLTF2MtlxReader:
         textures = gltfDoc['textures'] if 'textures' in gltfDoc else [] 
         images = gltfDoc['images'] if 'images' in gltfDoc else []
         samplers = gltfDoc['samplers'] if 'samplers' in gltfDoc else []
+
+        # Check if vec3 glTF image factor is supported in MaterialX. This is needed for ORM nodes which have a vec3 factor input.
+        # Otherwise explicit scaling nodes needs to be added for ORM image outputs during translation.
+        self._vec3_gltf_image_factor_supported = False
+        vec3_gltf_image = doc.addNode('gltf_image', '', 'vector3')
+        if vec3_gltf_image:
+            vec3_gltf_image.addInputsFromNodeDef()
+            if vec3_gltf_image.getInput('factor'):
+                self._vec3_gltf_image_factor_supported = True
+            else:
+                message = 'Note: glTF_image vec3 scale factor not supported in MaterialX. Explicit scaling nodes will be added for vec3 image outputs.'
+                print(message)   
+                self.log(message)
+        doc.removeChild(vec3_gltf_image.getName())
 
         if not materials or len(materials) == 0:
             self.log('No materials found to convert')
@@ -742,14 +791,16 @@ class GLTF2MtlxReader:
 
                 # Parse metallic factor
                 # ---------------------
+                metallicFactor = 1.0
                 if 'metallicFactor' in pbrMetallicRoughness:
                     metallicFactor = pbrMetallicRoughness['metallicFactor']
-                    if metallicFactor != 1:
+                    if metallicFactor != 1.0:
                         metallicInput = shaderNode.addInputFromNodeDef('metallic')
                         metallicInput.setValue(metallicFactor, 'float')
             
                 # Parse roughness factor
                 # ---------------------
+                roughnessFactor = 1.0
                 if 'roughnessFactor' in pbrMetallicRoughness:
                     roughnessFactor = pbrMetallicRoughness['roughnessFactor']
                     if roughnessFactor != 1:
@@ -764,8 +815,11 @@ class GLTF2MtlxReader:
                 if 'metallicRoughnessTexture' in pbrMetallicRoughness:
                     texture = pbrMetallicRoughness['metallicRoughnessTexture']
                 if texture:
-                    imageNode = self.readInput(doc, texture, [], 'image_orm', MTLX_GLTF_IMAGE, MTLX_VEC3_STRING, '',
-                                        shaderNode,  ['metallic', 'roughness', 'occlusion'], textures, images, samplers)
+                    # Note the scalar factors are passed as [ occlusion, roughess, metallic ] 
+                    # to match the [ R, G, B ] channels in the glTF texture as defined by the specification.
+                    # https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html
+                    imageNode = self.readInput(doc, texture, [1.0, roughnessFactor, metallicFactor], 'image_orm', MTLX_GLTF_IMAGE, MTLX_VEC3_STRING, '',
+                                        shaderNode,  ['occlusion', 'metallic', 'roughness', ], textures, images, samplers)
                     self.readGLTFImageProperties(imageNode, texture, samplers)
 
                     # Route individual channels on ORM image to the appropriate inputs on the shader
@@ -775,38 +829,44 @@ class GLTF2MtlxReader:
                     roughnessInput = shaderNode.addInputFromNodeDef('roughness')
                     occlusionInput = None if haveSeparateOcclusion else shaderNode.addInputFromNodeDef('occlusion')
                     inputs = [ occlusionInput, roughnessInput, metallicInput ]
-                    addSeparateNode = False # TODO: This options is not supported on write parsing yet.
-                    addExtractNode = True
-                    separateNode = None
-                    if addSeparateNode:
-                        # Add a separate node to route the channels
-                        separateNodeName = doc.createValidChildName('separate_orm')
-                        separateNode = doc.addNode('separate3', separateNodeName, MULTI_OUTPUT_TYPE_STRING)      
-                        seperateInput = separateNode.addInputFromNodeDef(MTLX_IN_STRING)
-                        seperateInput.setType(MTLX_VEC3_STRING)
-                        seperateInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())
-                        seperateInput.removeAttribute(MTLX_VALUE_STRING)                                          
+                    # [0] = occlusion factor (always 1) , [1] = roughness factor, [2] = metallic factor
+                    scale_factors = [1.0, 1.0, 1.0]
+                    if 'metallicFactor' in pbrMetallicRoughness:
+                        scale_factors[2] = pbrMetallicRoughness['metallicFactor']
+                    if 'roughnessFactor' in pbrMetallicRoughness:
+                        scale_factors[1] = pbrMetallicRoughness['roughnessFactor']
                     for i in range(0,3): 
                         input = inputs[i]
                         if input:
                             input.setType(MTLX_FLOAT_STRING)
-                            if addExtractNode:
-                                extractNodeName = doc.createValidChildName('extract_orm')
-                                extractNode = doc.addNode('extract', extractNodeName, MTLX_FLOAT_STRING)
-                                extractNode.addInputsFromNodeDef()
-                                extractNodeInput = extractNode.getInput(MTLX_IN_STRING)
-                                extractNodeInput.setType(MTLX_VEC3_STRING)    
-                                extractNodeInput.removeAttribute(MTLX_VALUE_STRING)
-                                extractNodeInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())                                
-                                extractNodeInput = extractNode.getInput('index')
-                                extractNodeInput.setValue(i)
+                            extractNodeName = doc.createValidChildName('extract_' + inputs[i].getName())
+                            extractNode = doc.addNode('extract', extractNodeName, MTLX_FLOAT_STRING)
+                            extractNode.addInputsFromNodeDef()
+                            extractNodeInput = extractNode.getInput(MTLX_IN_STRING)
+                            extractNodeInput.setType(MTLX_VEC3_STRING)    
+                            extractNodeInput.removeAttribute(MTLX_VALUE_STRING)
+                            extractNodeInput.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, imageNode.getName())                                
+                            extractNodeInput = extractNode.getInput('index')
+                            extractNodeInput.setValue(i)
 
-                                input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, extractNode.getName())
+                            # Add a scaling node (multiplier) if the scale factor is not 1.0
+                            # If / when Materialx supports a multiplier directly on the gltf_image node
+                            # this extra multiplier node is not required.
+                            if not self._vec3_gltf_image_factor_supported and scale_factors[i] != 1.0:
+                                multiplyNodeName = doc.createValidChildName('multiply_' + inputs[i].getName())
+                                multiplyNode = doc.addNode('multiply', multiplyNodeName, MTLX_FLOAT_STRING)
+                                multiplyNode.addInputsFromNodeDef()
+                                multiplyNodeInput = multiplyNode.getInput("in1")
+                                multiplyNodeInput.setValue(scale_factors[i])
+                                multiplyNodeInputImage = multiplyNode.getInput("in2")
+                                multiplyNodeInputImage.removeAttribute(MTLX_VALUE_STRING)
+                                multiplyNodeInputImage.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, extractNode.getName())
+
+                                input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, multiplyNodeName)
                                 input.removeAttribute(MTLX_VALUE_STRING)
-                            elif separateNode:
-                                input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, separateNode.getName())
+                            else:
+                                input.setAttribute(MTLX_NODE_NAME_ATTRIBUTE, extractNodeName)
                                 input.removeAttribute(MTLX_VALUE_STRING)
-                                input.setOutputString(outputName[i])
 
             # Parse normal input
             # ------------------
@@ -2301,9 +2361,6 @@ class MTLX2GLTFWriter:
                     base_color_set = True
 
             if base_color_set:
-                roughness['baseColorFactor'] = base_color        
-
-            if base_color_set:
                 roughness['baseColorFactor'] = base_color
 
             materials.append(material)
@@ -2395,14 +2452,23 @@ class MTLX2GLTFWriter:
 
                     self.writeImageProperties(texture, samplers, imageNode)
 
-                    # Pull off color from gltf_colorImage node
-                    color = pbrNode.getInputValue('base_color')
+                    # Pulll color factor from image node
+                    color = imageNode.getInputValue('color')
                     if color:
                         base_color[0] = color[0]
                         base_color[1] = color[1]
                         base_color[2] = color[2]
                         base_color_set = True
-                
+
+                    else:
+                        # Pull off color from gltf_colorImage node
+                        color = pbrNode.getInputValue('base_color')
+                        if color:
+                            base_color[0] = color[0]
+                            base_color[1] = color[1]
+                            base_color[2] = color[2]
+                            base_color_set = True
+
                 else:
                     color = pbrNode.getInputValue('base_color')
                     if color:
@@ -2423,31 +2489,40 @@ class MTLX2GLTFWriter:
             # Handle partially mapped or when different channels map to different images
             # by merging into a single ORM image. Note that we save as BGR 24-bit fixed images
             # thus we scan by that order which results in an MRO image being written to disk.
-            #roughness['metallicRoughnessTexture'] = {}
-            metallicFactor = pbrNode.getInputValue('metallic')
-            #if metallicFactor:
-            #    roughness['metallicFactor'] = metallicFactor
-            #    print('------------------------ set metallic', roughness['metallicFactor'],
-            #          ' node:', pbrNode.getNamePath())
-            #roughnessFactor = pbrNode.getInputValue('roughness')
-            #if roughnessFactor:        
-            #    roughness['roughnessFactor'] = roughnessFactor
             extractInputs = [ 'metallic', 'roughness', 'occlusion' ]
             filenames = [ EMPTY_STRING, EMPTY_STRING, EMPTY_STRING ]
             imageNamePaths = [ EMPTY_STRING, EMPTY_STRING, EMPTY_STRING ]
             roughnessInputs = [ 'metallicFactor', 'roughnessFactor', '' ]
+            roughnessValues = [ 1.0, 1.0, 1.0 ]
+            roughnessMultiply = [ False, False, False ]
 
             IN_STRING = MTLX_IN_STRING
             ormNode= None
             imageNode = None
             extractCategory = 'extract'
+            multiplyCategory = 'multiply'
             for e in range(0, 3):
                 inputName = extractInputs[e]
                 pbrInput = pbrNode.getInput(inputName)
+                # Extract constant out from PBR node for unconnected value.
+                # This will be overriden if there are any scalar multipliers between any upstream connections.
+                if pbrInput:
+                    roughnessValues[e] = pbrInput.getValue()
                 if pbrInput:
                     # Read past any extract node
                     connectedNode = pbrNode.getConnectedNode(inputName)
                     if connectedNode:
+                        if connectedNode.getCategory() == multiplyCategory:
+                            # Try both inputs for an upstream connected extract node
+                            roughnessValues[e] = connectedNode.getInputValue('in1')
+                            roughnessMultiply[e] = True
+                            #print(f'Scan multipler {e}. in2: {connectedNode.getNamePath()} value: {roughnessValues[e]}')
+                            connectedNode = connectedNode.getConnectedNode('in2')
+                            if not connectedNode:
+                                connectedNode = connectedNode.getConnectedNode('in1')
+                                roughnessValues[e] = connectedNode.getInputValue('in2')
+                                roughnessMultiply[e] = True
+                                #print(f'Scan multipler {e}. in1: {connectedNode.getNamePath()} value: {roughnessValues[e]}')
                         if connectedNode.getCategory() == extractCategory:
                             imageNode = connectedNode.getConnectedNode(IN_STRING)
                         else:
@@ -2461,16 +2536,34 @@ class MTLX2GLTFWriter:
                         filenames[e] = filename
                         imageNamePaths[e] = imageNode.getNamePath()
 
-                    # Write out constant factors. If there is an image node
-                    # then ignore any value stored as the image takes precedence.
+                        # Check for a scale factor on the image node
+                        factorInput = imageNode.getInput('factor')
+                        if factorInput:
+                            factorVector = factorInput.getValue()
+                            # Reverse the ORM vector to be MRO
+                            factorVector = [ factorVector[2], factorVector[1], factorVector[0] ]
+                            if e < len(factorVector):
+                                factorValue = factorVector[e]
+                                #print(f'1 > Pulled factor[{e}] = {factorValue} from image node {imageNode.getNamePath()}')
+                                if roughnessMultiply[e]:
+                                    roughnessValues[e] = roughnessValues[e] * factorValue
+                                    #print(f'>>>> Multiply with image node {e}. factor: {imageNode.getNamePath()} value: {roughnessValues[e]}')
+                                else:
+                                    roughnessValues[e] = factorValue
+                                    #print(f'>>>> Replace with image node {e}. factor: {imageNode.getNamePath()} value: {roughnessValues[e]}')
+
+                    # Write out constant factors. This will either be PRB input value, or
+                    # any upstream multiplier value. 
                     if len(roughnessInputs[e]):
-                        value = pbrInput.getValue()
-                        if value != None:
+                        value = roughnessValues[e] #
+                        if value != None and (value != 1.0):
+                            self.log(f'> Write {roughnessInputs[e]}. Value: {value}')
                             roughness[roughnessInputs[e]] = value
+                        # Skip if undefined or default 1 value
                         #else:
                         #    roughness[roughnessInputs[e]] = 1.0
 
-                # Set to default 1.0
+                # Set to default 1.0 - Skipped on purpose as default is 1.0.                
                 #else:
                 #    if len(roughnessInputs[e]):
                 #        roughnessInputs[e] = 1.0
@@ -2621,9 +2714,10 @@ class MTLX2GLTFWriter:
             # Handle specular color and specular extension
             imageNode = pbrNode.getConnectedNode('specular_color')
             imageGraph = None
-            if imageNode:
-                if imageNode.getParent().isA(mx.NodeGraph):
-                    imageGraph = imageNode.getParent()
+            if self._options['createProceduralTextures']:
+                if imageNode:
+                    if imageNode.getParent().isA(mx.NodeGraph):
+                        imageGraph = imageNode.getParent()
 
             # Procedural extension. WIP
             if imageGraph:
@@ -3003,6 +3097,14 @@ class MTLX2GLTFWriter:
 
         # Clear and convert materials
         resetMaterials = True
+
+        # Do quick validation. Do not halt conversion though.
+        valid, errors = doc.validate()
+        if not valid:
+            self.log('- Warning: MaterialX document validation failed with errors:')
+            if self._options['debugOutput']:
+                print('- Warning: MaterialX document validation failed with errors:')
+                print('  - ' + errors)
         self.materialX2glTF(doc, gltfJson, resetMaterials)
         
         # If geometry specified, create new primitives for each material

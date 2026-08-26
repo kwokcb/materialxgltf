@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<materialx version="1.39" colorspace="lin_rec709">
+  <surfacematerial name="surfacematerial" type="material" xpos="8.449275" ypos="-2.913793">
+    <input name="surfaceshader" type="surfaceshader" nodename="gltf_pbr_surfaceshader" />
+  </surfacematerial>
+  <gltf_pbr name="gltf_pbr_surfaceshader" type="surfaceshader" xpos="6.347826" ypos="-3.017241">
+    <input name="base_color" type="color3" output="outcolor" nodename="color_factor" />
+    <input name="roughness" type="float" nodename="gltf_roughness" />
+    <input name="metallic" type="float" nodename="gltf_metallic" />
+  </gltf_pbr>
+  <gltf_colorimage name="color_factor" type="multioutput" xpos="4.804348" ypos="-2.965517">
+    <output name="outcolor" type="color3" />
+    <input name="default" type="color4" value="0.000303527, 0.000303527, 0.000303527, 0.00392157" />
+    <input name="file" type="filename" value="resources/Images/brick_base_gray.jpg" fileprefix="" />
+    <input name="color" type="color4" value="0.771463, 0.0016785, 0.0116785, 1" />
+  </gltf_colorimage>
+  <gltf_image name="gltf_roughness" type="float" xpos="4.173913" ypos="-1.379310">
+    <input name="file" type="filename" value="resources/Images/brick_roughness.jpg" />
+    <input name="factor" type="float" value="0.8" />
+  </gltf_image>
+  <gltf_image name="gltf_metallic" type="float" xpos="4.173913" ypos="-1.379310">
+    <input name="file" type="filename" value="resources/Images/brick_roughness.jpg" />
+    <input name="factor" type="float" value="0.8" />
+  </gltf_image>
+</materialx>

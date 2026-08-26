@@ -23,3 +23,6 @@ python ../../../utilities/test_render.py FlightHelmet.gltf_converted.mtlx -m Fli
 python ../../../utilities/test_render.py GlassHurricaneCandleHolder.gltf_converted.mtlx -m GlassHurricaneCandleHolder.gltf
 python ../../../utilities/test_render.py USDShaderBallForGltf.gltf_converted.mtlx -m USDShaderBallForGltf.gltf
 popd
+cd docs/data/RTS
+python -m materialxgltf gltf2mtlx ./scale_factors.gltf
+python -m materialxgltf mtlx2gltf ./scale_factors.gltf_converted.mtlx   

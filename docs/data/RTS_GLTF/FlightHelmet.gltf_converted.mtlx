@@ -3,9 +3,9 @@
   <!-- Generated shader: HoseMat -->
   <gltf_pbr name="HoseMat" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm3" />
-    <input name="roughness" type="float" nodename="extract_orm2" />
-    <input name="occlusion" type="float" nodename="extract_orm" />
+    <input name="metallic" type="float" nodename="extract_metallic" />
+    <input name="roughness" type="float" nodename="extract_roughness" />
+    <input name="occlusion" type="float" nodename="extract_occlusion" />
     <input name="normal" type="vector3" nodename="image_normal" />
   </gltf_pbr>
   <!-- Generated material: MAT_HoseMat -->
@@ -21,15 +21,15 @@
     <input name="file" type="filename" value="FlightHelmet_Materials_RubberWoodMat_OcclusionRoughMetal.png" />
     <input name="filtertype" type="string" value="cubic" />
   </gltf_image>
-  <extract name="extract_orm" type="float">
+  <extract name="extract_occlusion" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm2" type="float">
+  <extract name="extract_roughness" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm3" type="float">
+  <extract name="extract_metallic" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="2" />
   </extract>
@@ -40,32 +40,32 @@
   <!-- Generated shader: RubberWoodMat -->
   <gltf_pbr name="RubberWoodMat" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm6" />
-    <input name="roughness" type="float" nodename="extract_orm5" />
-    <input name="occlusion" type="float" nodename="extract_orm4" />
+    <input name="metallic" type="float" nodename="extract_metallic2" />
+    <input name="roughness" type="float" nodename="extract_roughness2" />
+    <input name="occlusion" type="float" nodename="extract_occlusion2" />
   </gltf_pbr>
   <!-- Generated material: MAT_RubberWoodMat -->
   <surfacematerial name="MAT_RubberWoodMat" type="material">
     <input name="surfaceshader" type="surfaceshader" nodename="RubberWoodMat" />
   </surfacematerial>
-  <extract name="extract_orm4" type="float">
+  <extract name="extract_occlusion2" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm5" type="float">
+  <extract name="extract_roughness2" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm6" type="float">
+  <extract name="extract_metallic2" type="float">
     <input name="in" type="vector3" nodename="image_orm" />
     <input name="index" type="integer" value="2" />
   </extract>
   <!-- Generated shader: GlassPlasticMat -->
   <gltf_pbr name="GlassPlasticMat" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color2" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm9" />
-    <input name="roughness" type="float" nodename="extract_orm8" />
-    <input name="occlusion" type="float" nodename="extract_orm7" />
+    <input name="metallic" type="float" nodename="extract_metallic3" />
+    <input name="roughness" type="float" nodename="extract_roughness3" />
+    <input name="occlusion" type="float" nodename="extract_occlusion3" />
     <input name="normal" type="vector3" nodename="image_normal2" />
   </gltf_pbr>
   <!-- Generated material: MAT_GlassPlasticMat -->
@@ -81,15 +81,15 @@
     <input name="file" type="filename" value="FlightHelmet_Materials_GlassPlasticMat_OcclusionRoughMetal.png" />
     <input name="filtertype" type="string" value="cubic" />
   </gltf_image>
-  <extract name="extract_orm7" type="float">
+  <extract name="extract_occlusion3" type="float">
     <input name="in" type="vector3" nodename="image_orm2" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm8" type="float">
+  <extract name="extract_roughness3" type="float">
     <input name="in" type="vector3" nodename="image_orm2" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm9" type="float">
+  <extract name="extract_metallic3" type="float">
     <input name="in" type="vector3" nodename="image_orm2" />
     <input name="index" type="integer" value="2" />
   </extract>
@@ -100,9 +100,9 @@
   <!-- Generated shader: MetalPartsMat -->
   <gltf_pbr name="MetalPartsMat" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color3" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm12" />
-    <input name="roughness" type="float" nodename="extract_orm11" />
-    <input name="occlusion" type="float" nodename="extract_orm10" />
+    <input name="metallic" type="float" nodename="extract_metallic4" />
+    <input name="roughness" type="float" nodename="extract_roughness4" />
+    <input name="occlusion" type="float" nodename="extract_occlusion4" />
     <input name="normal" type="vector3" nodename="image_normal3" />
   </gltf_pbr>
   <!-- Generated material: MAT_MetalPartsMat -->
@@ -118,15 +118,15 @@
     <input name="file" type="filename" value="FlightHelmet_Materials_MetalPartsMat_OcclusionRoughMetal.png" />
     <input name="filtertype" type="string" value="cubic" />
   </gltf_image>
-  <extract name="extract_orm10" type="float">
+  <extract name="extract_occlusion4" type="float">
     <input name="in" type="vector3" nodename="image_orm3" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm11" type="float">
+  <extract name="extract_roughness4" type="float">
     <input name="in" type="vector3" nodename="image_orm3" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm12" type="float">
+  <extract name="extract_metallic4" type="float">
     <input name="in" type="vector3" nodename="image_orm3" />
     <input name="index" type="integer" value="2" />
   </extract>
@@ -137,9 +137,9 @@
   <!-- Generated shader: LeatherPartsMat -->
   <gltf_pbr name="LeatherPartsMat" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color4" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm15" />
-    <input name="roughness" type="float" nodename="extract_orm14" />
-    <input name="occlusion" type="float" nodename="extract_orm13" />
+    <input name="metallic" type="float" nodename="extract_metallic5" />
+    <input name="roughness" type="float" nodename="extract_roughness5" />
+    <input name="occlusion" type="float" nodename="extract_occlusion5" />
     <input name="normal" type="vector3" nodename="image_normal4" />
   </gltf_pbr>
   <!-- Generated material: MAT_LeatherPartsMat -->
@@ -155,15 +155,15 @@
     <input name="file" type="filename" value="FlightHelmet_Materials_LeatherPartsMat_OcclusionRoughMetal.png" />
     <input name="filtertype" type="string" value="cubic" />
   </gltf_image>
-  <extract name="extract_orm13" type="float">
+  <extract name="extract_occlusion5" type="float">
     <input name="in" type="vector3" nodename="image_orm4" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm14" type="float">
+  <extract name="extract_roughness5" type="float">
     <input name="in" type="vector3" nodename="image_orm4" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm15" type="float">
+  <extract name="extract_metallic5" type="float">
     <input name="in" type="vector3" nodename="image_orm4" />
     <input name="index" type="integer" value="2" />
   </extract>
@@ -174,9 +174,9 @@
   <!-- Generated shader: LensesMat -->
   <gltf_pbr name="LensesMat" type="surfaceshader" nodedef="ND_gltf_pbr_surfaceshader">
     <input name="base_color" type="color3" nodename="image_base_color5" output="outcolor" />
-    <input name="metallic" type="float" nodename="extract_orm18" />
-    <input name="roughness" type="float" nodename="extract_orm17" />
-    <input name="occlusion" type="float" nodename="extract_orm16" />
+    <input name="metallic" type="float" nodename="extract_metallic6" />
+    <input name="roughness" type="float" nodename="extract_roughness6" />
+    <input name="occlusion" type="float" nodename="extract_occlusion6" />
     <input name="normal" type="vector3" nodename="image_normal5" />
     <input name="transmission" type="float" value="1" />
   </gltf_pbr>
@@ -193,15 +193,15 @@
     <input name="file" type="filename" value="FlightHelmet_Materials_LensesMat_OcclusionRoughMetal.png" />
     <input name="filtertype" type="string" value="cubic" />
   </gltf_image>
-  <extract name="extract_orm16" type="float">
+  <extract name="extract_occlusion6" type="float">
     <input name="in" type="vector3" nodename="image_orm5" />
     <input name="index" type="integer" value="0" />
   </extract>
-  <extract name="extract_orm17" type="float">
+  <extract name="extract_roughness6" type="float">
     <input name="in" type="vector3" nodename="image_orm5" />
     <input name="index" type="integer" value="1" />
   </extract>
-  <extract name="extract_orm18" type="float">
+  <extract name="extract_metallic6" type="float">
     <input name="in" type="vector3" nodename="image_orm5" />
     <input name="index" type="integer" value="2" />
   </extract>
